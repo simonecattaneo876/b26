@@ -4392,7 +4392,7 @@ setTimeout(function(){var n=document.getElementById("splash");
       <div class="kpi">
         <div><div class="v" id="kFatti">0</div><div class="l">km fatti</div></div>
         <div><div class="v" id="kMancano">—</div><div class="l">km mancano</div></div>
-        <div><div class="v" id="kMedia">—</div><div class="l">media km/h</div></div>
+        <div><div class="v" id="kMedia">—</div><div class="l" id="kMediaLab">media km/h</div></div>
       </div>
     </div>
 
@@ -4451,6 +4451,16 @@ setTimeout(function(){var n=document.getElementById("splash");
     <div class="card">
       <div class="card-h"><h2>Viaggio</h2></div>
       <button class="btn ghost sm" id="btnGps" style="width:100%;margin-bottom:9px">Accendi il GPS</button>
+      <div class="row">
+        <label class="fld"><span>Velocità media di riferimento</span>
+          <input id="cVel" type="number" inputmode="numeric" min="30" max="140" step="5"></label>
+        <label class="fld" style="display:flex;align-items:flex-end;gap:9px;padding-bottom:11px">
+          <input type="checkbox" id="cVelForza" style="width:auto">
+          <span style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink);font-weight:600">Usa sempre questa</span>
+        </label>
+      </div>
+      <p class="hint" style="margin-top:-4px">Serve prima di partire, quando non c'è ancora niente da misurare. In viaggio l'app usa la velocità reale, a meno che tu non spunti «usa sempre questa».</p>
+
       <button class="btn ghost sm" id="btnSenso" style="width:100%;margin-bottom:9px">Direzione: andata a Pisticci</button>
       <button class="btn ghost sm" id="btnRamo" style="width:100%;margin-bottom:9px">Forza percorso: automatico</button>
       <button class="btn ghost sm" id="btnReset" style="width:100%">Azzera il viaggio</button>
@@ -4481,7 +4491,7 @@ setTimeout(function(){var n=document.getElementById("splash");
 
 <script>
 "use strict";
-var BUILD="V008", KEY="viaggio_2026_v1";
+var BUILD="V009", KEY="viaggio_2026_v1";
 var APPID="viag";
 /* ---------- controllo versioni fra i dispositivi ----------
    Con sei telefoni aggiornati a mano, prima o poi qualcuno resta indietro
@@ -4534,7 +4544,8 @@ var FAM=[{id:"f1",n:"Cantù",c:"#E08A16"},{id:"f2",n:"Misani",c:"#0E8F91"},{id:"
 var ROUTE={ tronco:[{"n": "Bellusco", "lat": 45.62, "lng": 9.42, "km": 0.0, "d": "partenza"}, {"n": "A4 Cavenago", "lat": 45.575, "lng": 9.38, "km": 6.3, "d": "ingresso in autostrada"}, {"n": "Tangenziale Est", "lat": 45.49, "lng": 9.33, "km": 17.2, "d": "il primo punto dove si rallenta"}, {"n": "Melegnano", "lat": 45.355, "lng": 9.32, "km": 33.3, "d": "si prende la A1"}, {"n": "Piacenza", "lat": 45.05, "lng": 9.7, "km": 81.6, "d": ""}, {"n": "Fidenza", "lat": 44.87, "lng": 10.06, "km": 118.7, "d": ""}, {"n": "Parma", "lat": 44.8, "lng": 10.33, "km": 143.0, "d": ""}, {"n": "Reggio Emilia", "lat": 44.7, "lng": 10.63, "km": 171.0, "d": ""}, {"n": "Modena", "lat": 44.65, "lng": 10.93, "km": 197.1, "d": ""}, {"n": "Bologna", "lat": 44.51, "lng": 11.34, "km": 235.6, "d": "il bivio: di qui in poi A14 verso l'Adriatico"}], a14:[{"n": "Imola", "lat": 44.35, "lng": 11.71, "km": 272.4, "d": ""}, {"n": "Faenza", "lat": 44.29, "lng": 11.88, "km": 288.5, "d": ""}, {"n": "Forlì", "lat": 44.22, "lng": 12.04, "km": 304.5, "d": ""}, {"n": "Cesena", "lat": 44.14, "lng": 12.24, "km": 324.0, "d": "ultimo tratto di pianura"}, {"n": "Rimini", "lat": 44.06, "lng": 12.57, "km": 353.8, "d": "in estate esce e entra parecchia gente"}, {"n": "Pesaro", "lat": 43.91, "lng": 12.9, "km": 387.2, "d": ""}, {"n": "Fano", "lat": 43.84, "lng": 13.02, "km": 400.4, "d": ""}, {"n": "Senigallia", "lat": 43.71, "lng": 13.22, "km": 423.5, "d": ""}, {"n": "Ancona", "lat": 43.62, "lng": 13.51, "km": 450.7, "d": "gallerie, si viaggia più lenti"}, {"n": "Civitanova Marche", "lat": 43.31, "lng": 13.73, "km": 492.2, "d": ""}, {"n": "San Benedetto del Tronto", "lat": 42.95, "lng": 13.88, "km": 537.0, "d": ""}, {"n": "Pescara", "lat": 42.46, "lng": 14.21, "km": 602.0, "d": "metà strada abbondante"}, {"n": "Val di Sangro", "lat": 42.22, "lng": 14.53, "km": 642.1, "d": ""}, {"n": "Vasto", "lat": 42.11, "lng": 14.71, "km": 662.7, "d": ""}, {"n": "Termoli", "lat": 41.99, "lng": 14.99, "km": 691.2, "d": "da qui le aree di servizio si diradano"}, {"n": "Poggio Imperiale", "lat": 41.83, "lng": 15.36, "km": 729.1, "d": ""}, {"n": "Foggia", "lat": 41.46, "lng": 15.55, "km": 776.3, "d": ""}, {"n": "Cerignola", "lat": 41.27, "lng": 15.9, "km": 814.8, "d": ""}, {"n": "Trani", "lat": 41.27, "lng": 16.38, "km": 857.8, "d": ""}, {"n": "Bari nord", "lat": 41.13, "lng": 16.78, "km": 897.3, "d": "si continua sulla A14 verso Taranto"}, {"n": "Gioia del Colle", "lat": 40.8, "lng": 16.92, "km": 938.5, "d": ""}, {"n": "Massafra", "lat": 40.59, "lng": 17.11, "km": 968.8, "d": ""}, {"n": "Taranto", "lat": 40.47, "lng": 17.24, "km": 987.3, "d": "si esce: da qui SS106 ionica, strada normale"}, {"n": "Metaponto", "lat": 40.38, "lng": 16.82, "km": 1026.8, "d": "ci siamo quasi"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1051.3, "d": "arrivo"}], a1:[{"n": "Firenze", "lat": 43.8, "lng": 11.2, "km": 320.9, "d": "appennino, curve e gallerie"}, {"n": "Arezzo", "lat": 43.46, "lng": 11.88, "km": 392.1, "d": ""}, {"n": "Orte", "lat": 42.46, "lng": 12.38, "km": 518.8, "d": ""}, {"n": "Roma est", "lat": 41.9, "lng": 12.5, "km": 586.2, "d": "il raccordo, punto critico di giorno"}, {"n": "Frosinone", "lat": 41.63, "lng": 13.34, "km": 667.4, "d": ""}, {"n": "Caserta", "lat": 41.07, "lng": 14.33, "km": 778.1, "d": ""}, {"n": "Napoli nord", "lat": 40.93, "lng": 14.42, "km": 796.6, "d": "si prende la A16 verso Avellino"}, {"n": "Avellino", "lat": 40.92, "lng": 14.79, "km": 829.9, "d": ""}, {"n": "Candela", "lat": 41.14, "lng": 15.51, "km": 899.6, "d": "si esce dall'autostrada, poi statale"}, {"n": "Gravina in Puglia", "lat": 40.82, "lng": 16.42, "km": 989.8, "d": "SS655, strada normale"}, {"n": "Matera", "lat": 40.66, "lng": 16.6, "km": 1014.8, "d": ""}, {"n": "Ferrandina", "lat": 40.5, "lng": 16.45, "km": 1038.2, "d": "si prende la Basentana"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1054.1, "d": "arrivo"}] };
 
 var S={ nome:"", fid:"", share:true, ramo:"", km:0, storia:[], partito:"", arrivato:false, forza:"",
-        pin:[], soste:[], voti:{}, tomb:[], senso:"andata" };
+        pin:[], soste:[], voti:{}, tomb:[], senso:"andata",
+        vRif:90, vForza:false };
 var POS=null, WATCH=null, ALTRE={}, lastPush=0;
 
 /* colori delle famiglie: gli stessi in tutte le sezioni, decisi qui e non altrove */
@@ -4690,9 +4701,13 @@ function velMarcia(min){
     if(dk/dh < 10) continue;                             /* fermo o quasi: non e marcia */
     km+=dk; ore+=dh;
   }
-  if(ore>0.02) return Math.max(35, Math.min(125, km/ore));
-  var g=mediaViaggio();
-  return g>25? Math.min(125,g) : 90;                     /* niente storico: ipotesi autostrada */
+  if(!S.vForza && ore>0.02){ S.vMisurata=true; return Math.max(35, Math.min(125, km/ore)); }
+  if(!S.vForza){
+    var g=mediaViaggio();
+    if(g>25){ S.vMisurata=true; return Math.min(125,g); }
+  }
+  S.vMisurata=false;
+  return Math.max(30, Math.min(140, Number(S.vRif)||90));   /* valore di riferimento, impostabile */
 }
 function inSosta(){
   var r=mediaRecente(12);
@@ -5024,6 +5039,8 @@ function render(){
   $("#kFatti").textContent=Math.round(S.km);
   $("#kMancano").textContent=Math.round(e.resta);
   $("#kMedia").textContent=Math.round(e.v);
+  var et=$("#kMediaLab");
+  if(et) et.textContent = S.vForza? "km/h imposta" : (S.vMisurata? "media km/h" : "km/h stimata");
 
   /* prossima tappa */
   var lista=percorso(S.ramo||RAMO_PREVISTO), pros=null, i;
@@ -5125,6 +5142,8 @@ function renderSet(){
     b.onclick=function(){ S.fid=f.id; save(); scriviCondivisa(S.nome,S.fid); renderSet(); render(); };
     h.appendChild(b);
   });
+  $("#cVel").value = Number(S.vRif)||90;
+  $("#cVelForza").checked = !!S.vForza;
   $("#btnRamo").textContent = "Forza percorso: "+(S.forza==="a1"?"A1 (Roma-Napoli)":(S.forza==="a14"?"A14 (Adriatica)":"automatico"));
   $("#btnSenso").textContent = S.senso==="ritorno"? "Direzione: ritorno a Bellusco" : "Direzione: andata a Pisticci";
 }
@@ -5148,6 +5167,11 @@ function bind(){
     if(S.forza) S.ramo=S.forza;
     save(); renderSet(); render();
   };
+  $("#cVel").oninput=function(){
+    S.vRif=Math.max(30, Math.min(140, Number(this.value)||90));
+    save(); render();
+  };
+  $("#cVelForza").onchange=function(){ S.vForza=this.checked; save(); render(); };
   $("#btnSenso").onclick=function(){
     S.senso = S.senso==="ritorno"? "andata" : "ritorno";
     S.km=0; S.storia=[]; S.partito=""; S.arrivato=false; S.sensoDeciso=true;
@@ -5193,7 +5217,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V023w";
+var BUILD="V024w";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
