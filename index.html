@@ -5254,7 +5254,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V025w";
+var BUILD="V026w";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
@@ -5456,17 +5456,43 @@ tile.onclick=function(){
 mostraInstalla();
 /* ---------- aggiornamenti dell'app ----------
    Un'app installata puo restare aperta per giorni: senza avviso, chi non la
-   chiude mai non vedrebbe mai le versioni nuove. */
-var attesa=null, ricaricato=false;
+   chiude mai non vedrebbe mai le versioni nuove.
 
+   Il punto delicato e il dopo: subito dopo la ricarica il browser puo avere
+   ancora per un istante il vecchio lavoratore "in attesa", e senza precauzioni
+   la barra ricompare come se ci fosse un altro aggiornamento. Per questo la
+   ricarica lascia un segno per la sola pagina successiva, e la barra si nasconde
+   da sola appena il lavoratore diventa attivo o viene scartato. */
+var attesa=null, ricaricato=false, GIA_AGG=false;
+try{
+  GIA_AGG = sessionStorage.getItem("aggiornato")==="1";
+  if(GIA_AGG) sessionStorage.removeItem("aggiornato");   /* vale solo per questo caricamento */
+}catch(e){}
+
+function nascondiBarra(){
+  var b=document.getElementById("barraAgg");
+  if(b) b.hidden=true;
+  attesa=null;
+}
 function mostraAggiorna(worker){
+  if(GIA_AGG) return;                                    /* arriviamo da un aggiornamento appena fatto */
   attesa=worker;
-  document.getElementById("barraAgg").hidden=false;
+  var b=document.getElementById("barraAgg");
+  if(b) b.hidden=false;
+  if(worker && worker.addEventListener){
+    worker.addEventListener("statechange", function(){
+      if(worker.state==="activated" || worker.state==="redundant") nascondiBarra();
+    });
+  }
 }
 function applicaAggiornamento(){
-  if(!attesa) { location.reload(); return; }
-  document.getElementById("aggBtn").textContent="attendi...";
-  attesa.postMessage({tipo:"attiva"});      /* il service worker prende il posto del vecchio */
+  try{ sessionStorage.setItem("aggiornato","1"); }catch(e){}
+  var b=document.getElementById("aggBtn");
+  if(b) b.textContent="attendi...";
+  if(attesa) attesa.postMessage({tipo:"attiva"});
+  /* se il cambio di controllo non arriva, si ricarica comunque: meglio un
+     riavvio in piu che un pulsante bloccato su "attendi" */
+  setTimeout(function(){ if(!ricaricato){ ricaricato=true; location.reload(); } }, 2500);
 }
 
 if("serviceWorker" in navigator){
@@ -5485,7 +5511,8 @@ if("serviceWorker" in navigator){
         if(nuovo.state==="installed" && navigator.serviceWorker.controller) mostraAggiorna(nuovo);
       });
     });
-    document.getElementById("stamp").onclick=function(){
+    var st=document.getElementById("stamp");
+    if(st) st.onclick=function(){
       controlla();
       setTimeout(function(){
         if(!attesa) alert("Nessun aggiornamento disponibile: hai gia l'ultima versione.");
