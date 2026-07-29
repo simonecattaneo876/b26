@@ -2702,7 +2702,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V012", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
+var BUILD="V013", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 
@@ -3626,53 +3626,80 @@ function rigaMeteo(zid,day){
   return p.join(" · ");
 }
 
+var meteoGiorno=null;
+
+/* i giorni che il servizio copre davvero: di solito da oggi a sette giorni avanti */
+function giorniPrevisti(){
+  var set={}, k, z;
+  for(z in (METEO.z||{})) for(k in METEO.z[z]) set[k]=1;
+  return Object.keys(set).sort();
+}
+
 function renderMeteo(){
   var host=$("#meteoBox"); if(!host) return;
   host.innerHTML="";
-  var d=days(), t=todayISO(), gg=[];
-  var dom=tomorrow();
-  if(d.indexOf(t)>=0) gg.push({d:t,l:"Oggi"});
-  if(dom && dom!==t) gg.push({d:dom,l:GG[new Date(dom).getDay()]+" "+dIT(dom)});
-  if(!gg.length && d.length) gg.push({d:d[0], l:"Primo giorno"});
   if(!METEO.ts){ host.appendChild(el("div","hint","Previsioni non ancora scaricate: tocca Aggiorna quando hai rete.")); return; }
 
-  gg.forEach(function(g){
-    var blocco=el("div"); blocco.style.marginBottom="14px";
-    blocco.appendChild(el("div","eyebrow", g.l));
-    var vuoto=true;
-    ZONE.forEach(function(Z){
-      if(!Z.mare) return;
-      var m=meteo(Z.id,g.d); if(!m) return;
-      vuoto=false;
-      var gi=giudizio(m);
-      var r=el("div","slot"); r.style.borderTop="1px solid var(--line)";
-      var nm=el("span","val"); nm.style.fontWeight="700"; nm.textContent=Z.n;
-      r.appendChild(nm);
-      var det=el("span","hint"); det.style.cssText="flex:2 1 auto;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
-      det.textContent=rigaMeteo(Z.id,g.d);
-      r.appendChild(det);
-      var pill=el("span","tag"); pill.textContent=gi.n; pill.style.cssText="background:"+gi.c+";color:#fff;flex:0 0 auto";
-      r.appendChild(pill);
-      blocco.appendChild(r);
-    });
-    if(vuoto) blocco.appendChild(el("div","hint","Dati non disponibili per questo giorno."));
-    else{
-      var best=migliorZona(g.d), casa=meteo("casa",g.d);
-      var c=el("div","hint"); c.style.marginTop="7px";
-      if(best && giudizio(best.m).k==="no"){
-        var alt=places().filter(function(x){ return (x.t||[]).indexOf("vento")>=0; }).slice(0,3).map(function(x){return x.n;});
-        c.className="hint warn";
-        c.textContent="Mare agitato ovunque. Alternative al riparo: "+(alt.join(", ")||"—")+".";
-      }else if(best){
-        c.textContent="Meglio "+best.z.n+(casa&&casa.p>=50? " · a Pisticci pioggia al "+casa.p+"%" : "");
-      }
-      blocco.appendChild(c);
-    }
-    host.appendChild(blocco);
+  var disponibili=giorniPrevisti(), oggi=todayISO();
+  if(!disponibili.length){ host.appendChild(el("div","hint","Nessuna previsione disponibile: riprova ad aggiornare.")); return; }
+  if(!meteoGiorno || disponibili.indexOf(meteoGiorno)<0)
+    meteoGiorno = disponibili.indexOf(oggi)>=0 ? oggi : disponibili[0];
+
+  /* scelta del giorno: si guarda oggi com'e, o ci si porta avanti */
+  var barra=el("div","chips"); barra.style.marginBottom="12px";
+  disponibili.forEach(function(g){
+    var et = g===oggi ? "Oggi" : (GG[new Date(g).getDay()]+" "+dIT(g));
+    var b=el("button","chip sm", et);
+    b.setAttribute("aria-pressed", g===meteoGiorno ? "true":"false");
+    b.onclick=function(){ meteoGiorno=g; renderMeteo(); };
+    barra.appendChild(b);
   });
-  var f=el("div","hint");
+  host.appendChild(barra);
+
+  var g=meteoGiorno, vuoto=true;
+  var intestazione=el("div","eyebrow", g===oggi? "Oggi" : (GG[new Date(g).getDay()]+" "+dIT(g)));
+  host.appendChild(intestazione);
+
+  ZONE.forEach(function(Z){
+    if(!Z.mare) return;
+    var m=meteo(Z.id,g); if(!m) return;
+    vuoto=false;
+    var gi=giudizio(m);
+    var r=el("div","slot"); r.style.borderTop="1px solid var(--line)";
+    var nm=el("span","val"); nm.style.fontWeight="700"; nm.textContent=Z.n;
+    r.appendChild(nm);
+    var det=el("span","hint"); det.style.cssText="flex:2 1 auto;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis";
+    det.textContent=rigaMeteo(Z.id,g);
+    r.appendChild(det);
+    var pill=el("span","tag"); pill.textContent=gi.n; pill.style.cssText="background:"+gi.c+";color:#fff;flex:0 0 auto";
+    r.appendChild(pill);
+    host.appendChild(r);
+  });
+
+  if(vuoto){ host.appendChild(el("div","hint","Dati non disponibili per questo giorno.")); }
+  else{
+    var best=migliorZona(g), casa=meteo("casa",g);
+    var c=el("div","hint"); c.style.marginTop="9px";
+    if(best && giudizio(best.m).k==="no"){
+      var alt=places().filter(function(x){ return (x.t||[]).indexOf("vento")>=0; }).slice(0,3).map(function(x){return x.n;});
+      c.className="hint warn";
+      c.textContent="Mare agitato ovunque. Alternative al riparo: "+(alt.join(", ")||"—")+".";
+    }else if(best){
+      c.textContent="Meglio "+best.z.n+(casa&&casa.p>=50? " · a Pisticci pioggia al "+casa.p+"%" : "");
+    }
+    host.appendChild(c);
+    if(casa){
+      var e=el("div","hint");
+      e.textContent="A Pisticci "+casa.t+"° · vento "+casa.v+" km/h"+(casa.p>=30? " · pioggia "+casa.p+"%":"");
+      host.appendChild(e);
+    }
+  }
+
+  var f=el("div","hint"); f.style.marginTop="9px";
   var q=new Date(METEO.ts);
-  f.textContent="Previsioni scaricate alle "+("0"+q.getHours()).slice(-2)+":"+("0"+q.getMinutes()).slice(-2)+" · si aggiornano da sole ogni 3 ore";
+  var ultimo=disponibili[disponibili.length-1];
+  f.textContent="Previsioni scaricate alle "+("0"+q.getHours()).slice(-2)+":"+("0"+q.getMinutes()).slice(-2)+
+                " · coprono fino al "+dIT(ultimo)+", oltre non esistono ancora";
   host.appendChild(f);
 }
 
@@ -5149,7 +5176,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V021w";
+var BUILD="V022w";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
