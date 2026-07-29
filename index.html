@@ -153,7 +153,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 <body>
 
 <div id="barraAgg" hidden>
-  <span>Nuova versione disponibile</span>
+  <span id="aggTxt">Nuova versione disponibile</span>
   <button id="aggBtn">AGGIORNA</button>
 </div>
 <div id="splash" role="status" aria-label="Caricamento">
@@ -702,6 +702,7 @@ setTimeout(function(){
       </label>
 
       <button class="btn ghost sm" id="btnSyncNow" style="width:100%">Sincronizza adesso</button>
+      <div id="syncDiag" style="margin-top:10px"></div>
       <p class="hint" id="syncHint">Tutti i telefoni con lo stesso URL e lo stesso codice viaggio vedono gli stessi dati. Le modifiche fatte senza rete partono da sole appena torna il collegamento.</p>
     </div>
 
@@ -841,7 +842,7 @@ setTimeout(function(){
    Build V001 · single file · nessuna dipendenza esterna
    ============================================================ */
 
-var BUILD = "V020";
+var BUILD = "V021";
 
 /* URL della web app Apps Script: se compilato qui, le altre famiglie
    non devono configurare nulla — aprono il file e sono gia sincronizzate. */
@@ -1140,7 +1141,7 @@ function settleUp(net){
    RENDER
    ============================================================ */
 function renderAll(){
-  renderHeader(); renderStorageWarn(); renderHome(); renderExpenses(); renderSettlements(); renderConfig();
+  renderHeader(); renderStorageWarn(); renderSyncDiag(); renderHome(); renderExpenses(); renderSettlements(); renderConfig();
   $("#stamp").textContent = "Cassa Comune · build " + BUILD;
 }
 
@@ -1196,8 +1197,38 @@ function giorniCassa(){
   if(!primo || primo>oggi) return 0;
   return Math.max(1, Math.floor((new Date(oggi)-new Date(primo))/86400000)+1);
 }
+/* Diagnosi in chiaro: quando la sincronizzazione non riesce bisogna poter
+   leggere il motivo, invece di vedere solo "non allineato". */
+function renderSyncDiag(){
+  var box=$("#syncDiag"); if(!box) return;
+  box.innerHTML="";
+  if(!syncOn()){ box.appendChild(el("div","hint","Sincronizzazione non configurata.")); return; }
+  var ok=S.sync.ultimoOk, err=S.sync.ultimoErrore;
+  if(ok){
+    var d=new Date(ok);
+    box.appendChild(el("div","hint","Ultimo scambio riuscito: "+dateIT(ok.slice(0,10))+" alle "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)));
+  }else box.appendChild(el("div","hint","Nessuno scambio riuscito su questo dispositivo."));
+  if(err){
+    var e=el("div","hint warn");
+    e.textContent="Ultimo errore: "+err;
+    box.appendChild(e);
+    box.appendChild(el("div","hint","Se dice HTTP 401, 403 o «Failed to fetch», il problema è la distribuzione dello script: deve essere accessibile a «Chiunque»."));
+  }
+  box.appendChild(el("div","hint","Record inviati: "+toRecords().length+" · spese in memoria: "+S.expenses.length));
+}
+
 function renderStorageWarn(){
   var box=$("#storageWarn"); box.innerHTML="";
+  if(S.avvisoChiusura){
+    var d=new Date(S.avvisoChiusura);
+    var b=el("div","banner");
+    b.textContent="L'archivio è stato azzerato il "+dateIT(S.avvisoChiusura.slice(0,10))+" alle "+
+                  ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+
+                  " con «Chiudi il viaggio e ricomincia». Le spese precedenti non sono perse: restano nel foglio Google, in una scheda con la data. Tocca qui per togliere l'avviso.";
+    b.style.cursor="pointer";
+    b.onclick=function(){ S.avvisoChiusura=""; save(); renderStorageWarn(); };
+    box.appendChild(b);
+  }
   if(storageOK) return;
   var b=el("div","banner","Salvataggio automatico non disponibile in questa finestra. Scarica il file HTML sul telefono o sul PC e aprilo da lì: i dati resteranno salvati. Nel frattempo usa Esporta backup prima di chiudere.");
   box.appendChild(b);
@@ -2103,6 +2134,9 @@ function fromRecords(recs){
   for(i=0;i<recs.length;i++){
     if(recs[i].kind==="reset" && String(recs[i].ts||"") > String((S.sync&&S.sync.resetTs)||"")){
       applyReset(recs[i].ts, null);
+      /* un avviso che resta: chi trova l'archivio vuoto deve sapere perche,
+         altrimenti sembra che la sincronizzazione abbia perso tutto */
+      S.avvisoChiusura = recs[i].ts;
       toast("Viaggio chiuso da un altro dispositivo: si riparte da zero");
       inc.expenses=[]; inc.settlements=[]; inc.tomb=[];
       break;
@@ -2202,6 +2236,7 @@ async function syncNow(silent){
     var data=await r.json();
     if(!data || !data.ok) throw new Error((data&&data.error)||"risposta non valida");
     if(S.sync.pendingReset){ S.sync.pendingReset=""; }   /* accettato dal server: non va piu ripetuto */
+    S.sync.ultimoErrore=""; S.sync.ultimoOk=new Date().toISOString();
     var before=fingerprint();
     fromRecords(data.records||[]);
     var changed = fingerprint()!==before;
@@ -2211,9 +2246,14 @@ async function syncNow(silent){
     /* il DOM si tocca solo se e arrivato davvero qualcosa di nuovo */
     if(changed && !document.querySelector(".sheet.on") && !isTyping()) quietRender();
     syncState("ok","allineato "+hh);
+    renderSyncDiag();
     if(!silent) toast(changed? "Dati allineati" : "Già allineato");
   }catch(err){
     syncState("err","non allineato");
+    S.sync.ultimoErrore=(err && err.message)? String(err.message).slice(0,120) : "errore sconosciuto";
+    S.sync.ultimoTentativo=new Date().toISOString();
+    try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e2){}
+    renderSyncDiag();
     if(!silent) toast("Sincronizzazione non riuscita: "+err.message);
   }finally{
     syncBusy=false;
@@ -5254,7 +5294,8 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V026w";
+var BUILD="V027w";
+var VERSIONE_APP="V027";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
@@ -5455,77 +5496,58 @@ tile.onclick=function(){
 };
 mostraInstalla();
 /* ---------- aggiornamenti dell'app ----------
-   Un'app installata puo restare aperta per giorni: senza avviso, chi non la
-   chiude mai non vedrebbe mai le versioni nuove.
+   Prima mi appoggiavo agli stati del service worker (in attesa, attivo...):
+   fragile, perche subito dopo una ricarica quegli stati mentono e la barra
+   ricompariva pur essendo gia aggiornati.
 
-   Il punto delicato e il dopo: subito dopo la ricarica il browser puo avere
-   ancora per un istante il vecchio lavoratore "in attesa", e senza precauzioni
-   la barra ricompare come se ci fosse un altro aggiornamento. Per questo la
-   ricarica lascia un segno per la sola pagina successiva, e la barra si nasconde
-   da sola appena il lavoratore diventa attivo o viene scartato. */
-var attesa=null, ricaricato=false, GIA_AGG=false;
-try{
-  GIA_AGG = sessionStorage.getItem("aggiornato")==="1";
-  if(GIA_AGG) sessionStorage.removeItem("aggiornato");   /* vale solo per questo caricamento */
-}catch(e){}
+   Ora il criterio e un fatto verificabile: la versione pubblicata sul sito
+   contro quella che sta girando. Se coincidono la barra non c'e, e non puo
+   comparire per sbaglio. Se differiscono c'e davvero un aggiornamento. */
+var VERSIONE_VISTA=null;
 
-function nascondiBarra(){
-  var b=document.getElementById("barraAgg");
-  if(b) b.hidden=true;
-  attesa=null;
+function nascondiBarra(){ var b=document.getElementById("barraAgg"); if(b) b.hidden=true; }
+function mostraBarra(v){
+  VERSIONE_VISTA=v;
+  var b=document.getElementById("barraAgg"); if(b) b.hidden=false;
+  var t=document.getElementById("aggTxt"); if(t) t.textContent="Nuova versione disponibile ("+v+")";
 }
-function mostraAggiorna(worker){
-  if(GIA_AGG) return;                                    /* arriviamo da un aggiornamento appena fatto */
-  attesa=worker;
-  var b=document.getElementById("barraAgg");
-  if(b) b.hidden=false;
-  if(worker && worker.addEventListener){
-    worker.addEventListener("statechange", function(){
-      if(worker.state==="activated" || worker.state==="redundant") nascondiBarra();
-    });
-  }
+
+function controllaVersione(annuncia){
+  fetch("versione.json?ck="+Date.now(), {cache:"no-store"})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(!d || !d.app) return;
+      if(d.app !== VERSIONE_APP) mostraBarra(d.app);
+      else { nascondiBarra(); if(annuncia) alert("Hai gia l'ultima versione ("+VERSIONE_APP+")."); }
+    })
+    .catch(function(){ if(annuncia) alert("Controllo non riuscito: manca la rete."); });
 }
+
 function applicaAggiornamento(){
-  try{ sessionStorage.setItem("aggiornato","1"); }catch(e){}
-  var b=document.getElementById("aggBtn");
-  if(b) b.textContent="attendi...";
-  if(attesa) attesa.postMessage({tipo:"attiva"});
-  /* se il cambio di controllo non arriva, si ricarica comunque: meglio un
-     riavvio in piu che un pulsante bloccato su "attendi" */
-  setTimeout(function(){ if(!ricaricato){ ricaricato=true; location.reload(); } }, 2500);
+  var b=document.getElementById("aggBtn"); if(b) b.textContent="attendi...";
+  /* si svuota la memoria del browser e si riparte: niente dipende piu dal
+     ciclo di vita del service worker, che era la parte inaffidabile */
+  var passi=[];
+  try{ if(window.caches) passi.push(caches.keys().then(function(ks){
+        return Promise.all(ks.map(function(k){ return caches.delete(k); })); })); }catch(e){}
+  try{ if(navigator.serviceWorker && navigator.serviceWorker.getRegistration)
+        passi.push(navigator.serviceWorker.getRegistration().then(function(reg){
+          return reg? reg.unregister() : null; })); }catch(e){}
+  Promise.all(passi).catch(function(){}).then(function(){
+    location.replace(location.pathname.replace(/index\.html$/,"")+"?v="+Date.now());
+  });
+  setTimeout(function(){ location.reload(); }, 4000);   /* rete di sicurezza */
 }
 
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js").then(function(reg){
-    function controlla(){ try{ reg.update(); }catch(e){} }
-    controlla();
-    setInterval(controlla, 30*60000);                                   /* ogni mezz'ora */
-    document.addEventListener("visibilitychange", function(){ if(!document.hidden) controlla(); });
-
-    if(reg.waiting && navigator.serviceWorker.controller) mostraAggiorna(reg.waiting);
-    reg.addEventListener("updatefound", function(){
-      var nuovo=reg.installing;
-      if(!nuovo) return;
-      nuovo.addEventListener("statechange", function(){
-        /* solo se c'era gia una versione attiva: al primo avvio non e un aggiornamento */
-        if(nuovo.state==="installed" && navigator.serviceWorker.controller) mostraAggiorna(nuovo);
-      });
-    });
-    var st=document.getElementById("stamp");
-    if(st) st.onclick=function(){
-      controlla();
-      setTimeout(function(){
-        if(!attesa) alert("Nessun aggiornamento disponibile: hai gia l'ultima versione.");
-      }, 2500);
-    };
-  }).catch(function(){});
-
-  navigator.serviceWorker.addEventListener("controllerchange", function(){
-    if(ricaricato) return;
-    ricaricato=true;
-    location.reload();                                                   /* riparte sulla versione nuova */
-  });
+  navigator.serviceWorker.register("sw.js").catch(function(){});
 }
+controllaVersione(false);
+setInterval(function(){ controllaVersione(false); }, 30*60000);
+document.addEventListener("visibilitychange", function(){ if(!document.hidden) controllaVersione(false); });
+var st=document.getElementById("stamp");
+if(st) st.onclick=function(){ controllaVersione(true); };
+
 document.getElementById("aggBtn").onclick=applicaAggiornamento;
 
 ME=leggiMe(); mostraChiSei();

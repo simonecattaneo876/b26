@@ -6,10 +6,11 @@
    restano sulla copia in memoria. Il messaggio "attiva" deve avere lo stesso
    nome anche dentro index.html: se i due nomi divergono, il pulsante
    "Aggiorna" smette silenziosamente di funzionare. */
-var CACHE = "basilicata-2026-v27";
+var CACHE = "basilicata-2026-v28";
 var FILES = ["./", "./index.html", "./manifest.webmanifest",
              "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png",
              "./apple-touch-icon.png", "./logo.png", "./qr.png"];
+/* versione.json resta fuori dalla cache: e il file che dice quale versione e pubblicata */
 
 self.addEventListener("install", function (e) {
   /* Niente skipWaiting qui: la versione nuova resta in attesa e la pagina
@@ -39,6 +40,7 @@ self.addEventListener("fetch", function (e) {
   /* Fuori dal sito non si tocca nulla: sincronizzazione col foglio Google e
      previsioni meteo devono sempre passare dalla rete, mai da una copia vecchia. */
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.indexOf("versione.json") >= 0) return;   /* sempre dalla rete */
 
   /* Rete per prima, copia locale come riserva: un aggiornamento arriva appena
      c'è campo, ma senza campo l'app si apre lo stesso. */
