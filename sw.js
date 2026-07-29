@@ -1,9 +1,9 @@
 /* BASILICATA 2026 — service worker
    Serve a due cose: far partire l'app anche senza rete e farla installare
    sul telefono con la sua icona. Alzare CACHE a ogni nuova versione. */
-var CACHE = "basilicata-2026-v13";   /* alzare a ogni nuova versione dell'app */
+var CACHE = "basilicata-2026-v14";   /* alzare a ogni nuova versione dell'app */
 var FILES = ["./", "./index.html", "./manifest.webmanifest",
-             "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png"];
+             "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png", "./logo.png", "./qr.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
