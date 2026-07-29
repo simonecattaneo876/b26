@@ -1,0 +1,18 @@
+{
+  "name": "BASILICATA 2026 (ForeverDie)",
+  "short_name": "Basilicata 26",
+  "description": "Spese, itinerari e viaggio — Villa Irene, Pisticci, 9-22 agosto",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B2233",
+  "theme_color": "#0B2233",
+  "lang": "it",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
