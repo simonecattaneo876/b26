@@ -804,7 +804,7 @@ setTimeout(function(){
    Build V001 · single file · nessuna dipendenza esterna
    ============================================================ */
 
-var BUILD = "V019";
+var BUILD = "V020";
 
 /* URL della web app Apps Script: se compilato qui, le altre famiglie
    non devono configurare nulla — aprono il file e sono gia sincronizzate. */
@@ -1131,6 +1131,23 @@ function giorniTrascorsi(){
   var d = Math.floor((new Date(fine)-new Date(S.trip.start))/86400000)+1;
   return d>0 && d<400 ? d : 1;
 }
+/* Su quanti giorni ha senso calcolare la media. Durante la vacanza sono i
+   giorni trascorsi; prima della partenza — quando si fanno le prove o si
+   registrano anticipi — sono i giorni coperti dalle spese inserite. */
+function giorniMedia(){
+  var gt=giorniTrascorsi();
+  if(gt) return gt;
+  var primo=null, ultimo=null, i;
+  for(i=0;i<S.expenses.length;i++){
+    var d=S.expenses[i].date; if(!d) continue;
+    if(!primo || d<primo) primo=d;
+    if(!ultimo || d>ultimo) ultimo=d;
+  }
+  if(!primo) return 0;
+  var g=Math.floor((new Date(ultimo)-new Date(primo))/86400000)+1;
+  return g>0 && g<400 ? g : 1;
+}
+
 /* Da quanti giorni la cassa e in uso: e questo il periodo su cui ha senso
    calcolare il ritmo, non l'inizio della vacanza. */
 function giorniCassa(){
@@ -1223,8 +1240,8 @@ function renderHome(){
   /* kpi */
   var d=days();
   $("#kCount").textContent = S.expenses.length;
-  var gg=giorniTrascorsi();
-  $("#kDay").textContent = gg? money(t.total/gg) : "—";
+  var gg=giorniMedia();
+  $("#kDay").textContent = gg? money(t.total/gg) : money(0);
   var people=0; for(i=0;i<S.families.length;i++) people+=Number(S.families[i].people)||0;
   $("#kPer").textContent = money(people? t.total/people : 0);
   var mx=0; for(i=0;i<S.expenses.length;i++) mx=Math.max(mx, Number(S.expenses[i].amount)||0);
@@ -5176,7 +5193,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V022w";
+var BUILD="V023w";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
