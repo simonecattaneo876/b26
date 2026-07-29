@@ -215,19 +215,20 @@ setTimeout(function(){
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Cassa Comune — Spese Vacanza</title>
 <style>
+/* ===== sistema di colori unico per tutte e tre le sezioni =====
+   Gli accenti sono le versioni leggibili dei neon del logo: su fondo chiaro
+   il neon puro non si legge, ma la famiglia cromatica resta la stessa. */
 :root{
-  --ink:#0D1F2D;
-  --ink-2:#3E566B;
-  --ink-3:#7B93A5;
-  --salt:#EEF2F5;
-  --card:#FFFFFF;
-  --line:#D9E2E9;
-  --coral:#E4572E;
-  --teal:#17958A;
-  --indigo:#3A56A5;
-  --amber:#F0A202;
-  --green:#1E9E63;
-  --red:#D1495B;
+  --ink:#0B1220; --ink2:#41566F; --ink3:#7D91A8;
+  --ink-2:#41566F; --ink-3:#7D91A8;
+  --card:#FFFFFF; --sand:#F2F4F7; --salt:#F2F4F7; --line:#DDE3EA;
+  --sea:#0E8F91;  --teal:#0E8F91;
+  --sun:#E08A16;  --amber:#E08A16;
+  --coral:#D6336C; --red:#D6336C;
+  --olive:#3F8F3F; --green:#3F8F3F;
+  --indigo:#2F4B7C; --deep:#2F4B7C;
+  --f1:#E08A16; --f2:#0E8F91; --f3:#D6336C;
+  --notte:#070B14;
   --r:14px;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -412,7 +413,7 @@ nav button[aria-selected=true] b{transform:translateY(-1px)}
 .tline{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 .tbars{position:absolute;inset:0;display:flex;align-items:flex-end;gap:1px}
 .tbar{flex:1 1 0;height:100%;display:flex;align-items:flex-end;min-width:0;padding:0;border-radius:0}
-.tbar i{display:block;width:100%;height:0;background:#C6D3DC;border-radius:2px 2px 0 0;
+.tbar i{display:block;width:100%;height:0;background:#C7D2DD;border-radius:2px 2px 0 0;
         transition:height .5s cubic-bezier(.2,.8,.2,1), background .15s}
 .tbar.peak i{background:var(--coral)}
 .tbar:hover i,.tbar:focus-visible i{background:var(--teal)}
@@ -440,7 +441,7 @@ nav button[aria-selected=true] b{transform:translateY(-1px)}
   box-shadow:0 0 40px rgba(255,177,59,.30), 0 0 80px rgba(255,79,163,.16)}
 #splash .t{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.02}
 #splash .t span{display:block}
-#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#7B93A5}
+#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#8296AE}
 #splash .p b{color:#FFB13B;font-weight:800;letter-spacing:.18em}
 #splash .bar{width:172px;height:4px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden;margin-top:26px}
 #splash .bar i{
@@ -800,7 +801,7 @@ setTimeout(function(){
    Build V001 · single file · nessuna dipendenza esterna
    ============================================================ */
 
-var BUILD = "V017";
+var BUILD = "V018";
 
 /* URL della web app Apps Script: se compilato qui, le altre famiglie
    non devono configurare nulla — aprono il file e sono gia sincronizzate. */
@@ -808,14 +809,14 @@ var SYNC_URL = "https://script.google.com/macros/s/AKfycbwstTJDIpXlw6_Ow1tubVOGO
 var SYNC_ROOM = "vacanza";
 var KEY = "cassa_comune_v1";
 var CATS = [
-  {id:"alloggio", n:"Alloggio",     e:"🏠", c:"#3A56A5"},
-  {id:"spesa",    n:"Spesa",        e:"🛒", c:"#17958A"},
-  {id:"risto",    n:"Ristoranti",   e:"🍝", c:"#E4572E"},
-  {id:"trasp",    n:"Trasporti",    e:"🚗", c:"#F0A202"},
-  {id:"carb",     n:"Carburante",   e:"⛽", c:"#7B93A5"},
-  {id:"attiv",    n:"Attività",     e:"🎟️", c:"#1E9E63"},
-  {id:"bimbi",    n:"Bambini",      e:"🧸", c:"#B85C9E"},
-  {id:"varie",    n:"Varie",        e:"✳️", c:"#0D1F2D"}
+  {id:"alloggio", n:"Alloggio",     e:"🏠", c:"#2F4B7C"},
+  {id:"spesa",    n:"Spesa",        e:"🛒", c:"#0E8F91"},
+  {id:"risto",    n:"Ristoranti",   e:"🍝", c:"#D6336C"},
+  {id:"trasp",    n:"Trasporti",    e:"🚗", c:"#E08A16"},
+  {id:"carb",     n:"Carburante",   e:"⛽", c:"#7D91A8"},
+  {id:"attiv",    n:"Attività",     e:"🎟️", c:"#3F8F3F"},
+  {id:"bimbi",    n:"Bambini",      e:"🧸", c:"#8E5AA8"},
+  {id:"varie",    n:"Varie",        e:"✳️", c:"#0B1220"}
 ];
 
 /* ---------- state ---------- */
@@ -830,9 +831,9 @@ function seed(){
     trip:{ name:"Vacanza 2026", start:todayISO(), end:"", cur:"€", budget:0, mode:"people",
            fx:{on:false, code:"THB", rate:0}, pot:{on:false, target:0, alert:0} },
     families:[
-      {id:"f1", name:"Cantù",    people:4, color:"#E4572E"},
-      {id:"f2", name:"Misani",   people:4, color:"#17958A"},
-      {id:"f3", name:"Cattaneo", people:4, color:"#3A56A5"}
+      {id:"f1", name:"Cantù",    people:4, color:"#E08A16"},
+      {id:"f2", name:"Misani",   people:4, color:"#0E8F91"},
+      {id:"f3", name:"Cattaneo", people:4, color:"#D6336C"}
     ],
     expenses:[], settlements:[], tomb:[], cfgTs:"", sync:{url:"", room:"", auto:true, resetTs:""}
   };
@@ -864,12 +865,14 @@ function save(){
 function saveCfg(){ touchCfg(); save(); }
 
 /* ---------- helpers ---------- */
+/* colori delle famiglie: gli stessi in tutte le sezioni, decisi qui e non altrove */
+function colFam(id){ return {f1:"#E08A16", f2:"#0E8F91", f3:"#D6336C"}[id] || "#7D91A8"; }
 function $(s){ return document.querySelector(s); }
 function el(tag, cls, txt){ var n=document.createElement(tag); if(cls) n.className=cls; if(txt!=null) n.textContent=txt; return n; }
 function cur(){ return S.trip.cur || "€"; }
 function n2(v){ return (Math.round((v||0)*100)/100).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function money(v){ return n2(v) + " " + cur(); }
-var CASSA = {id:"cassa", name:"Cassa comune", people:0, color:"#0D1F2D"};
+var CASSA = {id:"cassa", name:"Cassa comune", people:0, color:"#0B1220"};
 function potActive(){
   if(S.trip.pot && S.trip.pot.on) return true;
   var i;
@@ -878,7 +881,7 @@ function potActive(){
   return false;
 }
 function entities(){ return potActive() ? S.families.concat([CASSA]) : S.families.slice(); }
-function fam(id){ if(id==="cassa") return CASSA; for(var i=0;i<S.families.length;i++) if(S.families[i].id===id) return S.families[i]; return {id:id,name:"?",people:1,color:"#7B93A5"}; }
+function fam(id){ if(id==="cassa") return CASSA; for(var i=0;i<S.families.length;i++) if(S.families[i].id===id) return S.families[i]; return {id:id,name:"?",people:1,color:"#7D91A8"}; }
 function catOf(id){ for(var i=0;i<CATS.length;i++) if(CATS[i].id===id) return CATS[i]; return CATS[CATS.length-1]; }
 var QUIET=false;
 /* QUIET = aggiornamento arrivato dalla sincronizzazione: nessuna animazione, la barra
@@ -980,7 +983,7 @@ function renderMeBox(){
   box.innerHTML="";
   var row=el("div","bal");
   if(ME){
-    var f=fam(ME.fid), d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+    var f=fam(ME.fid), d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
     var nm=el("div","nm"); nm.appendChild(document.createTextNode(ME.name));
     var sm=el("small"); sm.textContent="famiglia "+f.name; nm.appendChild(sm);
     row.appendChild(nm);
@@ -1134,7 +1137,7 @@ function renderHome(){
     f=S.families[i];
     var v=t.net[f.id]||0;
     var row=el("div","bal");
-    var d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+    var d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
     var nm=el("div","nm"); nm.appendChild(document.createTextNode(f.name));
     var sm=el("small"); sm.textContent=(potActive()? "pagato e versato ":"pagato ")+money(t.paid[f.id]||0)+" · quota "+money(t.owed[f.id]||0);
     nm.appendChild(sm);
@@ -1231,8 +1234,8 @@ function renderDonut(t){
          ' stroke-dasharray="'+len.toFixed(2)+' '+(circ-len).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'" transform="rotate(-90 '+C+' '+C+')"></circle>';
     off+=len;
   }
-  svg+='<text x="64" y="60" text-anchor="middle" font-size="9" fill="#7B93A5" font-family="var(--sans)">TOTALE</text>';
-  svg+='<text x="64" y="76" text-anchor="middle" font-size="14" font-weight="700" fill="#0D1F2D" font-family="monospace">'+esc(n2(sum))+'</text>';
+  svg+='<text x="64" y="60" text-anchor="middle" font-size="9" fill="#7D91A8" font-family="var(--sans)">TOTALE</text>';
+  svg+='<text x="64" y="76" text-anchor="middle" font-size="14" font-weight="700" fill="#0B1220" font-family="monospace">'+esc(n2(sum))+'</text>';
   svg+='</svg>';
   host.innerHTML=svg;
 
@@ -1262,8 +1265,8 @@ function renderFamBars(t){
       growBar(b, v/max*100);
       return tr;
     };
-    wrap.appendChild(mk(t.paid[f.id]||0, f.color));
-    wrap.appendChild(mk(t.owed[f.id]||0, "#C6D3DC"));
+    wrap.appendChild(mk(t.paid[f.id]||0, colFam(f.id)));
+    wrap.appendChild(mk(t.owed[f.id]||0, "#C7D2DD"));
     host.appendChild(wrap);
   }
   var lgd=el("div","hint","Barra piena = pagato · barra grigia = quota di competenza");
@@ -1300,8 +1303,8 @@ function renderTrend(){
   }
   var wrap=el("div","tchart");
   wrap.innerHTML='<svg class="tline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">'+
-    '<path d="'+path+' L100 100 L0 100 Z" fill="rgba(23,149,138,.10)"></path>'+
-    '<path d="'+path+'" fill="none" stroke="#17958A" stroke-width="2" stroke-linejoin="round" '+
+    '<path d="'+path+' L100 100 L0 100 Z" fill="rgba(14,143,145,.10)"></path>'+
+    '<path d="'+path+'" fill="none" stroke="#0E8F91" stroke-width="2" stroke-linejoin="round" '+
     'stroke-linecap="round" vector-effect="non-scaling-stroke"></path></svg>';
 
   var bars=el("div","tbars");
@@ -1474,7 +1477,7 @@ function renderSettlements(){
     var by=$("#potBy"); by.innerHTML="";
     for(i=0;i<S.families.length;i++){
       var f=S.families[i], row=el("div","bal");
-      var d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+      var d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
       row.appendChild(el("div","nm", f.name));
       row.appendChild(el("div","amt num", money(t.pot.by[f.id]||0)));
       by.appendChild(row);
@@ -1533,7 +1536,7 @@ function renderConfig(){
   for(var i=0;i<S.families.length;i++){
     (function(f){
       var row=el("div","split-row");
-      var d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+      var d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
       var nin=el("input"); nin.value=f.name; nin.style.flex="1 1 auto"; nin.setAttribute("aria-label","Nome famiglia");
       nin.oninput=function(){ f.name=nin.value; saveCfg(); renderHeader(); };
       row.appendChild(nin);
@@ -1611,7 +1614,7 @@ function renderSplitEditor(){
     for(i=0;i<S.families.length;i++){
       (function(f){
         var row=el("div","split-row");
-        var d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+        var d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
         row.appendChild(el("div","nm", f.name));
         var inp=el("input"); inp.type="number"; inp.step="0.01"; inp.inputMode="decimal";
         inp.value=(draft.custom&&draft.custom[f.id])||"";
@@ -1624,7 +1627,7 @@ function renderSplitEditor(){
     for(i=0;i<S.families.length;i++){
       (function(f){
         var row=el("div","split-row");
-        var d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+        var d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
         var nm=el("div","nm", f.name + (draft.mode==="people" ? " · "+f.people+" pers." : ""));
         row.appendChild(nm);
         var cb=el("input"); cb.type="checkbox"; cb.style.width="22px"; cb.style.height="22px";
@@ -1943,7 +1946,7 @@ function renderRefRows(){
   for(i=0;i<refRows.length;i++){
     (function(r){
       var f=fam(r.fid), row=el("div","split-row");
-      var d=el("span","dot"); d.style.background=f.color; row.appendChild(d);
+      var d=el("span","dot"); d.style.background=colFam(f.id); row.appendChild(d);
       var nm=el("div","nm");
       nm.appendChild(document.createTextNode(f.name));
       var sm=el("small"); sm.style.cssText="display:block;font-weight:400;color:var(--ink-3);font-size:11.5px";
@@ -2264,12 +2267,23 @@ load(); loadMe(); bind(); renderAll(); syncStart();
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vacanza Pisticci — Itinerari</title>
 <style>
+/* ===== sistema di colori unico per tutte e tre le sezioni =====
+   Gli accenti sono le versioni leggibili dei neon del logo: su fondo chiaro
+   il neon puro non si legge, ma la famiglia cromatica resta la stessa. */
 :root{
-  --ink:#0B2233; --ink2:#3D5B70; --ink3:#7E97A8;
-  --sand:#F3EFE7; --card:#FFFFFF; --line:#DFD9CE;
-  --sea:#0E7C86; --sun:#E8871E; --coral:#D9544D; --olive:#5C8001; --deep:#123B5C;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --ink:#0B1220; --ink2:#41566F; --ink3:#7D91A8;
+  --ink-2:#41566F; --ink-3:#7D91A8;
+  --card:#FFFFFF; --sand:#F2F4F7; --salt:#F2F4F7; --line:#DDE3EA;
+  --sea:#0E8F91;  --teal:#0E8F91;
+  --sun:#E08A16;  --amber:#E08A16;
+  --coral:#D6336C; --red:#D6336C;
+  --olive:#3F8F3F; --green:#3F8F3F;
+  --indigo:#2F4B7C; --deep:#2F4B7C;
+  --f1:#E08A16; --f2:#0E8F91; --f3:#D6336C;
+  --notte:#070B14;
+  --r:14px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:var(--sans);background:var(--sand);color:var(--ink);font-size:15px;line-height:1.45;
@@ -2432,7 +2446,7 @@ nav button[aria-selected=true]{color:var(--ink)}
 #splash .marchio{width:150px;height:150px;border-radius:30px;margin-bottom:20px;display:block;
   box-shadow:0 0 40px rgba(37,224,210,.30), 0 0 80px rgba(87,242,135,.16)}
 #splash .t{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.02}
-#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#7E97A8}
+#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#8296AE}
 #splash .p b{color:#25E0D2;font-weight:800;letter-spacing:.18em}
 #splash .bar{width:172px;height:4px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden;margin-top:26px}
 #splash .bar i{display:block;height:100%;width:0;border-radius:99px;
@@ -2657,12 +2671,12 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V011", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
+var BUILD="V012", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 
 /* ---------- famiglie ---------- */
-var FAM=[{id:"f1",n:"Cantù",c:"#D9544D"},{id:"f2",n:"Misani",c:"#0E7C86"},{id:"f3",n:"Cattaneo",c:"#123B5C"}];
+var FAM=[{id:"f1",n:"Cantù",c:"#E08A16"},{id:"f2",n:"Misani",c:"#0E8F91"},{id:"f3",n:"Cattaneo",c:"#D6336C"}];
 
 /* ---------- categorie ---------- */
 var CAT=[
@@ -2812,6 +2826,8 @@ function saveMe(){ try{ localStorage.setItem(IDKEY, JSON.stringify(ME)); }catch(
 function touch(id){ S.ts=S.ts||{}; S.ts[id]=new Date().toISOString(); }
 function tsOf(id){ return (S.ts&&S.ts[id])||""; }
 
+/* colori delle famiglie: gli stessi in tutte le sezioni, decisi qui e non altrove */
+function colFam(id){ return {f1:"#E08A16", f2:"#0E8F91", f3:"#D6336C"}[id] || "#7D91A8"; }
 function $(s){ return document.querySelector(s); }
 function el(t,c,x){ var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; }
 function toast(m){ var t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove("on");},1900); }
@@ -2822,7 +2838,7 @@ var GG=["dom","lun","mar","mer","gio","ven","sab"];
 function places(){ return SEED.concat(S.custom||[]); }
 function place(id){ var a=places(); for(var i=0;i<a.length;i++) if(a[i].id===id) return a[i]; return null; }
 function catOf(id){ for(var i=0;i<CAT.length;i++) if(CAT[i].id===id) return CAT[i]; return CAT[CAT.length-1]; }
-function fam(id){ for(var i=0;i<FAM.length;i++) if(FAM[i].id===id) return FAM[i]; return {id:id,n:"?",c:"#7E97A8"}; }
+function fam(id){ for(var i=0;i<FAM.length;i++) if(FAM[i].id===id) return FAM[i]; return {id:id,n:"?",c:"#7D91A8"}; }
 function mapsUrl(p){
   return "https://www.google.com/maps/search/?api=1&query="+p.lat+","+p.lng+(p.pid? "&query_place_id="+p.pid : "");
 }
@@ -3100,7 +3116,7 @@ function renderPagella(){
   t.appendChild(el("div","eyebrow","Classifica per famiglia"));
   FAM.forEach(function(f){
     var d=P.fams[f.id], r=el("div","frow");
-    var dot=el("span","dot"); dot.style.background=f.c||"#7E97A8"; r.appendChild(dot);
+    var dot=el("span","dot"); dot.style.background=colFam(f.id); r.appendChild(dot);
     var m=el("div","m");
     m.appendChild(el("b",null,f.n+(d.gente.length? " ("+d.gente.join(", ")+")" : "")));
     m.appendChild(el("span","hint", d.prop+" proposte · "+d.si+" sì · "+d.no+" no · "+d.stelle+" stelle spese"));
@@ -3775,7 +3791,7 @@ function placeRow(p){
     var on=((S.votes[p.id]||{})[f.id])?true:false;
     var v=el("button","vote", f.n);
     v.setAttribute("aria-pressed", on?"true":"false");
-    if(on){ v.style.background=f.c; }
+    if(on){ v.style.background=colFam(f.id); }
     v.onclick=function(ev){
       ev.stopPropagation();
       S.votes[p.id]=S.votes[p.id]||{};
@@ -4125,12 +4141,23 @@ document.getElementById("splash").onclick=hideSplash;
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Viaggio — Basilicata 2026</title>
 <style>
+/* ===== sistema di colori unico per tutte e tre le sezioni =====
+   Gli accenti sono le versioni leggibili dei neon del logo: su fondo chiaro
+   il neon puro non si legge, ma la famiglia cromatica resta la stessa. */
 :root{
-  --ink:#0B2233; --ink2:#3D5B70; --ink3:#7E97A8;
-  --sand:#F3EFE7; --card:#FFFFFF; --line:#DFD9CE;
-  --sea:#0E7C86; --sun:#E8871E; --coral:#D9544D; --olive:#5C8001;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --ink:#0B1220; --ink2:#41566F; --ink3:#7D91A8;
+  --ink-2:#41566F; --ink-3:#7D91A8;
+  --card:#FFFFFF; --sand:#F2F4F7; --salt:#F2F4F7; --line:#DDE3EA;
+  --sea:#0E8F91;  --teal:#0E8F91;
+  --sun:#E08A16;  --amber:#E08A16;
+  --coral:#D6336C; --red:#D6336C;
+  --olive:#3F8F3F; --green:#3F8F3F;
+  --indigo:#2F4B7C; --deep:#2F4B7C;
+  --f1:#E08A16; --f2:#0E8F91; --f3:#D6336C;
+  --notte:#070B14;
+  --r:14px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:var(--sans);background:var(--sand);color:var(--ink);font-size:15px;line-height:1.45;
@@ -4148,7 +4175,7 @@ button{cursor:pointer;border:0;background:none;padding:0}
 #splash .marchio{width:150px;height:150px;border-radius:30px;margin-bottom:20px;display:block;
   box-shadow:0 0 40px rgba(255,79,163,.30), 0 0 80px rgba(37,224,210,.16)}
 #splash .t{font-size:32px;font-weight:800;letter-spacing:-.03em}
-#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#7E97A8}
+#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#8296AE}
 #splash .p b{color:#FF4FA3;font-weight:800;letter-spacing:.18em}
 #splash .bar{width:172px;height:4px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden;margin-top:26px}
 #splash .bar i{display:block;height:100%;width:0;border-radius:99px;
@@ -4379,7 +4406,7 @@ setTimeout(function(){var n=document.getElementById("splash");
 
 <script>
 "use strict";
-var BUILD="V007", KEY="viaggio_2026_v1";
+var BUILD="V008", KEY="viaggio_2026_v1";
 var APPID="viag";
 /* ---------- controllo versioni fra i dispositivi ----------
    Con sei telefoni aggiornati a mano, prima o poi qualcuno resta indietro
@@ -4427,7 +4454,7 @@ function scriviCondivisa(nome,fid){
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 
-var FAM=[{id:"f1",n:"Cantù",c:"#D9544D"},{id:"f2",n:"Misani",c:"#0E7C86"},{id:"f3",n:"Cattaneo",c:"#123B5C"}];
+var FAM=[{id:"f1",n:"Cantù",c:"#E08A16"},{id:"f2",n:"Misani",c:"#0E8F91"},{id:"f3",n:"Cattaneo",c:"#D6336C"}];
 
 var ROUTE={ tronco:[{"n": "Bellusco", "lat": 45.62, "lng": 9.42, "km": 0.0, "d": "partenza"}, {"n": "A4 Cavenago", "lat": 45.575, "lng": 9.38, "km": 6.3, "d": "ingresso in autostrada"}, {"n": "Tangenziale Est", "lat": 45.49, "lng": 9.33, "km": 17.2, "d": "il primo punto dove si rallenta"}, {"n": "Melegnano", "lat": 45.355, "lng": 9.32, "km": 33.3, "d": "si prende la A1"}, {"n": "Piacenza", "lat": 45.05, "lng": 9.7, "km": 81.6, "d": ""}, {"n": "Fidenza", "lat": 44.87, "lng": 10.06, "km": 118.7, "d": ""}, {"n": "Parma", "lat": 44.8, "lng": 10.33, "km": 143.0, "d": ""}, {"n": "Reggio Emilia", "lat": 44.7, "lng": 10.63, "km": 171.0, "d": ""}, {"n": "Modena", "lat": 44.65, "lng": 10.93, "km": 197.1, "d": ""}, {"n": "Bologna", "lat": 44.51, "lng": 11.34, "km": 235.6, "d": "il bivio: di qui in poi A14 verso l'Adriatico"}], a14:[{"n": "Imola", "lat": 44.35, "lng": 11.71, "km": 272.4, "d": ""}, {"n": "Faenza", "lat": 44.29, "lng": 11.88, "km": 288.5, "d": ""}, {"n": "Forlì", "lat": 44.22, "lng": 12.04, "km": 304.5, "d": ""}, {"n": "Cesena", "lat": 44.14, "lng": 12.24, "km": 324.0, "d": "ultimo tratto di pianura"}, {"n": "Rimini", "lat": 44.06, "lng": 12.57, "km": 353.8, "d": "in estate esce e entra parecchia gente"}, {"n": "Pesaro", "lat": 43.91, "lng": 12.9, "km": 387.2, "d": ""}, {"n": "Fano", "lat": 43.84, "lng": 13.02, "km": 400.4, "d": ""}, {"n": "Senigallia", "lat": 43.71, "lng": 13.22, "km": 423.5, "d": ""}, {"n": "Ancona", "lat": 43.62, "lng": 13.51, "km": 450.7, "d": "gallerie, si viaggia più lenti"}, {"n": "Civitanova Marche", "lat": 43.31, "lng": 13.73, "km": 492.2, "d": ""}, {"n": "San Benedetto del Tronto", "lat": 42.95, "lng": 13.88, "km": 537.0, "d": ""}, {"n": "Pescara", "lat": 42.46, "lng": 14.21, "km": 602.0, "d": "metà strada abbondante"}, {"n": "Val di Sangro", "lat": 42.22, "lng": 14.53, "km": 642.1, "d": ""}, {"n": "Vasto", "lat": 42.11, "lng": 14.71, "km": 662.7, "d": ""}, {"n": "Termoli", "lat": 41.99, "lng": 14.99, "km": 691.2, "d": "da qui le aree di servizio si diradano"}, {"n": "Poggio Imperiale", "lat": 41.83, "lng": 15.36, "km": 729.1, "d": ""}, {"n": "Foggia", "lat": 41.46, "lng": 15.55, "km": 776.3, "d": ""}, {"n": "Cerignola", "lat": 41.27, "lng": 15.9, "km": 814.8, "d": ""}, {"n": "Trani", "lat": 41.27, "lng": 16.38, "km": 857.8, "d": ""}, {"n": "Bari nord", "lat": 41.13, "lng": 16.78, "km": 897.3, "d": "si continua sulla A14 verso Taranto"}, {"n": "Gioia del Colle", "lat": 40.8, "lng": 16.92, "km": 938.5, "d": ""}, {"n": "Massafra", "lat": 40.59, "lng": 17.11, "km": 968.8, "d": ""}, {"n": "Taranto", "lat": 40.47, "lng": 17.24, "km": 987.3, "d": "si esce: da qui SS106 ionica, strada normale"}, {"n": "Metaponto", "lat": 40.38, "lng": 16.82, "km": 1026.8, "d": "ci siamo quasi"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1051.3, "d": "arrivo"}], a1:[{"n": "Firenze", "lat": 43.8, "lng": 11.2, "km": 320.9, "d": "appennino, curve e gallerie"}, {"n": "Arezzo", "lat": 43.46, "lng": 11.88, "km": 392.1, "d": ""}, {"n": "Orte", "lat": 42.46, "lng": 12.38, "km": 518.8, "d": ""}, {"n": "Roma est", "lat": 41.9, "lng": 12.5, "km": 586.2, "d": "il raccordo, punto critico di giorno"}, {"n": "Frosinone", "lat": 41.63, "lng": 13.34, "km": 667.4, "d": ""}, {"n": "Caserta", "lat": 41.07, "lng": 14.33, "km": 778.1, "d": ""}, {"n": "Napoli nord", "lat": 40.93, "lng": 14.42, "km": 796.6, "d": "si prende la A16 verso Avellino"}, {"n": "Avellino", "lat": 40.92, "lng": 14.79, "km": 829.9, "d": ""}, {"n": "Candela", "lat": 41.14, "lng": 15.51, "km": 899.6, "d": "si esce dall'autostrada, poi statale"}, {"n": "Gravina in Puglia", "lat": 40.82, "lng": 16.42, "km": 989.8, "d": "SS655, strada normale"}, {"n": "Matera", "lat": 40.66, "lng": 16.6, "km": 1014.8, "d": ""}, {"n": "Ferrandina", "lat": 40.5, "lng": 16.45, "km": 1038.2, "d": "si prende la Basentana"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1054.1, "d": "arrivo"}] };
 
@@ -4435,6 +4462,8 @@ var S={ nome:"", fid:"", share:true, ramo:"", km:0, storia:[], partito:"", arriv
         pin:[], soste:[], voti:{}, tomb:[], senso:"andata" };
 var POS=null, WATCH=null, ALTRE={}, lastPush=0;
 
+/* colori delle famiglie: gli stessi in tutte le sezioni, decisi qui e non altrove */
+function colFam(id){ return {f1:"#E08A16", f2:"#0E8F91", f3:"#D6336C"}[id] || "#7D91A8"; }
 function $(s){ return document.querySelector(s); }
 function el(t,c,x){ var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; }
 function toast(m){ var t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove("on");},2200); }
@@ -4443,7 +4472,7 @@ function load(){
   if(!S.fid && SHARED_ME){ S.fid=SHARED_ME.fid; S.nome=S.nome||SHARED_ME.nome||SHARED_ME.name||""; }
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function fam(id){ for(var i=0;i<FAM.length;i++) if(FAM[i].id===id) return FAM[i]; return {id:id,n:"?",c:"#7E97A8"}; }
+function fam(id){ for(var i=0;i<FAM.length;i++) if(FAM[i].id===id) return FAM[i]; return {id:id,n:"?",c:"#7D91A8"}; }
 function hhmm(d){ return ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2); }
 
 /* ---------- geometria: quanto sono lontano da un percorso e a che punto sono ----------
@@ -4950,7 +4979,7 @@ function renderAuto(){
   if(righe.length<2) host.appendChild(el("div","hint","Le altre auto compaiono qui appena accendono la condivisione."));
   righe.forEach(function(r){
     var row=el("div","auto");
-    var d=el("span","dot"); d.style.background=fam(r.fid).c; row.appendChild(d);
+    var d=el("span","dot"); d.style.background=colFam(r.fid); row.appendChild(d);
     var m=el("div","m");
     m.appendChild(el("b",null, r.nome + (r.io? "" : " · "+fam(r.fid).n)));
     var eta_= r.eta? "arrivo "+hhmm(r.eta) : "";
@@ -5089,7 +5118,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V016w";
+var BUILD="V018w";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var LOGO=document.querySelector("#splash .marchio").getAttribute("src");
@@ -5199,26 +5228,62 @@ function esciPoiAccesso(){
 setTimeout(esciPoiAccesso, 1900);
 document.getElementById("splash").onclick=esciPoiAccesso;
 
+
+/* ---------- installazione ----------
+   Chrome offre l'installazione con un evento suo, ma non sempre e non subito:
+   dentro il browser interno di WhatsApp non arriva mai, perche li installare
+   non si puo. Quindi il riquadro lo mostro comunque e cambio solo il testo. */
 var promptInstall=null;
-var iOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+var UA=navigator.userAgent;
+var iOS=/iphone|ipad|ipod/i.test(UA);
+var android=/android/i.test(UA);
+var dentroApp=/; wv\)/i.test(UA) || /FBAN|FBAV|Instagram|Line\/|WhatsApp/i.test(UA);
 var installata=window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-window.addEventListener("beforeinstallprompt", function(e){
-  e.preventDefault(); promptInstall=e;
-  if(!installata) document.getElementById("btnInstall").hidden=false;
-});
-if(iOS && !installata){
-  document.getElementById("btnInstall").hidden=false;
-  document.getElementById("installTxt").textContent="Su iPhone: tocca Condividi in fondo a Safari, poi «Aggiungi a Home». Poi apri sempre l'icona, altrimenti i dati non restano salvati.";
-  document.getElementById("installGo").textContent="Come si fa";
+
+var tile=document.getElementById("btnInstall");
+var txt=document.getElementById("installTxt");
+var go=document.getElementById("installGo");
+
+function mostraInstalla(){
+  if(installata){ tile.hidden=true; return; }
+  tile.hidden=false;
+  if(dentroApp){
+    txt.textContent="Stai usando il browser interno di WhatsApp: da qui l'app non si può installare. Aprila in Chrome (o Safari) e riprova.";
+    go.textContent="Come si fa";
+  }else if(promptInstall){
+    txt.textContent="Diventa un'icona come le altre app e si apre anche senza rete.";
+    go.textContent="Installa →";
+  }else if(android){
+    txt.textContent="Tocca i tre puntini in alto a destra di Chrome e scegli «Installa app» (o «Aggiungi a schermata Home»).";
+    go.textContent="Mostrami dove";
+  }else if(iOS){
+    txt.textContent="Su iPhone: tocca Condividi in fondo a Safari, poi «Aggiungi a Home». Poi apri sempre l'icona, altrimenti i dati non restano salvati.";
+    go.textContent="Come si fa";
+  }else{
+    txt.textContent="Aprila dal telefono per installarla: da computer non serve.";
+    go.textContent="Ok";
+  }
 }
-document.getElementById("btnInstall").onclick=function(){
+
+window.addEventListener("beforeinstallprompt", function(e){
+  e.preventDefault(); promptInstall=e; mostraInstalla();
+});
+window.addEventListener("appinstalled", function(){ installata=true; tile.hidden=true; });
+
+tile.onclick=function(){
   if(promptInstall){
     promptInstall.prompt();
-    promptInstall.userChoice.then(function(){ promptInstall=null; document.getElementById("btnInstall").hidden=true; });
-  }else{
-    alert("Su iPhone:\n1. tocca Condividi in fondo a Safari (il quadrato con la freccia)\n2. scorri e scegli «Aggiungi a Home»\n3. da lì in poi apri sempre l'icona, non il link");
+    promptInstall.userChoice.then(function(){ promptInstall=null; mostraInstalla(); });
+  }else if(dentroApp){
+    alert("Sei nel browser di WhatsApp.\n\n1. tocca i tre puntini in alto a destra\n2. scegli «Apri in Chrome» (Android) o «Apri in Safari» (iPhone)\n3. da lì potrai installare l'app");
+  }else if(android){
+    alert("Su Android:\n\n1. tocca i tre puntini ⋮ in alto a destra di Chrome\n2. scegli «Installa app» oppure «Aggiungi a schermata Home»\n3. conferma: comparirà l'icona fra le tue app");
+  }else if(iOS){
+    alert("Su iPhone:\n\n1. tocca Condividi in fondo a Safari (il quadrato con la freccia)\n2. scorri e scegli «Aggiungi a Home»\n3. da lì in poi apri sempre l'icona, non il link");
   }
 };
+mostraInstalla();
+
 if("serviceWorker" in navigator){
   window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
 }

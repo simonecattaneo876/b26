@@ -103,6 +103,27 @@ h1{margin:0;font-size:29px;font-weight:800;letter-spacing:-.03em;line-height:1.0
   <div class="foot">powered by <b>SIMCAT</b></div>
 </div>
 
+<div class="passi" id="avvisoApp" style="display:none;border-color:var(--sun)">
+  <h2><span>Attenzione</span>Sei nel browser di WhatsApp</h2>
+  <ol>
+    <li>Tocca i <b>tre puntini</b> in alto a destra</li>
+    <li>Scegli <b>Apri in Chrome</b> (Android) o <b>Apri in Safari</b> (iPhone)</li>
+    <li>Da lì potrai installare l'app: qui dentro non si può</li>
+  </ol>
+</div>
+
+<script>
+/* dentro il browser di WhatsApp l'installazione non esiste: meglio dirlo subito */
+(function(){
+  var UA=navigator.userAgent;
+  if(/; wv\)/i.test(UA) || /FBAN|FBAV|Instagram|Line\/|WhatsApp/i.test(UA)){
+    var a=document.getElementById("avvisoApp");
+    a.style.display="block";
+    document.querySelector(".box").insertBefore(a, document.querySelector(".apri"));
+  }
+})();
+</script>
+
 <script>
 /* mostro per primo il blocco del telefono giusto: le istruzioni sbagliate
    sono peggio di nessuna istruzione */
