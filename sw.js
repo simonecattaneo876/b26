@@ -6,7 +6,7 @@
    restano sulla copia in memoria. Il messaggio "attiva" deve avere lo stesso
    nome anche dentro index.html: se i due nomi divergono, il pulsante
    "Aggiorna" smette silenziosamente di funzionare. */
-var CACHE = "basilicata-2026-v28";
+var CACHE = "basilicata-2026-v29";
 var FILES = ["./", "./index.html", "./manifest.webmanifest",
              "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png",
              "./apple-touch-icon.png", "./logo.png", "./qr.png"];
@@ -42,10 +42,18 @@ self.addEventListener("fetch", function (e) {
   if (url.origin !== self.location.origin) return;
   if (url.pathname.indexOf("versione.json") >= 0) return;   /* sempre dalla rete */
 
-  /* Rete per prima, copia locale come riserva: un aggiornamento arriva appena
-     c'è campo, ma senza campo l'app si apre lo stesso. */
+  /* Rete per prima, copia locale come riserva. Per la pagina e per index.html
+     la richiesta di rete deve saltare del tutto la cache HTTP del browser e
+     quella del CDN di GitHub Pages: altrimenti "prima la rete" restituisce
+     comunque una copia vecchia, e il codice nuovo non arriva mai a girare
+     anche quando i file sul sito sono gia aggiornati. */
+  var salta = e.request.mode === "navigate" || url.pathname.endsWith("index.html") || url.pathname === "/" || url.pathname.endsWith("/");
+  var richiesta = salta
+    ? new Request(e.request.url, { cache: "reload", credentials: e.request.credentials, headers: e.request.headers })
+    : e.request;
+
   e.respondWith(
-    fetch(e.request).then(function (r) {
+    fetch(richiesta).then(function (r) {
       var copia = r.clone();
       caches.open(CACHE).then(function (c) { c.put(e.request, copia); });
       return r;
