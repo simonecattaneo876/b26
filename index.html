@@ -30,15 +30,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 :focus-visible{outline:2px solid var(--sun);outline-offset:3px;border-radius:8px}
 
 /* ---------- intro ---------- */
-/* in fondo, mai in cima: in alto c'e la barra della sezione col tasto Home,
-   che deve restare sempre raggiungibile */
-#barraAgg{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:950;
-  background:var(--olive);color:#04220F;border-radius:14px;
-  display:flex;align-items:center;gap:10px;padding:11px 12px;font-size:13.5px;font-weight:700;
-  box-shadow:0 6px 24px rgba(0,0,0,.45)}
-#aggTxt{flex:1 1 auto;min-width:0;line-height:1.25}
-#aggBtn{background:#04220F;color:#fff;border-radius:9px;padding:8px 14px;font-size:12px;font-weight:800;letter-spacing:.1em;flex:0 0 auto}
-#aggChiudi{background:transparent;color:#04220F;font-size:17px;font-weight:800;padding:4px 8px;flex:0 0 auto;opacity:.7}
 #splash{
   position:fixed;inset:0;z-index:900;background:var(--ink);color:#fff;
   display:grid;place-content:center;justify-items:center;text-align:center;padding:24px;
@@ -61,23 +52,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 @keyframes load{0%{width:4%}60%{width:64%}100%{width:100%}}
 
 /* ---------- home ---------- */
-#aggiorna{
-  position:fixed;left:0;right:0;top:0;z-index:870;background:var(--olive);color:#04220F;
-  display:flex;align-items:center;gap:12px;padding:10px 16px;
-  padding-top:calc(10px + env(safe-area-inset-top));box-shadow:0 6px 20px rgba(0,0,0,.35)}
-#aggiorna[hidden]{display:none}
-#aggiorna .txt{flex:1 1 auto;min-width:0;font-size:12.5px;line-height:1.35}
-#aggiorna .txt b{display:block;font-size:13.5px}
-#aggiorna button{background:#04220F;color:#fff;font-weight:800;font-size:13px;padding:9px 16px;border-radius:10px;flex:0 0 auto}
-#nuovaVer{
-  position:fixed;left:0;right:0;top:0;z-index:1000;background:var(--olive);color:#04220F;
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  padding:calc(10px + env(safe-area-inset-top)) 14px 10px;font-size:13.5px;font-weight:700;
-  box-shadow:0 6px 22px rgba(0,0,0,.35)}
-#nuovaVer[hidden]{display:none}
-#nuovaVer span{flex:1 1 auto;min-width:150px}
-#nuovaVer button{background:#04220F;color:#fff;border-radius:9px;padding:8px 14px;font-weight:800;font-size:12.5px}
-#nuovaVer button.dopo{background:transparent;color:#04220F;text-decoration:underline;padding:8px 4px}
 #accesso .marchio{width:84px;height:84px;border-radius:20px;display:block;margin:0 auto 18px}
 #accesso{
   position:fixed;inset:0;z-index:850;background:var(--ink);color:#fff;overflow:auto;display:none;
@@ -162,11 +136,6 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 </head>
 <body>
 
-<div id="barraAgg" hidden>
-  <span id="aggTxt">Nuova versione disponibile</span>
-  <button id="aggBtn">AGGIORNA</button>
-  <button id="aggChiudi" aria-label="Chiudi l'avviso">&#10005;</button>
-</div>
 <div id="splash" role="status" aria-label="Caricamento">
   <img class="marchio" src="data:image/webp;base64,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" alt="ForeverDie">
   <div class="t"><span>BASILICATA</span><span>2026</span></div>
@@ -181,12 +150,6 @@ setTimeout(function(){
 },6000);
 </script>
 
-<div id="nuovaVer" hidden>
-  <span>E' disponibile una versione aggiornata dell'app.</span>
-  <button id="aggiornaOra">Aggiorna</button>
-  <button id="aggiornaDopo" class="dopo">Dopo</button>
-</div>
-
 <div id="accesso">
   <div class="box">
     <img class="marchio" src="data:image/webp;base64,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" alt="">
@@ -198,11 +161,6 @@ setTimeout(function(){
     <div class="fams" id="meFam"></div>
     <button class="vai" id="meVai">Entra</button>
   </div>
-</div>
-
-<div id="aggiorna" hidden>
-  <div class="txt"><b>Nuova versione disponibile</b><span id="aggDett">tocca per aggiornare, ci vuole un istante</span></div>
-  <button id="aggBtn">Aggiorna</button>
 </div>
 
 <div id="home">
@@ -223,8 +181,8 @@ setTimeout(function(){
 
     <button class="tile itin" id="goItin">
       <div class="ic">🏖️</div>
-      <h2>ITINERARI</h2>
-      <p>Lidi, tavola e gite: proposte, voti e il piano dei giorni con il conto del mare.</p>
+      <h2>ITINERARI E STRADA</h2>
+      <p>Lidi, tavola e gite con proposte e voti. E la strada: a che ora si arriva, dove sono le altre auto, dove avete parcheggiato.</p>
       <div class="go">Entra →</div>
     </button>
 
@@ -235,12 +193,6 @@ setTimeout(function(){
       <div class="go">Entra →</div>
     </button>
 
-    <button class="tile viag" id="goViag">
-      <div class="ic">🚗</div>
-      <h2>VIAGGIO</h2>
-      <p>Bellusco → Pisticci: a che ora si arriva, dove sono le altre auto, dove conviene fermarsi.</p>
-      <div class="go">Entra →</div>
-    </button>
   </div>
 
     <button class="tile" id="btnInstall" hidden style="background:#0D1526;border-color:#1E2A44">
@@ -2546,7 +2498,8 @@ input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);
 .linkbtn{color:var(--sea);font-weight:700;font-size:13px}
 
 nav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);
-    display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
+    display:grid;grid-template-columns:repeat(6,1fr);padding-bottom:env(safe-area-inset-bottom)}
+nav button{font-size:9.5px}
 nav button b{position:relative}
 .badge{position:absolute;top:-5px;right:-11px;background:var(--coral);color:#fff;font-size:9.5px;font-weight:800;
        min-width:15px;height:15px;border-radius:99px;display:grid;place-items:center;padding:0 3px;font-family:var(--sans)}
@@ -2559,6 +2512,7 @@ nav button[aria-selected=true]{color:var(--ink)}
 #toast{position:fixed;left:50%;bottom:calc(94px + env(safe-area-inset-bottom));transform:translate(-50%,14px);background:var(--ink);color:#fff;
   padding:10px 16px;border-radius:99px;font-size:13px;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+#toast.forte{background:var(--sea);font-weight:700}
 .stamp{text-align:center;color:var(--ink3);font-size:11px;padding:14px 0 4px;font-family:var(--mono)}
 @media (min-width:700px){.sheet{max-width:640px;left:50%;transform:translate(-50%,102%)}.sheet.on{transform:translate(-50%,0)}}
 .tally .stella{margin-left:auto;border-color:var(--sun);color:var(--sun)}
@@ -2581,6 +2535,13 @@ nav button[aria-selected=true]{color:var(--ink)}
 .frow .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .frow .m{flex:1 1 auto;min-width:0}
 .frow .m b{display:block;font-size:13.5px}
+
+.zonaTit{display:flex;align-items:baseline;gap:8px;margin:14px 0 2px;font-size:11.5px;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);padding-bottom:5px}
+.zonaTit .n{margin-left:auto;font-family:var(--mono);letter-spacing:0;font-weight:600}
+.seg{display:flex;background:var(--sand);border-radius:11px;padding:3px;gap:3px}
+.seg button{flex:1;padding:8px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--ink3)}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(11,18,32,.12)}
 
 /* intro */
 #splash{position:fixed;inset:0;z-index:900;background:#070B14;color:#fff;display:grid;place-content:center;justify-items:center;
@@ -2675,9 +2636,19 @@ setTimeout(function(){
   <!-- POSTI -->
   <section class="view" id="v-posti">
     <div class="card">
-      <label class="fld" style="margin-bottom:9px"><span>Cerca</span><input id="q" type="search" placeholder="Nome o parola chiave…"></label>
-      <div class="chips" id="catChips" style="margin-bottom:8px"></div>
+      <input id="q" type="search" placeholder="Cerca: nome, paese, «gelato», «bambini»…" style="margin-bottom:10px">
+      <div class="seg" id="ordSeg" style="margin-bottom:10px">
+        <button type="button" data-o="vicino" aria-pressed="true">Più vicini</button>
+        <button type="button" data-o="voti" aria-pressed="false">Più votati</button>
+        <button type="button" data-o="nome" aria-pressed="false">A-Z</button>
+      </div>
+      <div class="eyebrow" style="margin-bottom:5px">Zona</div>
+      <div class="chips" id="zonaChips" style="margin-bottom:10px"></div>
+      <div class="eyebrow" style="margin-bottom:5px">Tipo di posto</div>
+      <div class="chips" id="catChips" style="margin-bottom:10px"></div>
+      <div class="eyebrow" style="margin-bottom:5px">Caratteristiche</div>
       <div class="chips" id="tagChips"></div>
+      <button class="btn ghost sm" id="pulisciFiltri" style="width:100%;margin-top:11px" hidden>Togli tutti i filtri</button>
     </div>
     <div class="card">
       <div class="card-h"><h2>Posti</h2><span class="eyebrow" id="cnt"></span></div>
@@ -2704,6 +2675,58 @@ setTimeout(function(){
     <div class="card">
       <div class="card-h"><h2>Pagella del gruppo</h2><span class="eyebrow">senza pretese</span></div>
       <div id="pagellaBox"></div>
+    </div>
+  </section>
+
+  <!-- STRADA -->
+  <section class="view" id="v-strada">
+    <div class="card">
+      <div class="card-h"><h2>Dove stiamo andando</h2><button class="btn sm ghost" id="btnMeta">Cambia</button></div>
+      <div style="font-size:17px;font-weight:800" id="metaNome">—</div>
+      <div class="hint" id="metaSotto"></div>
+      <div style="text-align:center;padding:12px 0 2px">
+        <div class="eyebrow">Arrivo previsto</div>
+        <div id="etaBig" style="font-size:46px;font-weight:800;font-family:var(--mono);letter-spacing:-.04em;line-height:1;margin:6px 0 4px">--:--</div>
+        <div class="hint" id="etaSotto"></div>
+      </div>
+      <div class="track"><i id="stradaBar"></i></div>
+      <div class="row" style="margin-top:11px">
+        <button class="btn ghost sm" id="gpsBtn" style="width:100%">Accendi il GPS</button>
+      </div>
+      <div class="hint" id="gpsStato" style="text-align:center;margin-top:6px"></div>
+    </div>
+
+    <div class="card" id="tappeCard">
+      <div class="card-h"><h2>Prossime tappe</h2></div>
+      <div id="tappeBox"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>Le nostre auto</h2></div>
+      <div id="autoBox"></div>
+      <label class="fld" style="display:flex;align-items:center;gap:9px;margin-top:11px;margin-bottom:0">
+        <input type="checkbox" id="cShare" style="width:auto">
+        <span style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink);font-weight:600">Condividi la mia posizione</span>
+      </label>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>Segna un posto</h2></div>
+      <p class="hint" style="margin-top:0">Parcheggio, ombrellone, sosta: resta salvato e lo vedono tutti.</p>
+      <div class="chips" id="segnaChips" style="margin:10px 0"></div>
+      <div id="pinBox"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>Impostazioni strada</h2></div>
+      <div class="row">
+        <label class="fld"><span>Velocità di riferimento</span><input id="cVel" type="number" min="25" max="140" step="5"></label>
+        <label class="fld" style="display:flex;align-items:flex-end;gap:9px;padding-bottom:11px">
+          <input type="checkbox" id="cVelForza" style="width:auto">
+          <span style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink);font-weight:600">Usa sempre questa</span>
+        </label>
+      </div>
+      <button class="btn ghost sm" id="btnSenso" style="width:100%">Viaggio lungo: andata a Pisticci</button>
     </div>
   </section>
 
@@ -2753,6 +2776,7 @@ setTimeout(function(){
   <button role="tab" data-v="oggi" aria-selected="true"><b>☀</b>Oggi</button>
   <button role="tab" data-v="posti" aria-selected="false"><b>≡</b>Posti</button>
   <button role="tab" data-v="prop" aria-selected="false"><b>💬<span class="badge" id="propBadge" hidden>0</span></b>Proposte</button>
+  <button role="tab" data-v="strada" aria-selected="false"><b>🚗<span class="badge" id="stradaBadge" hidden>·</span></b>Strada</button>
   <button role="tab" data-v="piano" aria-selected="false"><b>▦</b>Piano</button>
   <button role="tab" data-v="info" aria-selected="false"><b>⚙</b>Info</button>
 </nav>
@@ -2772,6 +2796,13 @@ setTimeout(function(){
   <div class="sheet-h"><h2 id="pickTit">Scegli</h2><button class="linkbtn" id="pickClose">Chiudi</button></div>
   <label class="fld"><span>Cerca</span><input id="pickQ" type="search" placeholder="Filtra…"></label>
   <div id="pickList"></div>
+</div>
+
+<!-- destinazione -->
+<div class="sheet" id="sheetMeta" role="dialog" aria-modal="true">
+  <div class="grab"></div>
+  <div class="sheet-h"><h2>Dove andiamo</h2><button class="linkbtn" id="metaClose">Chiudi</button></div>
+  <div id="metaList"></div>
 </div>
 
 <!-- nuova proposta -->
@@ -2814,7 +2845,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V014", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
+var BUILD="V016", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 
@@ -2830,6 +2861,7 @@ var CAT=[
  {id:"natura",n:"Natura",   e:"🌿"},
  {id:"giochi",n:"Giochi",   e:"🎢"},
  {id:"shop",  n:"Shopping", e:"🛍️"},
+ {id:"servizi",n:"Servizi",    e:"🛒"},
  {id:"gita",  n:"Gita lunga", e:"🚗"}
 ];
 
@@ -2849,14 +2881,14 @@ function P(id,n,c,area,min,lat,lng,pid,tags,d){
 }
 var SEED=[
 /* --- mare: Marina di Pisticci --- */
-P("l1","Lido San Basilio","mare","Marina di Pisticci",25,40.2963652,16.781803,"ChIJB78Q3gdDRxMRr4wigc24Q20",["cucina","parcheggio"],"Il più solido della costa: bar, cucina, docce. Si prenota l'ombrellone online."),
-P("l2","Nature Lido Beach Club","mare","Marina di Pisticci",25,40.3164135,16.7880243,"ChIJ0Thyq7BDRxMRKm1a9khuzGo",["cucina"],"Sabbia finissima, atmosfera raccolta, pesce fresco a pranzo."),
-P("l3","Lido Del Borgo","mare","Marina di Pisticci",25,40.2975191,16.7815692,"ChIJ1dSXy6lDRxMRBN4Wkjmr9ak",["cucina","sera"],"Apre alle 7 e chiude a mezzanotte: l'unico dove ha senso restare anche a cena."),
+P("l1","Lido San Basilio","mare","Marina di Pisticci",30,40.2963652,16.781803,"ChIJB78Q3gdDRxMRr4wigc24Q20",["cucina","parcheggio"],"Il più solido della costa: bar, cucina, docce. Si prenota l'ombrellone online."),
+P("l2","Nature Lido Beach Club","mare","Marina di Pisticci",30,40.3164135,16.7880243,"ChIJ0Thyq7BDRxMRKm1a9khuzGo",["cucina"],"Sabbia finissima, atmosfera raccolta, pesce fresco a pranzo."),
+P("l3","Lido Del Borgo","mare","Marina di Pisticci",30,40.2975191,16.7815692,"ChIJ1dSXy6lDRxMRBN4Wkjmr9ak",["cucina","sera"],"Apre alle 7 e chiude a mezzanotte: l'unico dove ha senso restare anche a cena."),
 P("l4","Lido 48","mare","Marina di Pisticci",30,40.319271,16.8004779,"ChIJ3c9Gpc5DRxMRy017tphr--s",["bambini","parcheggio"],"Pineta con area giochi: la scelta quando i bambini si stancano della sabbia."),
 P("l5","Lido Cuba Libre","mare","Marina di Pisticci",30,40.320922,16.801954,"ChIJPQ3xQsxDRxMR7lcUltf1-4A",["cucina","sera"],"Il più vivace, buona cucina di pesce. La domenica tira fino a sera."),
 P("l6","Lido La Spiaggetta","mare","Marina di Pisticci",25,40.3071553,16.7896722,"ChIJ2w3car5DRxMRp025_KRmEaM",["bambini","cucina"],"Ombrelloni distanziati e acqua bassa: il più adatto ai piccoli. Lunedì chiuso."),
 P("l7","Lido Luna Rossa","mare","Marina di Pisticci",25,40.3074951,16.790739,"ChIJH08RTb5DRxMR3clZqAn_Ghc",["parcheggio"],"Dentro la pineta, vicino al parcheggio libero. Senza fronzoli."),
-P("l8","Riva dei Ginepri","mare","Marina di Pisticci",28,40.3128954,16.7955109,"ChIJcQesmMdDRxMRCttIBT1qB74",["cucina"],"Spiaggia ampia e poco affollata, struttura un po' vissuta."),
+P("l8","Riva dei Ginepri","mare","Marina di Pisticci",30,40.3128954,16.7955109,"ChIJcQesmMdDRxMRCttIBT1qB74",["cucina"],"Spiaggia ampia e poco affollata, struttura un po' vissuta."),
 /* --- mare: Metaponto --- */
 P("m1","Lido Tortuga","mare","Metaponto",35,40.3631087,16.8401509,"ChIJuQpSsQxqRxMR0hUI7BBCgKQ",["cucina"],"Piccolo, familiare, prezzi bassi: il migliore rapporto qualità/prezzo della zona."),
 P("m2","Lido Beach Aphrodite","mare","Metaponto",35,40.3615404,16.8386143,"ChIJN64upwtqRxMR8_3VniX41Ps",["bambini","cucina"],"Fondale che degrada piano, spogliatoi e docce. Due lettini e ombrellone sui 15 €."),
@@ -2869,18 +2901,18 @@ P("m8","Lido Nettuno","mare","Metaponto",35,40.3568904,16.8324574,"ChIJc07JUeJBR
 P("m9","La Chimera","mare","Metaponto",35,40.3556302,16.8335805,"ChIJ0UigkONBRxMRPmFj2sT2QMw",["cucina","parcheggio"],"Lido con pescheria: il pesce arriva dalle barche del posto. Parcheggio incluso."),
 /* --- mare: Scanzano e Policoro --- */
 P("s1","Sabbia d'Oro Beach Club","mare","Scanzano Jonico",35,40.2543411,16.7539899,"ChIJCWZP1-NERxMRo2D3prXFRLk",["cucina","parcheggio","prenota","sera"],"Il più attrezzato della costa: piscina, cabana, cucina di livello. Prenotare online."),
-P("s2","La Kicca","mare","Scanzano Jonico",35,40.2845679,16.7748799,"ChIJM6FJwn5ERxMR4Pa_jVkIz6Y",["cucina"],"Spiaggia curata dentro la vegetazione. Servizio lento quando è pieno."),
-P("s3","Lido Il Melograno","mare","Scanzano Jonico",40,40.2415906,16.7477586,"ChIJX_7TxTFFRxMRflAJmZJGRn8",["bambini","parcheggio"],"Selvaggio e tranquillo, acqua bassissima. C'è anche la spiaggia libera."),
+P("s2","La Kicca","mare","Scanzano Jonico",30,40.2845679,16.7748799,"ChIJM6FJwn5ERxMR4Pa_jVkIz6Y",["cucina"],"Spiaggia curata dentro la vegetazione. Servizio lento quando è pieno."),
+P("s3","Lido Il Melograno","mare","Scanzano Jonico",35,40.2415906,16.7477586,"ChIJX_7TxTFFRxMRflAJmZJGRn8",["bambini","parcheggio"],"Selvaggio e tranquillo, acqua bassissima. C'è anche la spiaggia libera."),
 P("s4","Stabilimento Il Faro","mare","Scanzano Jonico",35,40.2551751,16.7535305,"ChIJE8u1EypFRxMR9EFWfow60rg",["bambini","cucina"],"Molto spazio e animazione per i bambini."),
 P("p1","Lido Sirena","mare","Policoro",45,40.1860941,16.7156794,"ChIJY319dC9QRxMR_MzgXtcByo8",["bambini","cucina","sera"],"Area giochi, ristorante e pizzeria, aperto dalle 6:30 all'una."),
-P("p2","Lido Sporting Beach","mare","Policoro",45,40.1897758,16.7194547,"ChIJzyd49iZQRxMRdqGoB5UmlQI",["bambini","sera"],"Parco giochi, sport in spiaggia e musica dal vivo."),
+P("p2","Lido Sporting Beach","mare","Policoro",40,40.1897758,16.7194547,"ChIJzyd49iZQRxMRdqGoB5UmlQI",["bambini","sera"],"Parco giochi, sport in spiaggia e musica dal vivo."),
 /* --- giochi --- */
-P("g1","Acquazzurra Acquapark","giochi","Metaponto",30,40.3781457,16.783935,"ChIJ4bpEY8xpRxMRTuAGkLGtagk",["bambini","vento","parcheggio"],"La carta da giocare nel giorno di vento. Cuffia obbligatoria, scivoli chiusi nelle ore centrali."),
+P("g1","Acquazzurra Acquapark","giochi","Metaponto",35,40.3781457,16.783935,"ChIJ4bpEY8xpRxMRTuAGkLGtagk",["bambini","vento","parcheggio"],"La carta da giocare nel giorno di vento. Cuffia obbligatoria, scivoli chiusi nelle ore centrali."),
 /* --- natura --- */
 P("n1","Oasi WWF Policoro Herakleia","natura","Policoro",45,40.1725457,16.7030893,"ChIJK-xvtD9QRxMRanB0mPpbslI",["bambini","prenota"],"Bosco Pantano e centro recupero tartarughe: visita guidata al mattino, poi mare lì vicino."),
 /* --- cultura --- */
-P("c1","Tavole Palatine","cultura","Metaponto",30,40.416068,16.8167496,"ChIJM67SHWJpRxMRdRjXFfAwVa0",["gratis","parcheggio"],"Tempio di Hera a bordo statale: mezz'ora scarsa, si incastra prima o dopo la spiaggia. Lunedì chiuso."),
-P("c2","Parco Archeologico di Metaponto","cultura","Metaponto",30,40.3835236,16.8248436,"ChIJT7gXxSNqRxMRsQ6bHpcdngQ",[],"La città greca con il teatro. D'estate apre alle 14:30, lunedì chiuso: è la visita del dopo-pranzo."),
+P("c1","Tavole Palatine","cultura","Metaponto",40,40.416068,16.8167496,"ChIJM67SHWJpRxMRdRjXFfAwVa0",["gratis","parcheggio"],"Tempio di Hera a bordo statale: mezz'ora scarsa, si incastra prima o dopo la spiaggia. Lunedì chiuso."),
+P("c2","Parco Archeologico di Metaponto","cultura","Metaponto",35,40.3835236,16.8248436,"ChIJT7gXxSNqRxMRsQ6bHpcdngQ",[],"La città greca con il teatro. D'estate apre alle 14:30, lunedì chiuso: è la visita del dopo-pranzo."),
 P("c3","Craco","cultura","Craco",30,40.3781678,16.4403541,"ChIJFc26mSqiOBMRTjo-f0uJgR4",["prenota"],"Paese fantasma, si entra solo con guida e casco. Prenotare: le visite sono a orari fissi."),
 P("c4","Rione Dirupo, Pisticci","cultura","Pisticci",5,40.389814,16.551917,"ChIJu4EtT-9fRxMRTE6Lb7Oy6oA",["gratis","sera","tramonto"],"Le case bianche in fila sul dirupo. Da vedere illuminate: è la gita del dopocena, a costo zero."),
 P("c5","Museo Essenza Lucano","cultura","Pisticci",10,40.4187393,16.5497322,"ChIJScrItUNhRxMRU1tJ_SD0N4U",["coperto","vento"],"Museo dell'Amaro Lucano con bar e giardino botanico. Aperto tutti i giorni fino alle 19:30."),
@@ -2895,17 +2927,17 @@ P("a3","Grotte di Castellana","gita","Puglia",115,40.8762031,17.1490034,"ChIJN7A
 P("a4","Locorotondo","gita","Puglia",120,40.753193,17.3298191,"ChIJDbNbiINSRhMRJ6BuchweRRw",["sera","tramonto"],"A 15 minuti da Alberobello e molto meno affollato: il posto giusto per la cena prima di rientrare."),
 P("a5","Polignano a Mare","gita","Puglia",140,40.9963887,17.2181307,"ChIJ1ZJno-zLRxMRYinbB5d7PLY",[],"Bellissima ma lontanissima. Ha senso solo come tappa in un giorno di trasferimento."),
 /* --- tavola --- */
-P("r1","Ristorante EmAntò","cibo","Marina di Pisticci",25,40.3036948,16.7722778,"ChIJM1GZASxDRxMRqDceGCLr5iU",["prenota","sera"],"Il pesce meglio giudicato della Marina, terrazza sul borgo San Basilio. Prenotare."),
+P("r1","Ristorante EmAntò","cibo","Marina di Pisticci",30,40.3036948,16.7722778,"ChIJM1GZASxDRxMRqDceGCLr5iU",["prenota","sera"],"Il pesce meglio giudicato della Marina, terrazza sul borgo San Basilio. Prenotare."),
 P("r2","La Mangiatoia","cibo","Bernalda",20,40.4061545,16.6869681,"ChIJDT6loqRnRxMRWtrBZJ4EnfA",["prenota","sera"],"Carne e taglieri lucani, gestione familiare. Molto frequentato: prenotare."),
 P("r3","Antica Pesa","cibo","San Basilio",20,40.3232707,16.7116537,"ChIJW2qInX1dRxMRUQc0eC4HSik",["prenota","sera"],"Dentro il castello di San Basilio, ulivi e location curata: la cena dell'occasione."),
-P("r4","Le Palatine","cibo","Metaponto",30,40.353573,16.8208224,"ChIJVZCcsRVBRxMRSiY1GqKKCD4",["bambini","sera"],"Pesce e pizzeria con giardino e area giochi: la cena facile con i bambini."),
+P("r4","Le Palatine","cibo","Metaponto",35,40.353573,16.8208224,"ChIJVZCcsRVBRxMRSiY1GqKKCD4",["bambini","sera"],"Pesce e pizzeria con giardino e area giochi: la cena facile con i bambini."),
 P("r5","Fifina","cibo","Bernalda",20,40.4074119,16.6868856,"ChIJXfc5w6RnRxMRXSRw5eZ78Os",["sera"],"Cucina di paese senza pretese nel corso di Bernalda. Lunedì chiuso."),
 P("r6","La Perla Crudités","cibo","Policoro",45,40.1831122,16.7122218,"ChIJ_yrkrP9RRxMR7N8bh1c-cKo",["prenota","sera"],"Crudi di pesce a due passi dal mare. Giovedì chiuso."),
-P("r7","Hostaria Due Emme","cibo","Policoro",45,40.1896422,16.7189085,"ChIJ13_oD15RRxMRh--KO0nWD0s",["sera"],"Pesce e gelateria artigianale nello stesso posto: comodo dopo una giornata a Policoro."),
-P("r8","Lady F","cibo","Policoro",45,40.210115,16.6798388,"ChIJ8bCW1VRRRxMRf_URV0x8IUA",["prenota","sera"],"Carne e tartare. Controllare il conto, qualcuno ha segnalato voci di troppo."),
+P("r7","Hostaria Due Emme","cibo","Policoro",40,40.1896422,16.7189085,"ChIJ13_oD15RRxMRh--KO0nWD0s",["sera"],"Pesce e gelateria artigianale nello stesso posto: comodo dopo una giornata a Policoro."),
+P("r8","Lady F","cibo","Policoro",40,40.210115,16.6798388,"ChIJ8bCW1VRRRxMRf_URV0x8IUA",["prenota","sera"],"Carne e tartare. Controllare il conto, qualcuno ha segnalato voci di troppo."),
 P("r9","Il Terrazzino degli Dei","cibo","Metaponto",35,40.3602901,16.8368241,"ChIJHTP4-a9rRxMRqqNPmOriDGE",["sera"],"Sul mare, gestione anziana e alla buona: giudizi altalenanti, ma la posizione è quella."),
 /* --- bar e gelato --- */
-P("b1","MIVA' cremeria artigianale","bar","Marina di Pisticci",25,40.3386149,16.808543,"ChIJteS3xmxDRxMRdYNlEWiWq24",["sera"],"Gelato artigianale sul serio. Apre alle 15:30, chiude alle 23."),
+P("b1","MIVA' cremeria artigianale","bar","Marina di Pisticci",30,40.3386149,16.808543,"ChIJteS3xmxDRxMRdYNlEWiWq24",["sera"],"Gelato artigianale sul serio. Apre alle 15:30, chiude alle 23."),
 P("b2","Bar Pisticci","bar","Pisticci",5,40.3908451,16.5581956,"ChIJo1Qw8edfRxMR5TZJsr5tlpM",["sera"],"Colazione, gelato e aperitivo in piazza a cinque minuti da casa. Lunedì chiuso."),
 P("b3","Pasticceria Cazzati","bar","Pisticci",5,40.3902936,16.5563658,"ChIJgYwNPOZfRxMRZ8ZDApEpcRc",[],"Pasticceria di famiglia, ottimi dolci da portare a casa. Martedì chiuso."),
 P("b4","Bar Malena","bar","Pisticci",5,40.3903808,16.5569893,"ChIJLxfu4OdfRxMRDVd1kHZXA9Y",["sera"],"L'altro bar del centro, comodo la sera. Mercoledì chiuso."),
@@ -2917,30 +2949,46 @@ P("h2","Centro Mongolfiera Matera","shop","Matera",40,40.721853,16.574456,"ChIJA
 P("h3","Panda Italia Matera","shop","Matera",40,40.6704328,16.582776,"ChIJo5YSZ7J_RxMRXZbULMteLf0",["coperto"],"Casalinghi e articoli da spiaggia a poco: utile per quello che si è dimenticato."),
 P("h4","Centro commerciale Il Circo","shop","Matera",40,40.6812111,16.5776297,"ChIJ3zqXg9t_RxMRc9laY4DXBwo",["coperto"],"Piccolo, con supermercato sempre aperto. Domenica chiuso."),
 /* --- costa ionica lucana: Nova Siri, Rotondella, Policoro sud e entroterra vicino --- */
-P("ns1","Paradise Music Beach Bar","mare","Nova Siri",35,40.1196389,16.6468459,"ChIJcXb3bzVTRxMRo9h-v3cXEuc",["cucina","sera"],"Il piu apprezzato della costa lucana: ombrelloni distanziati, pesce del giorno cucinato li, musica misurata."),
-P("n2","Lido Jonio","mare","Nova Siri",35,40.1250084,16.6538073,"ChIJTy0HAfFTRxMRtX6s2oB9pUU",["parcheggio"],"Semplice e all'antica, prezzi onesti (ombrellone e lettini sui 13 euro). Acqua limpidissima, bandiera blu."),
-P("n3","Lido Pagia","mare","Nova Siri",35,40.124298,16.6528413,"ChIJA7CGFgRTRxMRiWKbEKfSiio",["bambini","parcheggio"],"Area bambini, passerella accessibile, campo in spiaggia. Molto spazio fra le file."),
-P("n4","Lido Playa Caribe","mare","Nova Siri",35,40.1262702,16.6555805,"ChIJd92Rd79TRxMRQy0zw8gt5LU",["cucina","parcheggio","prenota"],"Parcheggio anche gratuito vicino. Per pranzare va prenotato entro la mattina."),
-P("n5","Lido Maraja 2.0","mare","Nova Siri",35,40.1278984,16.655594,"ChIJpfX6n8BTRxMRI_1a2Sm_acw",["cucina","parcheggio"],"Sabbia e ghiaia, poco affollato. Sul pesce i giudizi sono altalenanti: meglio chiedere cosa e fresco."),
-P("t1","Roto Beach","mare","Rotondella",35,40.1338517,16.6660574,"ChIJ968r2dFTRxMRi1yEMjvTopU",["cucina","parcheggio"],"Tranquillo, niente musica alta, qualche albero per l'ombra. Attenzione: ci sono sassi. Si guada un piccolo canale per la parte libera."),
-P("t2","Lido Splash","mare","Rotondella",35,40.1348038,16.6673942,"ChIJ_z-rm89TRxMR-C2mcax3m3k",["cucina","bambini"],"Docce ampie, prezzi ragionevoli, buon panino al polpo. Musica di sottofondo discreta."),
-P("p3","Kora Beach Club","mare","Policoro",30,40.1851923,16.7145293,"ChIJHzbYo8BRRxMRH8ZVY71U-Y8",["bambini","parcheggio"],"Gestione familiare, sedia da mare per disabili e bagno accessibile. Ombrelloni molto distanziati."),
-P("p4","Lido La Duna","mare","Policoro",30,40.1805673,16.7113212,"ChIJb5p9zehRRxMRJ6nAgFWCyQw",["cucina","parcheggio"],"Il piu tranquillo di Policoro, ombrellone e due lettini sui 10 euro. Si noleggiano canoe."),
-P("p5","Lido La Capannina","mare","Policoro",30,40.1832771,16.7129135,"ChIJmUpOSiVQRxMRoFO78q_7Q00",["cucina","sera"],"Cucina di pesce molto buona e vista sul mare. Mette musica tutto il giorno: se cercate silenzio, non e questo."),
-P("p6","Swami Beach","mare","Policoro",30,40.1839055,16.7132828,"ChIJi02YES5QRxMRsSM-bV1lwZ4",["sera"],"Fra i migliori di Policoro, ma attaccato alla Capannina e ne prende la musica."),
-P("p7","Lido La Stiva","mare","Policoro",30,40.1890478,16.7185037,"ChIJK8-nbiZQRxMR0B6IG9ooinM",["cucina","sera"],"Apre alle 7 del mattino, pizzeria e ristorante sul posto."),
-P("m10","Spiaggia libera di Metaponto","mare","Metaponto",25,40.3700215,16.8458072,"ChIJ2TYYfOtrRxMRIUvKhp80AZk",["gratis","bambini","parcheggio"],"Sabbia dorata finissima e acqua bassa per decine di metri: si cammina 30-40 metri e si tocca ancora. Niente servizi, parcheggio libero vicino."),
-P("c10","Museo Archeologico della Siritide","cultura","Policoro",20,40.217083,16.669861,"ChIJc4Gp7odQRxMR1Rjpdxi2Nak",["coperto","vento","bambini"],"Il museo migliore della zona, con area archeologica esterna e un'esperienza in realta virtuale che piace ai ragazzi. Martedi apre solo il pomeriggio."),
+P("ns1","Paradise Music Beach Bar","mare","Nova Siri",55,40.1196389,16.6468459,"ChIJcXb3bzVTRxMRo9h-v3cXEuc",["cucina","sera"],"Il piu apprezzato della costa lucana: ombrelloni distanziati, pesce del giorno cucinato li, musica misurata."),
+P("n2","Lido Jonio","mare","Nova Siri",50,40.1250084,16.6538073,"ChIJTy0HAfFTRxMRtX6s2oB9pUU",["parcheggio"],"Semplice e all'antica, prezzi onesti (ombrellone e lettini sui 13 euro). Acqua limpidissima, bandiera blu."),
+P("n3","Lido Pagia","mare","Nova Siri",50,40.124298,16.6528413,"ChIJA7CGFgRTRxMRiWKbEKfSiio",["bambini","parcheggio"],"Area bambini, passerella accessibile, campo in spiaggia. Molto spazio fra le file."),
+P("n4","Lido Playa Caribe","mare","Nova Siri",50,40.1262702,16.6555805,"ChIJd92Rd79TRxMRQy0zw8gt5LU",["cucina","parcheggio","prenota"],"Parcheggio anche gratuito vicino. Per pranzare va prenotato entro la mattina."),
+P("n5","Lido Maraja 2.0","mare","Nova Siri",50,40.1278984,16.655594,"ChIJpfX6n8BTRxMRI_1a2Sm_acw",["cucina","parcheggio"],"Sabbia e ghiaia, poco affollato. Sul pesce i giudizi sono altalenanti: meglio chiedere cosa e fresco."),
+P("t1","Roto Beach","mare","Rotondella",50,40.1338517,16.6660574,"ChIJ968r2dFTRxMRi1yEMjvTopU",["cucina","parcheggio"],"Tranquillo, niente musica alta, qualche albero per l'ombra. Attenzione: ci sono sassi. Si guada un piccolo canale per la parte libera."),
+P("t2","Lido Splash","mare","Rotondella",50,40.1348038,16.6673942,"ChIJ_z-rm89TRxMR-C2mcax3m3k",["cucina","bambini"],"Docce ampie, prezzi ragionevoli, buon panino al polpo. Musica di sottofondo discreta."),
+P("p3","Kora Beach Club","mare","Policoro",45,40.1851923,16.7145293,"ChIJHzbYo8BRRxMRH8ZVY71U-Y8",["bambini","parcheggio"],"Gestione familiare, sedia da mare per disabili e bagno accessibile. Ombrelloni molto distanziati."),
+P("p4","Lido La Duna","mare","Policoro",45,40.1805673,16.7113212,"ChIJb5p9zehRRxMRJ6nAgFWCyQw",["cucina","parcheggio"],"Il piu tranquillo di Policoro, ombrellone e due lettini sui 10 euro. Si noleggiano canoe."),
+P("p5","Lido La Capannina","mare","Policoro",45,40.1832771,16.7129135,"ChIJmUpOSiVQRxMRoFO78q_7Q00",["cucina","sera"],"Cucina di pesce molto buona e vista sul mare. Mette musica tutto il giorno: se cercate silenzio, non e questo."),
+P("p6","Swami Beach","mare","Policoro",45,40.1839055,16.7132828,"ChIJi02YES5QRxMRsSM-bV1lwZ4",["sera"],"Fra i migliori di Policoro, ma attaccato alla Capannina e ne prende la musica."),
+P("p7","Lido La Stiva","mare","Policoro",40,40.1890478,16.7185037,"ChIJK8-nbiZQRxMR0B6IG9ooinM",["cucina","sera"],"Apre alle 7 del mattino, pizzeria e ristorante sul posto."),
+P("m10","Spiaggia libera di Metaponto","mare","Metaponto",35,40.3700215,16.8458072,"ChIJ2TYYfOtrRxMRIUvKhp80AZk",["gratis","bambini","parcheggio"],"Sabbia dorata finissima e acqua bassa per decine di metri: si cammina 30-40 metri e si tocca ancora. Niente servizi, parcheggio libero vicino."),
+P("c10","Museo Archeologico della Siritide","cultura","Policoro",40,40.217083,16.669861,"ChIJc4Gp7odQRxMR1Rjpdxi2Nak",["coperto","vento","bambini"],"Il museo migliore della zona, con area archeologica esterna e un'esperienza in realta virtuale che piace ai ragazzi. Martedi apre solo il pomeriggio."),
 P("c11","Castello di Valsinni","cultura","Valsinni",30,40.1680934,16.4422338,"ChIJw52TiverOBMRe2nUU4BzZac",["prenota"],"Il castello di Isabella Morra, poetessa uccisa dai fratelli nel Cinquecento. Salita ripida a piedi, ingresso 3 euro, poche stanze ma vista notevole."),
 P("c12","Rabatana di Tursi","cultura","Tursi",20,40.2519817,16.469976,"ChIJZb1Aj6epOBMR1nB4Mx9MdAc",["gratis","tramonto"],"Antico quartiere arabo scavato nella roccia, oggi quasi disabitato: si gira liberamente, ingresso libero. Scarpe comode."),
 P("c13","Calanchi di Aliano","natura","Aliano",35,40.297237,16.270388,"ChIJcVVZbAC7OBMRHhmTVWq-yrw",["gratis","tramonto"],"Paesaggio lunare di argilla erosa, silenzio assoluto. D'estate e molto caldo: meglio la sera. Ingresso libero."),
 P("c14","Casa di Carlo Levi ad Aliano","cultura","Aliano",40,40.310136,16.2318953,"ChIJr52N-5S5OBMRMUXrUKrjnHY",["coperto"],"La casa del confino di «Cristo si e fermato a Eboli», con terrazza sui calanchi. Lunedi chiuso, apre 10:30-12:30 e 16-18."),
-P("r10","Imperiale","cibo","Nova Siri",35,40.1300213,16.6394736,"ChIJPQUFWC9TRxMRaPQGtG504kc",["bambini","sera"],"Pesce, pizza e sushi nello stesso posto: la soluzione quando i gusti non coincidono."),
-P("r11","Ristorante Al Viale","cibo","Nova Siri",35,40.1327503,16.6404166,"ChIJici0oehTRxMR9uQWIhZO2G0",["prenota","sera"],"Pesce fresco e servizio attento, gestione nuova molto apprezzata."),
-P("r12","La Trappola","cibo","Nova Siri",35,40.123995,16.6498133,"ChIJB02tvhFTRxMRmsbAUgs1_70",["sera"],"Spaghetti con vongole e lupini, zuppa di cozze, polpo. Lunedi chiuso."),
+P("r10","Imperiale","cibo","Nova Siri",50,40.1300213,16.6394736,"ChIJPQUFWC9TRxMRaPQGtG504kc",["bambini","sera"],"Pesce, pizza e sushi nello stesso posto: la soluzione quando i gusti non coincidono."),
+P("r11","Ristorante Al Viale","cibo","Nova Siri",50,40.1327503,16.6404166,"ChIJici0oehTRxMR9uQWIhZO2G0",["prenota","sera"],"Pesce fresco e servizio attento, gestione nuova molto apprezzata."),
+P("r12","La Trappola","cibo","Nova Siri",50,40.123995,16.6498133,"ChIJB02tvhFTRxMRmsbAUgs1_70",["sera"],"Spaghetti con vongole e lupini, zuppa di cozze, polpo. Lunedi chiuso."),
 P("r13","Osteria degli Ulivi","cibo","Nova Siri paese",30,40.146971,16.5398694,"ChIJC8ZBZPRVRxMRzL5_RptQfw8",["prenota","sera","tramonto"],"Menu fisso di cucina lucana raccontato dal proprietario, vista sulla campagna e sullo Ionio. Solo la sera."),
-P("b10","Pasticceria Del Nonno","bar","Policoro",25,40.2059799,16.669978,"ChIJL8Tim4xQRxMRt9j71xSyFlI",[],"Pasticceria e gelato, aperta dalle 6 alle 20 tutti i giorni."),
-P("b11","Gelateria Sottozero","bar","Policoro",25,40.2132348,16.6805336,"ChIJ46xbM2NQRxMR5EqM95SS04I",["sera"],"Gelato e caffetteria fino a mezzanotte. Martedi chiuso.")
+P("b10","Pasticceria Del Nonno","bar","Policoro",45,40.2059799,16.669978,"ChIJL8Tim4xQRxMRt9j71xSyFlI",[],"Pasticceria e gelato, aperta dalle 6 alle 20 tutti i giorni."),
+P("b11","Gelateria Sottozero","bar","Policoro",40,40.2132348,16.6805336,"ChIJ46xbM2NQRxMR5EqM95SS04I",["sera"],"Gelato e caffetteria fino a mezzanotte. Martedi chiuso."),
+/* --- servizi, agriturismi, cantine e altro --- */
+P("sv1","Sda Supermercati (Carrefour)","servizi","Pisticci",5,40.3919982,16.554573,"ChIJB9AqSeZfRxMRZigZGYTr6PU",["parcheggio"],"Il piu comodo da casa, banco carne buono. Chiude 13-17, domenica solo mattina."),
+P("sv2","Spesa Mia Marconia","servizi","Marconia",10,40.3592363,16.6829699,"ChIJo1CkYgxdRxMRjeuUJklIK24",["parcheggio"],"Ben fornito, macelleria e gastronomia. Aperto anche domenica mattina."),
+P("sv3","Supermercato Da Michele","servizi","Marconia",10,40.3604848,16.6905767,"ChIJNRfCLG1dRxMRn_OVpGwgR0Y",[],"Prodotti locali e banco pizza. Domenica chiuso."),
+P("sv4","Qui Discount","servizi","Marconia",10,40.3603685,16.684045,"ChIJtcXKKHNdRxMRp8T0RABrqi8",[],"Prezzi bassi per acqua e cose pesanti. Niente macelleria."),
+P("sv5","Nicodemo - Tutto Buono","servizi","Pisticci",5,40.3907948,16.560744,"ChIJIabbF91fRxMRIRxEEXCXnLI",[],"Piccolo ma con salumi, formaggi e vini del posto. Domenica chiuso."),
+P("sv6","Farmacia Marina di Pisticci","servizi","Marina di Pisticci",30,40.3185467,16.788246,"ChIJU-v30bZDRxMRgXpTY2qSPUI",[],"Farmacia stagionale vicino ai lidi. Orari spezzati 9-11 e 17:30-20, domenica chiusa."),
+P("g2","JoyPark","giochi","Policoro",40,40.1954347,16.7036412,"ChIJLedcwz5QRxMRVHjSzn4xOv0",["bambini","sera","parcheggio"],"Giostre a gettone, solo di sera dalle 18:30 a mezzanotte. Bar e tavoli per i genitori, parcheggio libero."),
+P("nt3","Heraclea Sailing Club","natura","Policoro",40,40.2020396,16.7294478,"ChIJy2rXwKxPRxMR1pOrIGVG9Ck",["prenota","tramonto"],"Uscite in barca con skipper, anche al tramonto con aperitivo a bordo. Da prenotare."),
+P("r20","Antica Masseria Rullo","cibo","Tinchi",5,40.3393783,16.631443,"ChIJdVqq08VdRxMROdJ5oMAngbY",["prenota","sera"],"La cucina piu interessante della zona, menu a degustazione. Solo la sera, mercoledi chiuso."),
+P("r21","Tenuta San Tommaso","cibo","Pisticci",5,40.3679657,16.6029715,"ChIJNeQ20HlfRxMRw9VnntOL3Hc",["bambini","sera","parcheggio"],"A due passi da casa: griglia e pizza con parco giochi attrezzato. La cena facile con i bambini."),
+P("r22","Agriturismo Casa Ricotta","cibo","Bernalda",25,40.3854198,16.7992377,"ChIJczx77GBpRxMRBxe6TS76DiQ",["bambini","prenota","sera"],"Cucina tradizionale e piscina, spazi per i bambini. Prenotare."),
+P("r23","Azienda Il Calanco","cibo","Pisticci",10,40.3923711,16.5257774,"ChIJVcW8EHNdRxMRMYfS59YwrEM",["bambini","prenota"],"Antipasti a non finire e animali nel cortile: piace molto ai bambini."),
+P("c20","Cantine Balice","cultura","Scanzano Jonico",40,40.2514992,16.6587583,"ChIJwYrEkN5bRxMRo4HoRQnwbf0",["prenota","tramonto"],"Degustazione al tramonto con vista fino al mare, formaggi e prodotti locali. Prezzo onesto."),
+P("c21","Azienda F.lli Dragone","cultura","Matera",40,40.6186109,16.557008,"ChIJY-yNuOp9RxMRZV56Fe21nJc",["prenota"],"Cantina in grotta vicino a Matera, con vendita di prodotti locali."),
+P("r24","Retrobottega Matera","cibo","Matera",45,40.6622029,16.610801,"ChIJG0o8pAZ_RxMR-1TH7hbu1qQ",["prenota","sera"],"Nei Sassi: piccoli piatti, degustazione di vini e oli. Martedi chiuso, prenotare.")
 ];
 
 /* ============================================================
@@ -2965,7 +3013,7 @@ function scriviCondivisa(nome,fid){
 function seed(){
   return { v:1, trip:{name:"Vacanza in Basilicata", start:"2026-08-09", end:"2026-08-22", kids:true},
            user:{}, plan:{}, custom:[], notes:{}, states:{}, votes:{}, props:[],
-           pvotes:{}, pcmts:[], tomb:[], ts:{}, stars:{} };
+           pvotes:{}, pcmts:[], tomb:[], ts:{}, stars:{}, strada:{} };
 }
 function load(){
   try{ var r=localStorage.getItem(KEY); S = r? Object.assign(seed(), JSON.parse(r)) : seed(); }
@@ -2998,7 +3046,26 @@ function tsOf(id){ return (S.ts&&S.ts[id])||""; }
 function colFam(id){ return {f1:"#E08A16", f2:"#0E8F91", f3:"#D6336C"}[id] || "#7D91A8"; }
 function $(s){ return document.querySelector(s); }
 function el(t,c,x){ var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; }
-function toast(m){ var t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove("on");},1900); }
+/* Notifiche in fila, una per volta: prima un messaggio nuovo cancellava il
+   precedente a meta lettura. Quelle importanti restano piu a lungo. */
+var codaToast=[], toastVivo=false;
+function toast(m, importante){
+  if(!m) return;
+  if(codaToast.length && codaToast[codaToast.length-1].m===m) return;
+  codaToast.push({m:m, i:!!importante});
+  if(codaToast.length>4) codaToast=codaToast.slice(-4);
+  if(!toastVivo) prossimoToast();
+}
+function prossimoToast(){
+  var t=$("#toast");
+  if(!codaToast.length){ toastVivo=false; t.classList.remove("on"); return; }
+  toastVivo=true;
+  var v=codaToast.shift();
+  t.textContent=v.m;
+  t.className = v.i? "on forte" : "on";
+  clearTimeout(t._h);
+  t._h=setTimeout(function(){ t.classList.remove("on"); setTimeout(prossimoToast,260); }, v.i? 4200 : 2000);
+}
 function todayISO(){ var d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
 function dIT(iso){ if(!iso) return ""; var p=iso.split("-"); return p[2]+"/"+p[1]; }
 var GG=["dom","lun","mar","mer","gio","ven","sab"];
@@ -3083,7 +3150,7 @@ function saveProp(){
           by:ME.name, byFid:ME.fid, ts:new Date().toISOString(), status:"aperta" };
   S.props=S.props||[]; S.props.push(o); touch(o.id);
   setVote(o.id, 1);                                  /* chi propone ci sta per definizione */
-  save(); closeSheets(); renderAll(); toast("Proposta pubblicata");
+  save(); closeSheets(); renderAll(); toast("Proposta pubblicata: gli altri la vedono entro un minuto", true);
 }
 function voteId(propId){ return "vote:"+propId+":"+uKey(); }
 function setVote(propId, v){
@@ -3114,7 +3181,7 @@ function accettaProp(id){
       x.status="scartata"; x.ts=new Date().toISOString(); touch(x.id);
     }
   });
-  save(); renderAll(); toast("Messa nel piano");
+  save(); renderAll(); toast("Messa nel piano", true);
 }
 function riapriProp(id){ var p=prop(id); if(p){ p.status="aperta"; p.ts=new Date().toISOString(); touch(p.id); save(); renderProps(); } }
 function eliminaProp(id){
@@ -3460,6 +3527,7 @@ function propCard(p){
    record a se: due persone che votano insieme non si sovrascrivono.
    ============================================================ */
 var syncBusy=false, syncPend=false, syncTimer=null, QUIET=false;
+var primaDaVotare=null;
 
 function syncOn(){ return !!SYNC_URL; }
 function isTyping(){ var a=document.activeElement; return !!(a && (a.tagName==="INPUT"||a.tagName==="TEXTAREA"||a.tagName==="SELECT")); }
@@ -3502,6 +3570,8 @@ function toRecords(){
   (S.custom||[]).forEach(function(c){ out.push({id:c.id, kind:"custom", ts:tsOf(c.id), data:c}); });
   (S.tomb||[]).forEach(function(t){ out.push({id:t.id, kind:"del", ts:t.ts, data:null}); });
   out.push({id:"cfg", kind:"cfg", ts:tsOf("cfg"), data:{trip:S.trip}});
+  var rp=recordPosizione(); if(rp) out.push(rp);
+  (V().pin||[]).forEach(function(p){ out.push({id:p.id, kind:"pin", ts:tsOf(p.id)||p.ts, data:p}); });
   if(ME) out.push(recordVersione(uKey()));
   return out.filter(function(r){ return r.ts; });   /* senza data non si puo arbitrare: resta locale */
 }
@@ -3532,6 +3602,13 @@ function applyRecords(recs){
     }else if(r.kind==="cmt"){
       S.pcmts=(S.pcmts||[]).filter(function(c){ return c.id!==r.id; });
       S.pcmts.push(d);
+    }else if(r.kind==="pos"){
+      if(d.fid && !(ME && d.fid===ME.fid && d.nome===ME.name)) ALTRE[d.fid+"|"+d.nome]=d;
+      continue;                                  /* le posizioni non entrano nello stato salvato */
+    }else if(r.kind==="pin"){
+      var pin=V().pin||[], trovato=false;
+      V().pin=pin.map(function(x){ if(x.id===r.id){ trovato=true; return d; } return x; });
+      if(!trovato) V().pin.push(d);
     }else if(r.kind==="star"){
       S.stars=S.stars||{}; S.stars[d.propId]=S.stars[d.propId]||{};
       S.stars[d.propId][d.user||d.fid]={by:d.by, fid:d.fid};
@@ -3548,6 +3625,7 @@ function applyRecords(recs){
   }
   /* le proposte cancellate altrove spariscono anche qui, con voti e commenti */
   S.props=(S.props||[]).filter(function(x){ return !tomb[x.id]; });
+  V().pin=(V().pin||[]).filter(function(x){ return !tomb[x.id]; });
   S.pcmts=(S.pcmts||[]).filter(function(c){ return !tomb[c.propId]; });
 }
 
@@ -3584,6 +3662,13 @@ async function syncNow(silent){
     applyRecords(data.records||[]);
     var changed = fingerprint()!==before;
     if(changed) save();
+    /* se dagli altri sono arrivate proposte che aspettano il mio voto lo dico
+       una volta sola: e l'unica notifica che vale la pena far comparire */
+    var adesso=daVotare().length;
+    if(primaDaVotare!==null && adesso>primaDaVotare){
+      toast(adesso===1? "C'è una proposta da votare" : ("Ci sono "+adesso+" proposte da votare"), true);
+    }
+    primaDaVotare=adesso;
     var now=new Date(), hh=("0"+now.getHours()).slice(-2)+":"+("0"+now.getMinutes()).slice(-2);
     if(changed && !document.querySelector(".sheet.on") && !isTyping()) quietRender();
     syncState("allineato "+hh);
@@ -3840,6 +3925,380 @@ function renderMeteo(){
   host.appendChild(f);
 }
 
+
+/* ============================================================
+   STRADA — un solo motore per due usi
+   Il viaggio lungo Bellusco-Pisticci e lo spostamento verso un lido sono
+   la stessa cosa: sapere quanto manca, a che ora si arriva, dove sono gli
+   altri e dove si e parcheggiato. Cambia solo la scala.
+   ============================================================ */
+var ROUTE={ tronco:[{"n": "Bellusco", "lat": 45.62, "lng": 9.42, "km": 0.0, "d": "partenza"}, {"n": "A4 Cavenago", "lat": 45.575, "lng": 9.38, "km": 6.3, "d": "ingresso in autostrada"}, {"n": "Tangenziale Est", "lat": 45.49, "lng": 9.33, "km": 17.2, "d": "il primo punto dove si rallenta"}, {"n": "Melegnano", "lat": 45.355, "lng": 9.32, "km": 33.3, "d": "si prende la A1"}, {"n": "Piacenza", "lat": 45.05, "lng": 9.7, "km": 81.6, "d": ""}, {"n": "Fidenza", "lat": 44.87, "lng": 10.06, "km": 118.7, "d": ""}, {"n": "Parma", "lat": 44.8, "lng": 10.33, "km": 143.0, "d": ""}, {"n": "Reggio Emilia", "lat": 44.7, "lng": 10.63, "km": 171.0, "d": ""}, {"n": "Modena", "lat": 44.65, "lng": 10.93, "km": 197.1, "d": ""}, {"n": "Bologna", "lat": 44.51, "lng": 11.34, "km": 235.6, "d": "il bivio: di qui in poi A14 verso l'Adriatico"}], a14:[{"n": "Imola", "lat": 44.35, "lng": 11.71, "km": 272.4, "d": ""}, {"n": "Faenza", "lat": 44.29, "lng": 11.88, "km": 288.5, "d": ""}, {"n": "Forlì", "lat": 44.22, "lng": 12.04, "km": 304.5, "d": ""}, {"n": "Cesena", "lat": 44.14, "lng": 12.24, "km": 324.0, "d": "ultimo tratto di pianura"}, {"n": "Rimini", "lat": 44.06, "lng": 12.57, "km": 353.8, "d": "in estate esce e entra parecchia gente"}, {"n": "Pesaro", "lat": 43.91, "lng": 12.9, "km": 387.2, "d": ""}, {"n": "Fano", "lat": 43.84, "lng": 13.02, "km": 400.4, "d": ""}, {"n": "Senigallia", "lat": 43.71, "lng": 13.22, "km": 423.5, "d": ""}, {"n": "Ancona", "lat": 43.62, "lng": 13.51, "km": 450.7, "d": "gallerie, si viaggia più lenti"}, {"n": "Civitanova Marche", "lat": 43.31, "lng": 13.73, "km": 492.2, "d": ""}, {"n": "San Benedetto del Tronto", "lat": 42.95, "lng": 13.88, "km": 537.0, "d": ""}, {"n": "Pescara", "lat": 42.46, "lng": 14.21, "km": 602.0, "d": "metà strada abbondante"}, {"n": "Val di Sangro", "lat": 42.22, "lng": 14.53, "km": 642.1, "d": ""}, {"n": "Vasto", "lat": 42.11, "lng": 14.71, "km": 662.7, "d": ""}, {"n": "Termoli", "lat": 41.99, "lng": 14.99, "km": 691.2, "d": "da qui le aree di servizio si diradano"}, {"n": "Poggio Imperiale", "lat": 41.83, "lng": 15.36, "km": 729.1, "d": ""}, {"n": "Foggia", "lat": 41.46, "lng": 15.55, "km": 776.3, "d": ""}, {"n": "Cerignola", "lat": 41.27, "lng": 15.9, "km": 814.8, "d": ""}, {"n": "Trani", "lat": 41.27, "lng": 16.38, "km": 857.8, "d": ""}, {"n": "Bari nord", "lat": 41.13, "lng": 16.78, "km": 897.3, "d": "si continua sulla A14 verso Taranto"}, {"n": "Gioia del Colle", "lat": 40.8, "lng": 16.92, "km": 938.5, "d": ""}, {"n": "Massafra", "lat": 40.59, "lng": 17.11, "km": 968.8, "d": ""}, {"n": "Taranto", "lat": 40.47, "lng": 17.24, "km": 987.3, "d": "si esce: da qui SS106 ionica, strada normale"}, {"n": "Metaponto", "lat": 40.38, "lng": 16.82, "km": 1026.8, "d": "ci siamo quasi"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1051.3, "d": "arrivo"}], a1:[{"n": "Firenze", "lat": 43.8, "lng": 11.2, "km": 320.9, "d": "appennino, curve e gallerie"}, {"n": "Arezzo", "lat": 43.46, "lng": 11.88, "km": 392.1, "d": ""}, {"n": "Orte", "lat": 42.46, "lng": 12.38, "km": 518.8, "d": ""}, {"n": "Roma est", "lat": 41.9, "lng": 12.5, "km": 586.2, "d": "il raccordo, punto critico di giorno"}, {"n": "Frosinone", "lat": 41.63, "lng": 13.34, "km": 667.4, "d": ""}, {"n": "Caserta", "lat": 41.07, "lng": 14.33, "km": 778.1, "d": ""}, {"n": "Napoli nord", "lat": 40.93, "lng": 14.42, "km": 796.6, "d": "si prende la A16 verso Avellino"}, {"n": "Avellino", "lat": 40.92, "lng": 14.79, "km": 829.9, "d": ""}, {"n": "Candela", "lat": 41.14, "lng": 15.51, "km": 899.6, "d": "si esce dall'autostrada, poi statale"}, {"n": "Gravina in Puglia", "lat": 40.82, "lng": 16.42, "km": 989.8, "d": "SS655, strada normale"}, {"n": "Matera", "lat": 40.66, "lng": 16.6, "km": 1014.8, "d": ""}, {"n": "Ferrandina", "lat": 40.5, "lng": 16.45, "km": 1038.2, "d": "si prende la Basentana"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1054.1, "d": "arrivo"}] };
+
+var CASA={lat:40.3663, lng:16.6013, n:"Villa Irene"};
+var POS=null, WATCH=null, ALTRE={}, wake=null, ultimoInvio=0;
+
+function V(){ S.strada=S.strada||{}; return S.strada; }
+function vInit(){
+  var v=V();
+  if(v.km==null) v.km=0;
+  if(!v.storia) v.storia=[];
+  if(v.vRif==null) v.vRif=90;
+  if(!v.meta) v.meta="";            /* "" = nessuna destinazione scelta */
+  if(!v.pin) v.pin=[];
+  if(v.share==null) v.share=true;
+  return v;
+}
+
+/* ---------- geometria ---------- */
+function xy(p){ return {x:p.lng*Math.cos(42*Math.PI/180)*111.32, y:p.lat*110.57}; }
+function distKm(a,b){
+  var R=6371, p1=a.lat*Math.PI/180, p2=b.lat*Math.PI/180;
+  var dp=(b.lat-a.lat)*Math.PI/180, dl=(b.lng-a.lng)*Math.PI/180;
+  var x=Math.sin(dp/2)*Math.sin(dp/2)+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)*Math.sin(dl/2);
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+var ROSA=["N","NE","E","SE","S","SO","O","NO"];
+function bussola(a,b){
+  var y=Math.sin((b.lng-a.lng)*Math.PI/180)*Math.cos(b.lat*Math.PI/180);
+  var x=Math.cos(a.lat*Math.PI/180)*Math.sin(b.lat*Math.PI/180)-
+        Math.sin(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.cos((b.lng-a.lng)*Math.PI/180);
+  return ROSA[Math.round(((Math.atan2(y,x)*180/Math.PI+360)%360)/45)%8];
+}
+function distUmana(km){ return km<1 ? Math.round(km*1000)+" m" : (km<10? km.toFixed(1) : Math.round(km))+" km"; }
+function distSeg(p,a,b){
+  var P=xy(p), A=xy(a), B=xy(b);
+  var vx=B.x-A.x, vy=B.y-A.y, wx=P.x-A.x, wy=P.y-A.y, L=vx*vx+vy*vy;
+  var t=L? Math.max(0,Math.min(1,(wx*vx+wy*vy)/L)) : 0;
+  var dx=P.x-(A.x+t*vx), dy=P.y-(A.y+t*vy);
+  return {d:Math.sqrt(dx*dx+dy*dy), t:t};
+}
+
+/* ---------- destinazione ---------- */
+function metaCorrente(){
+  var v=vInit();
+  if(v.meta==="lungo") return {tipo:"lungo", n:(v.senso==="ritorno"? "Bellusco":"Villa Irene, Pisticci")};
+  if(v.meta && v.meta.indexOf("p:")===0){
+    var p=place(v.meta.slice(2));
+    if(p) return {tipo:"posto", p:p, n:p.n, lat:p.lat, lng:p.lng};
+  }
+  if(v.meta==="casa") return {tipo:"casa", n:"Villa Irene", lat:CASA.lat, lng:CASA.lng};
+  return null;
+}
+function percorso(ramo){
+  var v=vInit();
+  var base=ROUTE.tronco.concat(ramo==="a1"? ROUTE.a1 : ROUTE.a14);
+  if(v.senso!=="ritorno") return base;
+  var tot=base[base.length-1].km;
+  return base.slice().reverse().map(function(x){
+    return {n:x.n, lat:x.lat, lng:x.lng, km:Math.round((tot-x.km)*10)/10, d:x.d};
+  });
+}
+function progresso(lista,p){
+  var best={d:1e9,km:0};
+  for(var i=0;i<lista.length-1;i++){
+    var r=distSeg(p,lista[i],lista[i+1]);
+    if(r.d<best.d) best={d:r.d, km:lista[i].km+(lista[i+1].km-lista[i].km)*r.t};
+  }
+  return best;
+}
+function totaleLungo(){ var l=percorso(V().ramo||"a14"); return l[l.length-1].km; }
+
+/* ---------- andatura ----------
+   Vale sia per l'autostrada che per i venti minuti fino al lido: conta solo
+   il tempo in cui ci si muove davvero, le soste sono ritardo puro. */
+function velMarcia(){
+  var v=vInit(), t0=Date.now()-60*60000, a=v.storia.filter(function(x){ return x.t>=t0; });
+  var km=0, ore=0;
+  for(var i=1;i<a.length;i++){
+    var dk=a[i].km-a[i-1].km, dh=(a[i].t-a[i-1].t)/3600000;
+    if(dh<=0 || dk/dh<8) continue;
+    km+=dk; ore+=dh;
+  }
+  if(!v.vForza && ore>0.02){ v.vMisurata=true; return Math.max(25, Math.min(125, km/ore)); }
+  v.vMisurata=false;
+  return Math.max(25, Math.min(140, Number(v.vRif)||90));
+}
+function inSosta(){
+  var v=vInit(), t0=Date.now()-12*60000, a=v.storia.filter(function(x){ return x.t>=t0; });
+  if(a.length<2 || !v.partito) return false;
+  var dh=(a[a.length-1].t-a[0].t)/3600000;
+  return dh>0 && (a[a.length-1].km-a[0].km)/dh < 8;
+}
+function kmMancanti(){
+  var m=metaCorrente(); if(!m) return null;
+  var v=vInit();
+  if(m.tipo==="lungo") return Math.max(0, totaleLungo()-v.km);
+  if(!POS) return null;
+  /* spostamento breve: linea d'aria con il fattore delle strade locali */
+  return distKm(POS,{lat:m.lat,lng:m.lng})*1.35;
+}
+function eta(){
+  var resta=kmMancanti(); if(resta==null) return null;
+  var vel=velMarcia(), ore=resta/vel;
+  var m=metaCorrente();
+  /* sui viaggi lunghi le soste sono certe, su venti minuti no */
+  var soste = (m && m.tipo==="lungo") ? Math.floor(ore/2)*0.25 : 0;
+  return { quando:new Date(Date.now()+(ore+soste)*3600000), resta:resta, vel:vel, ore:ore+soste, soste:soste };
+}
+
+/* ---------- posizione ---------- */
+function onPos(pos){
+  var v=vInit();
+  POS={lat:pos.coords.latitude, lng:pos.coords.longitude};
+  if(v.meta==="lungo"){
+    var d1=progresso(percorso("a1"),POS), d14=progresso(percorso("a14"),POS);
+    if(Math.abs(d1.d-d14.d)>=3) v.ramo = d14.d<d1.d? "a14":"a1";
+    var pr=progresso(percorso(v.ramo||"a14"),POS);
+    v.km=Math.round(pr.km*10)/10;
+    v.fuoriRotta = pr.d>15;
+  }else{
+    var m=metaCorrente();
+    if(m && m.lat){
+      var d=distKm(POS,{lat:m.lat,lng:m.lng})*1.35;
+      v.km=Math.round((v.kmTot||d)-d>0? (v.kmTot||d)-d : 0);
+      if(!v.kmTot) v.kmTot=d;
+    }
+  }
+  v.storia.push({t:Date.now(), km:(v.meta==="lungo"? v.km : (v.kmTot? v.kmTot-distKm(POS,{lat:metaCorrente().lat,lng:metaCorrente().lng})*1.35 : 0))});
+  if(v.storia.length>400) v.storia=v.storia.slice(-400);
+  if(!v.partito && velMarcia()>25 && v.storia.length>3) v.partito=new Date().toISOString();
+  var resta=kmMancanti();
+  if(resta!=null && resta<0.4 && !v.arrivato){
+    v.arrivato=true; lasciaSpegnere();
+    toast("Arrivati a "+metaCorrente().n, true);
+  }
+  save(); renderStrada(); inviaPosizione();
+}
+function onErr(e){ $("#gpsStato").textContent = e.code===1? "GPS negato dal telefono" : "GPS non disponibile"; }
+function gpsOn(){
+  if(!navigator.geolocation){ toast("Questo telefono non espone il GPS"); return; }
+  if(WATCH!=null) return;
+  WATCH=navigator.geolocation.watchPosition(onPos,onErr,{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+  tieniAcceso(); renderStrada();
+  toast("GPS acceso: attacca il cavo se il viaggio e lungo", true);
+}
+function gpsOff(){
+  if(WATCH!=null){ navigator.geolocation.clearWatch(WATCH); WATCH=null; }
+  lasciaSpegnere(); renderStrada();
+}
+async function tieniAcceso(){
+  try{ if("wakeLock" in navigator && !wake){ wake=await navigator.wakeLock.request("screen");
+    wake.addEventListener("release", function(){ wake=null; }); } }catch(e){}
+}
+function lasciaSpegnere(){ try{ if(wake){ wake.release(); wake=null; } }catch(e){} }
+
+/* ---------- le altre auto ---------- */
+function inviaPosizione(){
+  var v=vInit();
+  if(!v.share || !ME || !POS) return;
+  if(Date.now()-ultimoInvio < 120000) return;
+  ultimoInvio=Date.now();
+  syncNow(true);
+}
+function recordPosizione(){
+  var v=vInit();
+  if(!v.share || !ME || !POS) return null;
+  var e=eta(), m=metaCorrente();
+  return { id:"pos:"+ME.fid+":"+(ME.name||""), kind:"pos", ts:new Date().toISOString(),
+    data:{ fid:ME.fid, nome:ME.name, lat:POS.lat, lng:POS.lng,
+           meta:m? m.n : "", resta:e? Math.round(e.resta*10)/10 : null,
+           eta:e? e.quando.toISOString() : "", vel:Math.round(velMarcia()), arrivato:!!v.arrivato } };
+}
+
+/* ---------- punti segnati ---------- */
+var TIPI=[{k:"parcheggio",e:"🅿️",n:"Parcheggio"},{k:"ombrellone",e:"⛱️",n:"Ombrellone"},
+          {k:"sosta",e:"⛽",n:"Sosta"},{k:"altro",e:"📍",n:"Qui"}];
+function tipoDi(k){ for(var i=0;i<TIPI.length;i++) if(TIPI[i].k===k) return TIPI[i]; return TIPI[3]; }
+function segna(tipo){
+  if(!POS){ toast("Serve il GPS acceso per segnare un posto"); return; }
+  var p={ id:"pin:"+Date.now().toString(36)+Math.random().toString(36).slice(2,5), tipo:tipo,
+          lat:POS.lat, lng:POS.lng, by:(ME&&ME.name)||"", fid:(ME&&ME.fid)||"", ts:new Date().toISOString() };
+  V().pin.push(p); touch(p.id); save(); renderStrada();
+  toast(tipoDi(tipo).n+" segnato: lo vedono tutti", true);
+}
+function scordaPin(id){
+  if(!confirm("Cancellare questo punto?")) return;
+  V().pin=V().pin.filter(function(x){ return x.id!==id; });
+  S.tomb.push({id:id, ts:new Date().toISOString()});
+  save(); renderStrada();
+}
+
+/* ---------- schermata ---------- */
+function apriMeta(){
+  var host=$("#metaList"); host.innerHTML="";
+  var v=vInit();
+  function riga(etichetta,sotto,valore){
+    var b=el("button","place");
+    b.appendChild(el("div","ico", valore==="lungo"? "🛣️" : (valore==="casa"? "🏠":"📍")));
+    var m=el("div","pm");
+    m.appendChild(el("div","pt", etichetta));
+    m.appendChild(el("div","pd", sotto));
+    b.appendChild(m);
+    b.onclick=function(){
+      v.meta=valore; v.km=0; v.kmTot=0; v.storia=[]; v.partito=""; v.arrivato=false;
+      save(); chiudiSheet(); renderStrada();
+      toast("Destinazione: "+(metaCorrente()||{n:"—"}).n, true);
+    };
+    host.appendChild(b);
+  }
+  riga("Il viaggio lungo","Bellusco → Pisticci, con tutte le tappe","lungo");
+  riga("Torniamo a Villa Irene","dovunque siate adesso","casa");
+  var oggi=todayISO(), pianoOggi=S.plan[oggi]||{}, gia={};
+  SLOTS.forEach(function(sl){
+    var pid=pianoOggi[sl.k]; if(!pid || gia[pid]) return;
+    gia[pid]=1;
+    var p=place(pid); if(!p) return;
+    riga(p.n, "in programma oggi · "+sl.n+" · "+p.min+" min", "p:"+p.id);
+  });
+  host.appendChild(el("div","eyebrow","Oppure un posto qualsiasi"));
+  var cerca=document.createElement("input");
+  cerca.type="search"; cerca.placeholder="Cerca fra i "+places().length+" posti…";
+  cerca.style.margin="8px 0";
+  host.appendChild(cerca);
+  var res=el("div"); host.appendChild(res);
+  function mostra(q){
+    res.innerHTML="";
+    q=(q||"").toLowerCase();
+    var arr=places().filter(function(p){ return !q || (p.n+" "+p.area).toLowerCase().indexOf(q)>=0; })
+                    .sort(function(a,b){ return a.min-b.min; }).slice(0, q?20:8);
+    arr.forEach(function(p){
+      var b=el("button","place");
+      b.appendChild(el("div","ico", catOf(p.c).e));
+      var m=el("div","pm");
+      var t=el("div","pt"); t.appendChild(el("span",null,p.n)); t.appendChild(el("span","min",p.min+"'"));
+      m.appendChild(t); m.appendChild(el("div","pd",p.area));
+      b.appendChild(m);
+      b.onclick=function(){
+        v.meta="p:"+p.id; v.km=0; v.kmTot=0; v.storia=[]; v.partito=""; v.arrivato=false;
+        save(); chiudiSheet(); renderStrada();
+        toast("Destinazione: "+p.n, true);
+      };
+      res.appendChild(b);
+    });
+  }
+  cerca.oninput=function(){ mostra(this.value); };
+  mostra("");
+  openSheet("#sheetMeta");
+}
+
+function renderStrada(){
+  var v=vInit(), m=metaCorrente(), e=eta();
+
+  $("#gpsBtn").textContent = WATCH!=null? "Spegni il GPS" : "Accendi il GPS";
+  $("#gpsStato").textContent = WATCH!=null? (POS? "GPS attivo" : "cerco il segnale…") : "GPS spento";
+  $("#metaNome").textContent = m? m.n : "Nessuna destinazione";
+  $("#metaSotto").textContent = m? (m.tipo==="lungo"? ("percorso "+((v.ramo==="a1")?"A1":"A14")+(v.senso==="ritorno"?" · ritorno":"")) : "spostamento breve")
+                                 : "scegli dove state andando";
+
+  $("#etaBig").textContent = (e && (POS||v.km>0))? (("0"+e.quando.getHours()).slice(-2)+":"+("0"+e.quando.getMinutes()).slice(-2)) : "--:--";
+  var sotto=[];
+  if(e){
+    sotto.push("mancano "+(e.resta<1? Math.round(e.resta*1000)+" m" : Math.round(e.resta)+" km"));
+    sotto.push(Math.floor(e.ore)+"h"+("0"+Math.round((e.ore%1)*60)).slice(-2));
+    if(v.vMisurata) sotto.push(Math.round(e.vel)+" km/h reali");
+    else sotto.push(Math.round(e.vel)+" km/h stimati");
+    if(inSosta()) sotto.push("fermi");
+    if(e.soste) sotto.push("incluse soste "+Math.round(e.soste*60)+" min");
+  }else sotto.push(m? "accendi il GPS" : "");
+  $("#etaSotto").textContent=sotto.join(" · ");
+  if(v.arrivato) $("#etaSotto").textContent="arrivati";
+
+  var bar=$("#stradaBar");
+  if(m && m.tipo==="lungo"){
+    var pc=Math.min(100, v.km/totaleLungo()*100);
+    bar.parentNode.hidden=false; bar.style.width=pc+"%";
+  }else if(m && v.kmTot){
+    var d=kmMancanti();
+    bar.parentNode.hidden=false;
+    bar.style.width=Math.max(0,Math.min(100,(1-d/v.kmTot)*100))+"%";
+  }else bar.parentNode.hidden=true;
+
+  /* prossime tappe: solo sul viaggio lungo hanno senso */
+  var tp=$("#tappeBox"); tp.innerHTML="";
+  if(m && m.tipo==="lungo" && POS){
+    var lista=percorso(v.ramo||"a14"), n=0;
+    for(var i=0;i<lista.length && n<4;i++){
+      if(lista[i].km<=v.km+1) continue;
+      (function(t){
+        var resta=t.km-v.km, ore=resta/velMarcia();
+        var q=new Date(Date.now()+ore*3600000);
+        var r=el("div","slot");
+        r.appendChild(el("span","lab", ("0"+q.getHours()).slice(-2)+":"+("0"+q.getMinutes()).slice(-2)));
+        r.appendChild(el("span","val", t.n+(t.d? " · "+t.d : "")));
+        r.appendChild(el("span","hint", "+"+Math.round(resta)+" km"));
+        tp.appendChild(r);
+      })(lista[i]); n++;
+    }
+    if(v.fuoriRotta) tp.appendChild(el("div","hint warn","Siete lontani dal corridoio previsto: i conti non sono attendibili."));
+  }
+
+  /* le altre auto */
+  var au=$("#autoBox"); au.innerHTML="";
+  var righe=[], k;
+  for(k in ALTRE){
+    var a=ALTRE[k];
+    if(!ME || a.fid!==ME.fid || a.nome!==ME.name) righe.push(a);
+  }
+  if(!righe.length) au.appendChild(el("div","hint","Le altre auto compaiono qui quando accendono la condivisione."));
+  righe.forEach(function(a){
+    var r=el("div","auto");
+    var d=el("span","dot"); d.style.background=colFam(a.fid); r.appendChild(d);
+    var mm=el("div","m");
+    mm.appendChild(el("b",null,(a.nome||famNome(a.fid))+(a.arrivato? " · arrivato":"")));
+    var det=[];
+    if(a.meta) det.push("verso "+a.meta);
+    if(a.resta!=null) det.push("mancano "+(a.resta<1? Math.round(a.resta*1000)+" m" : Math.round(a.resta)+" km"));
+    if(a.eta) det.push("arrivo "+a.eta.slice(11,16));
+    mm.appendChild(el("span",null,det.join(" · ")));
+    r.appendChild(mm);
+    if(POS && a.lat){
+      var g=el("div","gap");
+      g.textContent=distUmana(distKm(POS,{lat:a.lat,lng:a.lng}))+" "+bussola(POS,{lat:a.lat,lng:a.lng});
+      r.appendChild(g);
+    }
+    au.appendChild(r);
+  });
+
+  /* punti segnati */
+  var pb=$("#pinBox"); pb.innerHTML="";
+  var pin=(v.pin||[]).slice().sort(function(a,b){ return b.ts.localeCompare(a.ts); });
+  if(!pin.length) pb.appendChild(el("div","hint","Niente segnato. Utile per il parcheggio e per ritrovare l'ombrellone."));
+  pin.forEach(function(p){
+    var r=el("div","auto");
+    r.appendChild(el("div",null,tipoDi(p.tipo).e));
+    var mm=el("div","m");
+    mm.appendChild(el("b",null,tipoDi(p.tipo).n));
+    mm.appendChild(el("span",null,(p.by? "da "+p.by+" · ":"")+p.ts.slice(11,16)));
+    r.appendChild(mm);
+    if(POS){
+      var g=el("div","gap");
+      g.textContent=distUmana(distKm(POS,p))+" "+bussola(POS,p);
+      r.appendChild(g);
+    }
+    var vai=el("button","chip sm","Vai");
+    vai.onclick=function(){ window.open("https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng+"&travelmode=walking","_blank"); };
+    r.appendChild(vai);
+    var x=el("button","chip sm","×");
+    x.onclick=function(){ scordaPin(p.id); };
+    r.appendChild(x);
+    pb.appendChild(r);
+  });
+
+  var sg=$("#segnaChips"); sg.innerHTML="";
+  TIPI.forEach(function(t){
+    var b=el("button","chip", t.e+" "+t.n);
+    b.onclick=function(){ segna(t.k); };
+    sg.appendChild(b);
+  });
+
+  $("#cShare").checked=!!v.share;
+  $("#cVel").value=Number(v.vRif)||90;
+  $("#cVelForza").checked=!!v.vForza;
+  $("#btnSenso").textContent = v.senso==="ritorno"? "Viaggio lungo: ritorno a Bellusco" : "Viaggio lungo: andata a Pisticci";
+  var b=$("#stradaBadge");
+  if(b){ b.hidden = !(WATCH!=null); }
+}
+
 /* ============================================================
    RENDER
    ============================================================ */
@@ -3848,12 +4307,24 @@ function renderVer(){
   var a=avvisoVersione();
   b.hidden=!a; if(a) b.textContent=a.txt;
 }
-function renderAll(){ header(); renderVer(); oggi(); renderMeteo(); posti(); renderProps(); renderReport(); renderPagella(); propBadge(); piano(); info(); $("#stamp").textContent="Itinerari · build "+BUILD; }
+function renderAll(){ header(); renderVer(); oggi(); renderMeteo(); posti(); renderProps(); renderReport(); renderPagella(); propBadge(); renderStrada(); piano(); info(); $("#stamp").textContent="Itinerari · build "+BUILD; }
 
+/* Conta le proposte che aspettano il MIO voto, su tutti i giorni ancora da
+   venire. Prima contava solo quelle di domani e includeva anche quelle gia
+   votate: un numero che non scendeva mai e non diceva nulla. */
+function daVotare(){
+  if(!ME) return [];
+  var oggi=todayISO();
+  return (S.props||[]).filter(function(p){
+    if(p.status!=="aperta") return false;
+    if(p.day < oggi) return false;
+    return !pvotes(p.id)[uKey()];
+  });
+}
 function propBadge(){
-  var dom=tomorrow();
-  var n=(S.props||[]).filter(function(p){ return p.day===dom && p.status==="aperta"; }).length;
-  var b=$("#propBadge"); b.hidden = !n; b.textContent=n;
+  var n=daVotare().length;
+  var b=$("#propBadge");
+  b.hidden=!n; b.textContent=n;
 }
 
 function header(){
@@ -3931,26 +4402,28 @@ function timeSuggest(mm){
 }
 
 /* ---- elenco posti ---- */
-var filt={q:"",cat:"",tag:""};
-function posti(){
-  var cc=$("#catChips"), tc=$("#tagChips"); cc.innerHTML=""; tc.innerHTML="";
-  function mk(label,val,key,host){
-    var b=el("button","chip",label);
-    b.setAttribute("aria-pressed", filt[key]===val?"true":"false");
-    b.onclick=function(){ filt[key]= filt[key]===val? "":val; posti(); };
-    host.appendChild(b);
-  }
-  mk("Tutte","","cat",cc);
-  CAT.forEach(function(c){ mk(c.e+" "+c.n, c.id, "cat", cc); });
-  mk("Tutti","","tag",tc);
-  ["bambini","cucina","coperto","sera","gratis","prenota","vento"].forEach(function(k){ mk(TAG[k].n, k, "tag", tc); });
+var filt={q:"",cat:"",tag:"",zona:""}, ordine="vicino";
 
-  var host=$("#list"); host.innerHTML="";
-  var q=filt.q.toLowerCase();
+/* le zone si ricavano dai posti: se domani aggiungiamo un paese nuovo,
+   il filtro se ne accorge da solo */
+function zone(){
+  var m={}, a=places(), i;
+  for(i=0;i<a.length;i++) m[a[i].area]=(m[a[i].area]||0)+1;
+  return Object.keys(m).sort(function(x,y){ return m[y]-m[x] || x.localeCompare(y); })
+    .map(function(z){ return {n:z, q:m[z]}; });
+}
+function filtrati(){
+  var q=filt.q.toLowerCase().trim();
   var arr=places().filter(function(p){
     if(filt.cat && p.c!==filt.cat) return false;
     if(filt.tag && (p.t||[]).indexOf(filt.tag)<0) return false;
-    if(q && (p.n+" "+p.area+" "+(p.d||"")).toLowerCase().indexOf(q)<0) return false;
+    if(filt.zona && p.area!==filt.zona) return false;
+    if(q){
+      /* la ricerca guarda anche categoria e caratteristiche: cosi «bambini»
+         o «gelato» trovano qualcosa anche se non compaiono nel nome */
+      var testo=(p.n+" "+p.area+" "+(p.d||"")+" "+catOf(p.c).n+" "+(p.t||[]).map(function(k){return TAG[k]?TAG[k].n:k;}).join(" ")).toLowerCase();
+      if(testo.indexOf(q)<0) return false;
+    }
     return true;
   });
   arr.sort(function(a,b){
@@ -3958,13 +4431,57 @@ function posti(){
       var ka=(a.t||[]).indexOf("bambini")>=0?0:1, kb=(b.t||[]).indexOf("bambini")>=0?0:1;
       if(ka!==kb) return ka-kb;
     }
-    var va=votes(a.id), vb=votes(b.id);
-    if(va!==vb) return vb-va;
-    return a.min-b.min;
+    if(ordine==="voti"){ var va=votes(a.id), vb=votes(b.id); if(va!==vb) return vb-va; }
+    if(ordine==="nome") return a.n.localeCompare(b.n);
+    return a.min-b.min || a.n.localeCompare(b.n);
   });
+  return arr;
+}
+
+function posti(){
+  var cc=$("#catChips"), tc=$("#tagChips"), zc=$("#zonaChips");
+  cc.innerHTML=""; tc.innerHTML=""; zc.innerHTML="";
+  function mk(label,val,key,host){
+    var b=el("button","chip sm",label);
+    b.setAttribute("aria-pressed", filt[key]===val?"true":"false");
+    b.onclick=function(){ filt[key]= filt[key]===val? "":val; posti(); };
+    host.appendChild(b);
+  }
+  mk("Tutte le zone","","zona",zc);
+  zone().forEach(function(z){ mk(z.n+" ("+z.q+")", z.n, "zona", zc); });
+  mk("Tutti","","cat",cc);
+  CAT.forEach(function(c){ mk(c.e+" "+c.n, c.id, "cat", cc); });
+  mk("Tutte","","tag",tc);
+  ["bambini","cucina","coperto","sera","gratis","prenota","vento","parcheggio","tramonto"].forEach(function(k){
+    if(TAG[k]) mk(TAG[k].n, k, "tag", tc);
+  });
+  var segs=$("#ordSeg").querySelectorAll("button");
+  segs.forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.o===ordine?"true":"false"); });
+  $("#pulisciFiltri").hidden = !(filt.q||filt.cat||filt.tag||filt.zona);
+
+  var arr=filtrati(), host=$("#list"); host.innerHTML="";
   $("#cnt").textContent=arr.length+" posti";
-  if(!arr.length){ var em=el("div","empty"); em.appendChild(el("b",null,"Niente con questi filtri")); host.appendChild(em); return; }
-  arr.forEach(function(p){ host.appendChild(placeRow(p)); });
+  if(!arr.length){
+    var em=el("div","empty");
+    em.appendChild(el("b",null,"Niente con questi filtri"));
+    em.appendChild(document.createTextNode("Prova a togliere una condizione: il pulsante qui sopra le azzera tutte."));
+    host.appendChild(em); return;
+  }
+  /* senza filtro di zona l'elenco si legge per paese, altrimenti sarebbe
+     una fila indistinta di novantasette voci */
+  if(!filt.zona && !filt.q && ordine==="vicino"){
+    var gruppi={}, ordZone=[];
+    arr.forEach(function(p){ if(!gruppi[p.area]){ gruppi[p.area]=[]; ordZone.push(p.area); } gruppi[p.area].push(p); });
+    ordZone.forEach(function(z){
+      var h=el("div","zonaTit");
+      h.appendChild(el("span",null,z));
+      h.appendChild(el("span","n", gruppi[z][0].min+" min · "+gruppi[z].length));
+      host.appendChild(h);
+      gruppi[z].forEach(function(p){ host.appendChild(placeRow(p)); });
+    });
+  }else{
+    arr.forEach(function(p){ host.appendChild(placeRow(p)); });
+  }
 }
 
 function votes(id){ var v=S.votes[id]||{}, n=0; for(var k in v) if(v[k]) n++; return n; }
@@ -4198,7 +4715,7 @@ function openSheet(id){ $("#scrim").classList.add("on"); $(id).classList.add("on
 function closeSheets(){
   if(!ME && $("#sheetMe").classList.contains("on")) return;
   $("#scrim").classList.remove("on");
-  ["#sheetP","#sheetPick","#sheetMe","#sheetNew","#sheetProp"].forEach(function(s){ $(s).classList.remove("on"); });
+  ["#sheetP","#sheetPick","#sheetMe","#sheetNew","#sheetProp","#sheetMeta"].forEach(function(s){ $(s).classList.remove("on"); });
   document.body.style.overflow="";
 }
 
@@ -4236,6 +4753,10 @@ function bind(){
   document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeSheets(); });
 
   $("#q").oninput=function(){ filt.q=this.value; posti(); };
+  $("#pulisciFiltri").onclick=function(){ filt={q:"",cat:"",tag:"",zona:""}; $("#q").value=""; posti(); };
+  $("#ordSeg").querySelectorAll("button").forEach(function(b){
+    b.onclick=function(){ ordine=b.dataset.o; posti(); };
+  });
   $("#pickQ").oninput=function(){ renderPick(this.value); };
 
   $("#cName").oninput=function(){ S.trip.name=this.value; touch("cfg"); save(); header(); };
@@ -4257,6 +4778,17 @@ function bind(){
                            function(){ toast("Previsioni non raggiungibili"); });
   };
 
+  $("#btnMeta").onclick=apriMeta;
+  $("#metaClose").onclick=closeSheets;
+  $("#gpsBtn").onclick=function(){ if(WATCH==null) gpsOn(); else gpsOff(); };
+  $("#cShare").onchange=function(){ V().share=this.checked; save(); if(this.checked){ ultimoInvio=0; syncNow(false); } };
+  $("#cVel").oninput=function(){ V().vRif=Math.max(25,Math.min(140,Number(this.value)||90)); save(); renderStrada(); };
+  $("#cVelForza").onchange=function(){ V().vForza=this.checked; save(); renderStrada(); };
+  $("#btnSenso").onclick=function(){
+    var v=V(); v.senso = v.senso==="ritorno"? "andata":"ritorno";
+    v.km=0; v.storia=[]; v.partito=""; v.arrivato=false; save(); renderStrada();
+    toast(v.senso==="ritorno"? "Ritorno: da Pisticci a Bellusco" : "Andata: da Bellusco a Pisticci", true);
+  };
   $("#btnMe").onclick=openMe;
   $("#meSave").onclick=function(){
     var n=$("#meName").value.trim();
@@ -4329,1011 +4861,6 @@ document.getElementById("splash").onclick=hideSplash;
 </body>
 </html>
 </template>
-<template id="app-viag"><!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Viaggio — Basilicata 2026</title>
-<style>
-/* ===== sistema di colori unico per tutte e tre le sezioni =====
-   Gli accenti sono le versioni leggibili dei neon del logo: su fondo chiaro
-   il neon puro non si legge, ma la famiglia cromatica resta la stessa. */
-:root{
-  --ink:#0B1220; --ink2:#41566F; --ink3:#7D91A8;
-  --ink-2:#41566F; --ink-3:#7D91A8;
-  --card:#FFFFFF; --sand:#F2F4F7; --salt:#F2F4F7; --line:#DDE3EA;
-  --sea:#0E8F91;  --teal:#0E8F91;
-  --sun:#E08A16;  --amber:#E08A16;
-  --coral:#D6336C; --red:#D6336C;
-  --olive:#3F8F3F; --green:#3F8F3F;
-  --indigo:#2F4B7C; --deep:#2F4B7C;
-  --f1:#E08A16; --f2:#0E8F91; --f3:#D6336C;
-  --notte:#070B14;
-  --r:14px;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:var(--sans);background:var(--sand);color:var(--ink);font-size:15px;line-height:1.45;
-     padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-h1,h2{margin:0;font-weight:800;letter-spacing:-.02em}
-button,input,select{font:inherit;color:inherit}
-button{cursor:pointer;border:0;background:none;padding:0}
-.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700}
-:focus-visible{outline:2px solid var(--sun);outline-offset:2px;border-radius:6px}
-
-#splash{position:fixed;inset:0;z-index:900;background:#070B14;color:#fff;display:grid;place-content:center;justify-items:center;
-  text-align:center;padding:24px;transition:opacity .42s ease}
-#splash.out{opacity:0;pointer-events:none}
-#splash .marchio{width:150px;height:150px;border-radius:30px;margin-bottom:20px;display:block;
-  box-shadow:0 0 40px rgba(255,79,163,.30), 0 0 80px rgba(37,224,210,.16)}
-#splash .t{font-size:32px;font-weight:800;letter-spacing:-.03em}
-#splash .p{margin-top:12px;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#8296AE}
-#splash .p b{color:#FF4FA3;font-weight:800;letter-spacing:.18em}
-#splash .bar{width:172px;height:4px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden;margin-top:26px}
-#splash .bar i{display:block;height:100%;width:0;border-radius:99px;
-  background:linear-gradient(90deg,var(--sea),var(--sun),var(--coral));animation:load 1.9s cubic-bezier(.35,.1,.2,1) forwards}
-@keyframes load{0%{width:4%}60%{width:64%}100%{width:100%}}
-
-header{background:var(--ink);color:#fff;padding:14px 16px 16px;padding-top:calc(14px + env(safe-area-inset-top));position:relative}
-header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:6px;
-  background:repeating-linear-gradient(90deg,var(--sea) 0 33.3%,var(--sun) 33.3% 66.6%,var(--coral) 66.6% 100%)}
-.h-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.h-sub{color:#9DB6C6;font-size:12px;margin-top:3px}
-#gpsPill{display:block;margin-top:6px;font-size:10.5px;font-weight:700;color:#9DB6C6;background:rgba(255,255,255,.09);border-radius:99px;padding:3px 9px}
-
-main{max-width:860px;margin:0 auto;padding:14px 12px 8px}
-.view{display:none}.view.on{display:block}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
-.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}
-.card-h h2{font-size:15px}
-.hint{font-size:12px;color:var(--ink3)}
-.hint.warn{color:var(--coral);font-weight:600}
-.btn{background:var(--ink);color:#fff;border-radius:11px;padding:11px 16px;font-weight:700;text-align:center;width:100%;display:block}
-.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
-.btn.sm{padding:7px 12px;font-size:13px;width:auto}
-label.fld{display:block;margin-bottom:11px}
-label.fld>span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:5px}
-input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:#fff}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 11px;font-size:12.5px;font-weight:600;color:var(--ink2)}
-.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-/* schermo principale, leggibile a colpo d'occhio */
-.eta{text-align:center;padding:4px 0 2px}
-.eta .l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700}
-.eta .v{font-size:54px;font-weight:800;letter-spacing:-.04em;line-height:1;margin:6px 0 4px;font-family:var(--mono)}
-.eta .s{font-size:13px;color:var(--ink2)}
-.prog{height:10px;border-radius:99px;background:var(--sand);border:1px solid var(--line);overflow:hidden;margin:14px 0 6px}
-.prog i{display:block;height:100%;background:var(--sea);width:0;transition:width .6s}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.kpi div{background:var(--sand);border-radius:11px;padding:9px 10px;text-align:center}
-.kpi .v{font-size:17px;font-weight:800;font-family:var(--mono)}
-.kpi .l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-top:2px}
-
-.tappa{display:flex;gap:11px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line);width:100%;text-align:left}
-.tappa:last-child{border-bottom:0}
-.tappa .ora{width:56px;flex:0 0 auto;font-family:var(--mono);font-weight:700;font-size:14px}
-.tappa .m{flex:1 1 auto;min-width:0}
-.tappa .m b{display:block}
-.tappa .m span{font-size:12px;color:var(--ink3)}
-.tappa .km{font-family:var(--mono);font-size:12px;color:var(--ink3);flex:0 0 auto}
-.tappa.passata{opacity:.45}
-.tappa.prossima{background:#F0F7F7;border-radius:10px}
-
-.auto{display:flex;gap:10px;align-items:center;padding:11px 2px;border-bottom:1px solid var(--line)}
-.auto:last-child{border-bottom:0}
-.dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
-.auto .m{flex:1 1 auto;min-width:0}
-.auto .m b{display:block}
-.auto .m span{font-size:12px;color:var(--ink3)}
-.auto .gap{font-family:var(--mono);font-weight:700;font-size:13px;text-align:right;flex:0 0 auto}
-.avviso{background:#FDECEA;border:1px solid #F2B8B2;color:#8E2C22;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;margin-bottom:12px}
-.ok{background:#EEF6E6;border-color:#C6DFA6;color:#3F5A0B}
-
-nav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);
-    display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom)}
-nav button{padding:9px 4px 10px;font-size:10.5px;font-weight:700;color:var(--ink3);display:grid;gap:3px;justify-items:center}
-nav button b{font-size:18px;font-weight:400;line-height:1}
-nav button[aria-selected=true]{color:var(--ink)}
-.scrim{position:fixed;inset:0;background:rgba(11,34,51,.5);z-index:50;display:none}
-.scrim.on{display:block}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:#fff;border-radius:20px 20px 0 0;max-height:92vh;overflow:auto;
-  padding:8px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
-.sheet.on{transform:translateY(0)}
-.grab{width:38px;height:4px;border-radius:99px;background:var(--line);margin:8px auto 12px}
-.sheet-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.sheet-h h2{font-size:17px}
-.linkbtn{color:var(--sea);font-weight:700;font-size:13px}
-.pin{display:flex;gap:10px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line)}
-.pin:last-child{border-bottom:0}
-.pin .m{flex:1 1 auto;min-width:0}
-.pin .m b{display:block}
-.pin .m span{font-size:12px;color:var(--ink3)}
-.pin .via{font-family:var(--mono);font-size:12.5px;font-weight:700;text-align:right;flex:0 0 auto}
-.pin .go{font-size:12px;font-weight:700;color:var(--sea);padding:6px 9px;border:1px solid var(--line);border-radius:9px;flex:0 0 auto}
-.ritro{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
-.ritro table{width:100%;border-collapse:collapse;font-size:12.5px}
-.ritro th{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);text-align:right;font-weight:700;padding:3px 0}
-.ritro th:first-child{text-align:left}
-.ritro td{padding:4px 0;font-family:var(--mono);text-align:right}
-.ritro td:first-child{font-family:var(--sans);text-align:left;font-weight:600}
-.sosta{border:1px solid var(--line);border-radius:12px;padding:11px;margin-bottom:10px}
-.sosta.acc{border-color:var(--olive);background:#F5FAEE}
-#toast{position:fixed;left:50%;bottom:calc(94px + env(safe-area-inset-bottom));transform:translate(-50%,14px);background:var(--ink);color:#fff;
-  padding:10px 16px;border-radius:99px;font-size:13px;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;text-align:center}
-#toast.on{opacity:1;transform:translate(-50%,0)}
-.stamp{text-align:center;color:var(--ink3);font-size:11px;padding:14px 0 4px;font-family:var(--mono)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media (prefers-reduced-motion:reduce){#splash .bar i{width:100%}}
-</style>
-</head>
-<body>
-
-<div id="splash" role="status" aria-label="Caricamento">
-  <img class="marchio" id="marchio" alt="" hidden>
-  <div class="t">VIAGGIO</div>
-  <div class="p">powered by <b>SIMCAT</b></div>
-  <div class="bar"><i></i></div>
-</div>
-<script>
-setTimeout(function(){var n=document.getElementById("splash");
-  if(n&&!n.classList.contains("out")){n.classList.add("out");setTimeout(function(){n.style.display="none";},450);}},5000);
-</script>
-
-<header>
-  <div class="h-row">
-    <div>
-      <div class="eyebrow" style="color:#9DB6C6" id="hRotta">Bellusco → Pisticci</div>
-      <h1 id="hTit">Viaggio</h1>
-      <div class="h-sub" id="hSub">in attesa del GPS</div>
-    </div>
-    <div style="text-align:right">
-      <div class="eyebrow" style="color:#9DB6C6">Percorso</div>
-      <div class="num" id="hRamo" style="font-size:18px;font-weight:800">—</div>
-      <button id="gpsPill">GPS spento</button>
-    </div>
-  </div>
-</header>
-
-<main>
-  <section class="view on" id="v-ora">
-    <div id="avvisi"></div>
-    <div class="card">
-      <div class="eta">
-        <div class="l" id="etaLab">Arrivo previsto a Pisticci</div>
-        <div class="v" id="etaBig">--:--</div>
-        <div class="s" id="etaSub">accendi il GPS per iniziare</div>
-      </div>
-      <div class="prog"><i id="progBar"></i></div>
-      <div class="hint" id="progTxt"></div>
-      <div class="kpi">
-        <div><div class="v" id="kFatti">0</div><div class="l">km fatti</div></div>
-        <div><div class="v" id="kMancano">—</div><div class="l">km mancano</div></div>
-        <div><div class="v" id="kMedia">—</div><div class="l" id="kMediaLab">media km/h</div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-h"><h2>Prossima tappa</h2></div>
-      <div id="prossima"></div>
-      <div class="chips" style="margin-top:11px">
-        <button class="chip" id="cercaAree">⛽ Aree di servizio qui</button>
-        <button class="chip" id="cercaCibo">🍽️ Dove mangiare qui</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-h"><h2>Le nostre auto</h2><span class="eyebrow" id="autoAgg"></span></div>
-      <div id="autoList"></div>
-      <div id="ritrovo"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-h"><h2>Segna questo posto</h2></div>
-      <p class="hint" style="margin-top:0">Dove avete parcheggiato, dov'è l'ombrellone, dove vi siete fermati. Resta salvato e lo vedono tutti.</p>
-      <div class="chips" id="segnaChips" style="margin-top:10px"></div>
-    </div>
-  </section>
-
-  <section class="view" id="v-punti">
-    <div class="card">
-      <div class="card-h"><h2>Proposte di sosta</h2><button class="btn sm ghost" id="btnSosta">+ Proponi</button></div>
-      <div id="sosteList"></div>
-    </div>
-    <div class="card">
-      <div class="card-h"><h2>Posti segnati</h2><span class="eyebrow" id="pinCnt"></span></div>
-      <div id="pinList"></div>
-    </div>
-  </section>
-
-  <section class="view" id="v-tappe">
-    <div class="card">
-      <div class="card-h"><h2>Tappe e orari di passaggio</h2></div>
-      <div id="tappe"></div>
-    </div>
-  </section>
-
-  <section class="view" id="v-set">
-    <div class="card">
-      <div class="card-h"><h2>Questa auto</h2></div>
-      <label class="fld"><span>Chi guida / chi siete</span><input id="cNome" placeholder="Simone"></label>
-      <label class="fld"><span>Famiglia</span><div class="chips" id="cFam"></div></label>
-      <label class="fld" style="display:flex;align-items:center;gap:9px">
-        <input type="checkbox" id="cShare" style="width:auto">
-        <span style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink);font-weight:600">Condividi la posizione con le altre auto</span>
-      </label>
-      <p class="hint">Si spegne da sola all'arrivo. La posizione va solo sul vostro foglio Google, da nessun'altra parte.</p>
-    </div>
-
-    <div class="card">
-      <div class="card-h"><h2>Viaggio</h2></div>
-      <button class="btn ghost sm" id="btnGps" style="width:100%;margin-bottom:9px">Accendi il GPS</button>
-      <div class="row">
-        <label class="fld"><span>Velocità media di riferimento</span>
-          <input id="cVel" type="number" inputmode="numeric" min="30" max="140" step="5"></label>
-        <label class="fld" style="display:flex;align-items:flex-end;gap:9px;padding-bottom:11px">
-          <input type="checkbox" id="cVelForza" style="width:auto">
-          <span style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink);font-weight:600">Usa sempre questa</span>
-        </label>
-      </div>
-      <p class="hint" style="margin-top:-4px">Serve prima di partire, quando non c'è ancora niente da misurare. In viaggio l'app usa la velocità reale, a meno che tu non spunti «usa sempre questa».</p>
-
-      <button class="btn ghost sm" id="btnSenso" style="width:100%;margin-bottom:9px">Direzione: andata a Pisticci</button>
-      <button class="btn ghost sm" id="btnRamo" style="width:100%;margin-bottom:9px">Forza percorso: automatico</button>
-      <button class="btn ghost sm" id="btnReset" style="width:100%">Azzera il viaggio</button>
-      <p class="hint">Il viaggio parte da solo appena l'auto si muove: non devi premere niente. Tieni il telefono sotto carica, dieci ore di GPS consumano parecchio.</p>
-    </div>
-    <div class="stamp" id="stamp"></div>
-  </section>
-</main>
-
-<nav role="tablist">
-  <button role="tab" data-v="ora" aria-selected="true"><b>⏱</b>Ora</button>
-  <button role="tab" data-v="punti" aria-selected="false"><b>📍</b>Punti</button>
-  <button role="tab" data-v="tappe" aria-selected="false"><b>≡</b>Tappe</button>
-  <button role="tab" data-v="set" aria-selected="false"><b>⚙</b>Impostazioni</button>
-</nav>
-
-<div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheetSosta" role="dialog" aria-modal="true">
-  <div class="grab"></div>
-  <div class="sheet-h"><h2>Proponi una sosta</h2><button class="linkbtn" id="sostaClose">Chiudi</button></div>
-  <label class="fld"><span>Dove</span><select id="sostaDove"></select></label>
-  <label class="fld"><span>Perché / cosa si fa</span><input id="sostaNota" placeholder="Benzina e bagno, 20 minuti"></label>
-  <div class="hint" id="sostaEta" style="margin-bottom:12px"></div>
-  <button class="btn" id="sostaSave">Manda alle altre auto</button>
-</div>
-
-<div id="toast"></div>
-
-<script>
-"use strict";
-var BUILD="V009", KEY="viaggio_2026_v1";
-var APPID="viag";
-/* ---------- controllo versioni fra i dispositivi ----------
-   Con sei telefoni aggiornati a mano, prima o poi qualcuno resta indietro
-   e non capisce perche non vede quello che vedono gli altri. Meglio dirlo. */
-function numBuild(b){ var m=String(b||"").match(/(\d+)/); return m? Number(m[1]) : 0; }
-var VERSIONI={};
-function recordVersione(chi){
-  return { id:"ver:"+APPID+":"+chi, kind:"ver", ts:new Date().toISOString(),
-           data:{app:APPID, build:BUILD, chi:chi} };
-}
-function leggiVersioni(records){
-  VERSIONI={};
-  (records||[]).forEach(function(r){
-    if(r.kind==="ver" && r.data && r.data.app===APPID) VERSIONI[r.data.chi]={build:r.data.build, ts:r.ts};
-  });
-}
-function avvisoVersione(){
-  var mio=numBuild(BUILD), max=mio, vecchi=[], k;
-  for(k in VERSIONI){
-    var n=numBuild(VERSIONI[k].build);
-    if(n>max) max=n;
-    if(n<mio) vecchi.push(k.split("|")[0]);
-  }
-  if(max>mio) return {tipo:"io", txt:"C'è una versione più recente dell'app (V"+("00"+max).slice(-3)+", tu hai la "+BUILD+"). Chiedi il file aggiornato: finché non lo sostituisci potresti non vedere tutto."};
-  if(vecchi.length) return {tipo:"altri", txt:"Hanno ancora una versione vecchia: "+vecchi.join(", ")+". Manda loro il file aggiornato."};
-  return null;
-}
-
-
-/* Identita decisa una volta sola nella schermata iniziale dell'app.
-   Arriva per due strade: iniettata dal guscio all'apertura della sezione,
-   oppure dalla memoria locale condivisa. La seconda regge anche se la prima manca. */
-var SHARED_ME=(function(){
-  try{ if(window.__ME__ && window.__ME__.fid) return window.__ME__; }catch(e){}
-  try{ var r=localStorage.getItem("bas_me"); if(r){ var o=JSON.parse(r); if(o&&o.fid) return o; } }catch(e){}
-  return null;
-})();
-function scriviCondivisa(nome,fid){
-  try{ localStorage.setItem("bas_me", JSON.stringify({nome:nome, fid:fid})); }catch(e){}
-}
-
-
-/* stesso foglio degli itinerari, stessa stanza: i record di posizione hanno
-   un tipo diverso e le schede leggibili non ne risentono */
-var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
-var SYNC_ROOM="itinerari";
-
-var FAM=[{id:"f1",n:"Cantù",c:"#E08A16"},{id:"f2",n:"Misani",c:"#0E8F91"},{id:"f3",n:"Cattaneo",c:"#D6336C"}];
-
-var ROUTE={ tronco:[{"n": "Bellusco", "lat": 45.62, "lng": 9.42, "km": 0.0, "d": "partenza"}, {"n": "A4 Cavenago", "lat": 45.575, "lng": 9.38, "km": 6.3, "d": "ingresso in autostrada"}, {"n": "Tangenziale Est", "lat": 45.49, "lng": 9.33, "km": 17.2, "d": "il primo punto dove si rallenta"}, {"n": "Melegnano", "lat": 45.355, "lng": 9.32, "km": 33.3, "d": "si prende la A1"}, {"n": "Piacenza", "lat": 45.05, "lng": 9.7, "km": 81.6, "d": ""}, {"n": "Fidenza", "lat": 44.87, "lng": 10.06, "km": 118.7, "d": ""}, {"n": "Parma", "lat": 44.8, "lng": 10.33, "km": 143.0, "d": ""}, {"n": "Reggio Emilia", "lat": 44.7, "lng": 10.63, "km": 171.0, "d": ""}, {"n": "Modena", "lat": 44.65, "lng": 10.93, "km": 197.1, "d": ""}, {"n": "Bologna", "lat": 44.51, "lng": 11.34, "km": 235.6, "d": "il bivio: di qui in poi A14 verso l'Adriatico"}], a14:[{"n": "Imola", "lat": 44.35, "lng": 11.71, "km": 272.4, "d": ""}, {"n": "Faenza", "lat": 44.29, "lng": 11.88, "km": 288.5, "d": ""}, {"n": "Forlì", "lat": 44.22, "lng": 12.04, "km": 304.5, "d": ""}, {"n": "Cesena", "lat": 44.14, "lng": 12.24, "km": 324.0, "d": "ultimo tratto di pianura"}, {"n": "Rimini", "lat": 44.06, "lng": 12.57, "km": 353.8, "d": "in estate esce e entra parecchia gente"}, {"n": "Pesaro", "lat": 43.91, "lng": 12.9, "km": 387.2, "d": ""}, {"n": "Fano", "lat": 43.84, "lng": 13.02, "km": 400.4, "d": ""}, {"n": "Senigallia", "lat": 43.71, "lng": 13.22, "km": 423.5, "d": ""}, {"n": "Ancona", "lat": 43.62, "lng": 13.51, "km": 450.7, "d": "gallerie, si viaggia più lenti"}, {"n": "Civitanova Marche", "lat": 43.31, "lng": 13.73, "km": 492.2, "d": ""}, {"n": "San Benedetto del Tronto", "lat": 42.95, "lng": 13.88, "km": 537.0, "d": ""}, {"n": "Pescara", "lat": 42.46, "lng": 14.21, "km": 602.0, "d": "metà strada abbondante"}, {"n": "Val di Sangro", "lat": 42.22, "lng": 14.53, "km": 642.1, "d": ""}, {"n": "Vasto", "lat": 42.11, "lng": 14.71, "km": 662.7, "d": ""}, {"n": "Termoli", "lat": 41.99, "lng": 14.99, "km": 691.2, "d": "da qui le aree di servizio si diradano"}, {"n": "Poggio Imperiale", "lat": 41.83, "lng": 15.36, "km": 729.1, "d": ""}, {"n": "Foggia", "lat": 41.46, "lng": 15.55, "km": 776.3, "d": ""}, {"n": "Cerignola", "lat": 41.27, "lng": 15.9, "km": 814.8, "d": ""}, {"n": "Trani", "lat": 41.27, "lng": 16.38, "km": 857.8, "d": ""}, {"n": "Bari nord", "lat": 41.13, "lng": 16.78, "km": 897.3, "d": "si continua sulla A14 verso Taranto"}, {"n": "Gioia del Colle", "lat": 40.8, "lng": 16.92, "km": 938.5, "d": ""}, {"n": "Massafra", "lat": 40.59, "lng": 17.11, "km": 968.8, "d": ""}, {"n": "Taranto", "lat": 40.47, "lng": 17.24, "km": 987.3, "d": "si esce: da qui SS106 ionica, strada normale"}, {"n": "Metaponto", "lat": 40.38, "lng": 16.82, "km": 1026.8, "d": "ci siamo quasi"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1051.3, "d": "arrivo"}], a1:[{"n": "Firenze", "lat": 43.8, "lng": 11.2, "km": 320.9, "d": "appennino, curve e gallerie"}, {"n": "Arezzo", "lat": 43.46, "lng": 11.88, "km": 392.1, "d": ""}, {"n": "Orte", "lat": 42.46, "lng": 12.38, "km": 518.8, "d": ""}, {"n": "Roma est", "lat": 41.9, "lng": 12.5, "km": 586.2, "d": "il raccordo, punto critico di giorno"}, {"n": "Frosinone", "lat": 41.63, "lng": 13.34, "km": 667.4, "d": ""}, {"n": "Caserta", "lat": 41.07, "lng": 14.33, "km": 778.1, "d": ""}, {"n": "Napoli nord", "lat": 40.93, "lng": 14.42, "km": 796.6, "d": "si prende la A16 verso Avellino"}, {"n": "Avellino", "lat": 40.92, "lng": 14.79, "km": 829.9, "d": ""}, {"n": "Candela", "lat": 41.14, "lng": 15.51, "km": 899.6, "d": "si esce dall'autostrada, poi statale"}, {"n": "Gravina in Puglia", "lat": 40.82, "lng": 16.42, "km": 989.8, "d": "SS655, strada normale"}, {"n": "Matera", "lat": 40.66, "lng": 16.6, "km": 1014.8, "d": ""}, {"n": "Ferrandina", "lat": 40.5, "lng": 16.45, "km": 1038.2, "d": "si prende la Basentana"}, {"n": "Pisticci", "lat": 40.39, "lng": 16.55, "km": 1054.1, "d": "arrivo"}] };
-
-var S={ nome:"", fid:"", share:true, ramo:"", km:0, storia:[], partito:"", arrivato:false, forza:"",
-        pin:[], soste:[], voti:{}, tomb:[], senso:"andata",
-        vRif:90, vForza:false };
-var POS=null, WATCH=null, ALTRE={}, lastPush=0;
-
-/* colori delle famiglie: gli stessi in tutte le sezioni, decisi qui e non altrove */
-function colFam(id){ return {f1:"#E08A16", f2:"#0E8F91", f3:"#D6336C"}[id] || "#7D91A8"; }
-function $(s){ return document.querySelector(s); }
-function el(t,c,x){ var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; }
-function toast(m){ var t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove("on");},2200); }
-function load(){
-  try{ var r=localStorage.getItem(KEY); if(r) S=Object.assign(S,JSON.parse(r)); }catch(e){}
-  if(!S.fid && SHARED_ME){ S.fid=SHARED_ME.fid; S.nome=S.nome||SHARED_ME.nome||SHARED_ME.name||""; }
-}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function fam(id){ for(var i=0;i<FAM.length;i++) if(FAM[i].id===id) return FAM[i]; return {id:id,n:"?",c:"#7D91A8"}; }
-function hhmm(d){ return ("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2); }
-
-/* ---------- geometria: quanto sono lontano da un percorso e a che punto sono ----------
-   Alle nostre latitudini un grado di longitudine vale meno di uno di latitudine:
-   senza correzione l'errore sarebbe di decine di chilometri. */
-function xy(p){ return {x:p.lng*Math.cos(44.5*Math.PI/180)*111.32, y:p.lat*110.57}; }
-function distSeg(p,a,b){
-  var P=xy(p), A=xy(a), B=xy(b);
-  var vx=B.x-A.x, vy=B.y-A.y, wx=P.x-A.x, wy=P.y-A.y;
-  var L=vx*vx+vy*vy;
-  var t = L? Math.max(0, Math.min(1, (wx*vx+wy*vy)/L)) : 0;
-  var dx=P.x-(A.x+t*vx), dy=P.y-(A.y+t*vy);
-  return {d:Math.sqrt(dx*dx+dy*dy), t:t};
-}
-function progresso(lista, p){
-  var best={d:1e9,km:0,idx:0};
-  for(var i=0;i<lista.length-1;i++){
-    var r=distSeg(p, lista[i], lista[i+1]);
-    if(r.d<best.d){
-      best={ d:r.d, idx:i, km: lista[i].km + (lista[i+1].km-lista[i].km)*r.t };
-    }
-  }
-  return best;
-}
-var RAMO_PREVISTO="a14";     /* quasi certamente l'adriatica: e cio che si vede prima di partire */
-function percorso(ramo){
-  var base=ROUTE.tronco.concat(ramo==="a1"? ROUTE.a1 : ROUTE.a14);
-  if(S.senso!=="ritorno") return base;
-  /* il ritorno non e un altro percorso: e lo stesso letto dall'altro capo,
-     con i chilometri progressivi ricalcolati dalla partenza nuova */
-  var tot=base[base.length-1].km;
-  return base.slice().reverse().map(function(p){
-    return {n:p.n, lat:p.lat, lng:p.lng, km:Math.round((tot-p.km)*10)/10, d:p.d};
-  });
-}
-function destinazione(){ return S.senso==="ritorno"? "Bellusco" : "Pisticci"; }
-function totale(ramo){ var p=percorso(ramo); return p[p.length-1].km; }
-
-/* il ramo si riconosce dalla distanza: dopo Bologna i due corridoi divergono in fretta */
-function scegliRamo(p){
-  if(S.forza) return S.forza;
-  var d1=progresso(percorso("a1"), p), d14=progresso(percorso("a14"), p);
-  if(Math.abs(d1.d-d14.d) < 3) return S.ramo || "";      /* ancora sul tronco comune */
-  return d1.d < d14.d ? "a1" : "a14";
-}
-
-/* ---------- posizione ---------- */
-function onPos(pos){
-  var p={lat:pos.coords.latitude, lng:pos.coords.longitude};
-  POS=p;
-  /* al primo aggancio: se siamo gia in Basilicata, questo e il viaggio di ritorno */
-  if(!S.partito && !S.km && !S.sensoDeciso){
-    var casa={lat:45.62,lng:9.42}, meta={lat:40.39,lng:16.55};
-    var dCasa=distSeg(p,casa,casa).d, dMeta=distSeg(p,meta,meta).d;
-    if(dMeta<dCasa){ S.senso="ritorno"; toast("Rilevato il viaggio di ritorno verso Bellusco"); }
-    S.sensoDeciso=true; save();
-  }
-  var r=scegliRamo(p);
-  if(r && r!==S.ramo){ S.ramo=r; }
-  var lista=percorso(S.ramo||RAMO_PREVISTO);
-  var pr=progresso(lista,p);
-  S.km=Math.round(pr.km*10)/10;
-  S.fuoriRotta = pr.d>15;                       /* lontani dal corridoio: i conti non valgono */
-
-  var v=(pos.coords.speed!=null && pos.coords.speed>=0)? pos.coords.speed*3.6 : null;
-  S.storia.push({t:Date.now(), km:S.km, v:v});
-  if(S.storia.length>400) S.storia=S.storia.slice(-400);
-
-  if(!S.partito && mediaRecente()>25){ S.partito=new Date().toISOString(); toast("Buon viaggio: il conto è partito"); }
-  if(!S.arrivato && S.km > totale(S.ramo||RAMO_PREVISTO)-3){
-    S.arrivato=true; S.share=false; lasciaSpegnere();
-    toast("Arrivati a "+destinazione()+". Condivisione e schermo liberati.");
-  }
-
-  save(); render();
-  spingi();
-}
-function onErr(e){
-  $("#gpsPill").textContent = e.code===1? "GPS negato" : "GPS non disponibile";
-}
-/* Con lo schermo spento il browser congela tutto: niente posizione, niente
-   condivisione. Si chiede al sistema di tenerlo acceso finche il GPS lavora. */
-var wake=null;
-async function tieniAcceso(){
-  try{
-    if("wakeLock" in navigator && !wake){
-      wake=await navigator.wakeLock.request("screen");
-      wake.addEventListener("release", function(){ wake=null; });
-    }
-  }catch(e){ /* negato o non supportato: si continua lo stesso */ }
-}
-function lasciaSpegnere(){ try{ if(wake){ wake.release(); wake=null; } }catch(e){} }
-document.addEventListener("visibilitychange", function(){
-  if(!document.hidden && WATCH!=null) tieniAcceso();     /* al rientro va richiesto di nuovo */
-});
-
-function gpsOn(){
-  if(!navigator.geolocation){ toast("Questo telefono non espone il GPS"); return; }
-  if(WATCH!=null) return;
-  WATCH=navigator.geolocation.watchPosition(onPos,onErr,{enableHighAccuracy:true, maximumAge:5000, timeout:20000});
-  $("#gpsPill").textContent="GPS acceso";
-  $("#btnGps").textContent="Spegni il GPS";
-  tieniAcceso();
-  toast("Schermo tenuto acceso: attacca il cavo, dieci ore di GPS scaricano la batteria");
-}
-function gpsOff(){
-  if(WATCH!=null){ navigator.geolocation.clearWatch(WATCH); WATCH=null; }
-  lasciaSpegnere();
-  $("#gpsPill").textContent="GPS spento";
-  $("#btnGps").textContent="Accendi il GPS";
-}
-
-/* ---------- andatura e orario di arrivo ----------
-   Niente traffico da interrogare: la velocità utile la misuro su me stesso,
-   soste comprese. Se sto fermo in coda, la media scende e l'orario slitta. */
-function mediaRecente(min){
-  min = min||20;
-  var ora=Date.now(), t0=ora-min*60000;
-  var a=S.storia.filter(function(x){ return x.t>=t0; });
-  if(a.length<2) return 0;
-  var dkm=a[a.length-1].km-a[0].km, dh=(a[a.length-1].t-a[0].t)/3600000;
-  if(dh<=0) return 0;
-  return Math.max(0, dkm/dh);
-}
-function mediaViaggio(){
-  if(!S.partito || !S.storia.length) return 0;
-  var dh=(Date.now()-new Date(S.partito).getTime())/3600000;
-  return dh>0? S.km/dh : 0;
-}
-/* Velocita di MARCIA: conta solo i tratti in cui l'auto si muove davvero.
-   Una sosta non e una velocita bassa da spalmare sui chilometri che restano,
-   e un ritardo che si accumula: mescolarli darebbe orari assurdi. */
-function velMarcia(min){
-  min=min||60;
-  var t0=Date.now()-min*60000, a=S.storia.filter(function(x){ return x.t>=t0; });
-  var km=0, ore=0, i;
-  for(i=1;i<a.length;i++){
-    var dk=a[i].km-a[i-1].km, dh=(a[i].t-a[i-1].t)/3600000;
-    if(dh<=0) continue;
-    if(dk/dh < 10) continue;                             /* fermo o quasi: non e marcia */
-    km+=dk; ore+=dh;
-  }
-  if(!S.vForza && ore>0.02){ S.vMisurata=true; return Math.max(35, Math.min(125, km/ore)); }
-  if(!S.vForza){
-    var g=mediaViaggio();
-    if(g>25){ S.vMisurata=true; return Math.min(125,g); }
-  }
-  S.vMisurata=false;
-  return Math.max(30, Math.min(140, Number(S.vRif)||90));   /* valore di riferimento, impostabile */
-}
-function inSosta(){
-  var r=mediaRecente(12);
-  return (S.partito && r<10);
-}
-function minutiFermi(){
-  if(!inSosta()) return 0;
-  var a=S.storia, i, ultimo=Date.now();
-  for(i=a.length-1;i>0;i--){
-    var dk=a[i].km-a[i-1].km, dh=(a[i].t-a[i-1].t)/3600000;
-    if(dh>0 && dk/dh>=10) return Math.round((ultimo-a[i].t)/60000);
-  }
-  return a.length? Math.round((ultimo-a[0].t)/60000) : 0;
-}
-function velStimata(){ return velMarcia(60); }
-
-function eta(){
-  var tot=totale(S.ramo||RAMO_PREVISTO), resta=Math.max(0, tot-S.km);
-  var v=velStimata();
-  var oreGuida=resta/v;
-  /* con quattro bambini una sosta ogni due ore e realta, non pessimismo */
-  var soste = Math.floor(oreGuida/2)*0.25;
-  var ore=oreGuida+soste;
-  return { quando:new Date(Date.now()+ore*3600000), resta:resta, tot:tot, v:v, ore:ore, soste:soste };
-}
-function etaTappa(km){
-  var resta=Math.max(0, km-S.km);
-  return new Date(Date.now()+ (resta/velStimata())*3600000);
-}
-
-/* ---------- condivisione fra le auto ---------- */
-function meId(){ return S.fid||"f0"; }
-async function spingi(){
-  if(!S.share || !S.fid) return;
-  if(Date.now()-lastPush < 120000) return;              /* una volta ogni due minuti: basta e avanza */
-  lastPush=Date.now();
-  await sincronizza(true);
-}
-/* inserisce o aggiorna un elemento in una lista: vince chi ha il timestamp piu recente */
-function innesta(lista, dato, ts){
-  for(var i=0;i<lista.length;i++){
-    if(lista[i].id===dato.id){
-      if(String(ts) > String(lista[i].ts||"")) lista[i]=dato;
-      return;
-    }
-  }
-  lista.push(dato);
-}
-
-async function sincronizza(silenzioso){
-  var rec=[];
-  S.pin.forEach(function(p){ rec.push({id:p.id, kind:"pin", ts:p.ts, data:p}); });
-  S.soste.forEach(function(o){ rec.push({id:o.id, kind:"sosta", ts:o.ts, data:o}); });
-  for(var sid in S.voti){ for(var f in S.voti[sid]){
-    var vv=S.voti[sid][f];
-    rec.push({id:"vsosta:"+sid+":"+f, kind:"vsosta", ts:vv.ts, data:{sostaId:sid, fid:f, nome:vv.nome, v:vv.v}});
-  } }
-  S.tomb.forEach(function(t){ rec.push({id:t.id, kind:"del", ts:t.ts, data:null}); });
-  if(S.fid) rec.push(recordVersione((S.nome||"?")+"|"+S.fid));
-  if(S.share && S.fid && POS){
-    rec.push({ id:"pos:"+meId(), kind:"pos", ts:new Date().toISOString(),
-      data:{ fid:S.fid, nome:S.nome, lat:POS.lat, lng:POS.lng, km:S.km, ramo:S.ramo,
-             v:Math.round(mediaRecente(10)), eta:eta().quando.toISOString(), arrivato:S.arrivato } });
-  }
-  try{
-    var r=await fetch(SYNC_URL,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({room:SYNC_ROOM, records:rec}) });
-    var d=await r.json();
-    if(d && d.ok){
-      leggiVersioni(d.records||[]);
-      ALTRE={};
-      var morti={};
-      (d.records||[]).forEach(function(x){ if(x.kind==="del") morti[x.id]=x.ts; });
-      (d.records||[]).forEach(function(x){
-        if(!x.data) return;
-        if(morti[x.id]) return;
-        if(x.kind==="pos" && x.data.fid!==S.fid){ ALTRE[x.data.fid]={d:x.data, ts:x.ts}; }
-        else if(x.kind==="pin"){ innesta(S.pin, x.data, x.ts); }
-        else if(x.kind==="sosta"){ innesta(S.soste, x.data, x.ts); }
-        else if(x.kind==="vsosta"){
-          var q=x.data; S.voti[q.sostaId]=S.voti[q.sostaId]||{};
-          var att=S.voti[q.sostaId][q.fid];
-          if(!att || String(x.ts)>String(att.ts)) S.voti[q.sostaId][q.fid]={v:q.v, nome:q.nome, ts:x.ts};
-        }
-      });
-      S.pin=S.pin.filter(function(p){ return !morti[p.id]; });
-      S.soste=S.soste.filter(function(o){ return !morti[o.id]; });
-      save(); render();
-    }
-  }catch(e){ if(!silenzioso) toast("Nessuna rete: le altre auto non si aggiornano"); }
-}
-
-
-/* ============================================================
-   PUNTI SEGNATI, PROPOSTE DI SOSTA E RITROVO
-   ============================================================ */
-var TIPI=[{k:"parcheggio",e:"🅿️",n:"Parcheggio"},{k:"ombrellone",e:"⛱️",n:"Ombrellone"},
-          {k:"sosta",e:"⛽",n:"Sosta"},{k:"cibo",e:"🍽️",n:"Mangiato qui"},{k:"altro",e:"📍",n:"Altro"}];
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
-function tipoDi(k){ for(var i=0;i<TIPI.length;i++) if(TIPI[i].k===k) return TIPI[i]; return TIPI[4]; }
-
-/* distanza in linea d'aria e direzione: per ritrovare l'auto a piedi servono queste, non i km di strada */
-function hav(a,b){
-  var R=6371, p1=a.lat*Math.PI/180, p2=b.lat*Math.PI/180;
-  var dp=(b.lat-a.lat)*Math.PI/180, dl=(b.lng-a.lng)*Math.PI/180;
-  var x=Math.sin(dp/2)*Math.sin(dp/2)+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)*Math.sin(dl/2);
-  return 2*R*Math.asin(Math.sqrt(x));
-}
-var ROSA=["N","NE","E","SE","S","SO","O","NO"];
-function direzione(a,b){
-  var y=Math.sin((b.lng-a.lng)*Math.PI/180)*Math.cos(b.lat*Math.PI/180);
-  var x=Math.cos(a.lat*Math.PI/180)*Math.sin(b.lat*Math.PI/180)-
-        Math.sin(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.cos((b.lng-a.lng)*Math.PI/180);
-  var g=(Math.atan2(y,x)*180/Math.PI+360)%360;
-  return ROSA[Math.round(g/45)%8];
-}
-function distanzaUmana(km){
-  if(km<1) return Math.round(km*1000)+" m";
-  return (km<10? km.toFixed(1) : Math.round(km))+" km";
-}
-
-function segna(tipo){
-  if(!POS){ toast("Serve il GPS acceso per segnare un posto"); return; }
-  var p={ id:"pin:"+uid(), tipo:tipo, lat:POS.lat, lng:POS.lng, nota:"",
-          by:S.nome||fam(S.fid).n, fid:S.fid, ts:new Date().toISOString() };
-  S.pin.push(p); save(); render();
-  toast(tipoDi(tipo).n+" segnato");
-  lastPush=0; sincronizza(true);
-}
-function scordaPin(id){
-  if(!confirm("Cancellare questo punto?")) return;
-  S.pin=S.pin.filter(function(x){ return x.id!==id; });
-  S.tomb.push({id:id, ts:new Date().toISOString()});
-  save(); render(); lastPush=0; sincronizza(true);
-}
-
-/* velocita presunta di un'altra auto: uso quella che ha dichiarato, con un minimo di buon senso */
-function velAuto(a){ return (a && a.v && a.v>30)? a.v : 90; }
-function etaAutoA(kmObiettivo, kmAuto, v){
-  var resta=Math.max(0, kmObiettivo-kmAuto);
-  return new Date(Date.now()+ (resta/v)*3600000);
-}
-
-/* tabella del ritrovo: a che ora ciascuna auto passa dalle prossime tappe */
-function renderRitrovo(){
-  var host=$("#ritrovo"); if(!host) return;
-  host.innerHTML="";
-  var altre=Object.keys(ALTRE);
-  if(!altre.length || !S.km) return;
-  var lista=percorso(S.ramo||RAMO_PREVISTO), pros=[], i;
-  for(i=0;i<lista.length && pros.length<3;i++) if(lista[i].km>S.km+8) pros.push(lista[i]);
-  if(!pros.length) return;
-
-  var w=el("div","ritro");
-  w.appendChild(el("div","eyebrow","Dove ci si ritrova"));
-  var t=document.createElement("table");
-  var tr=document.createElement("tr");
-  tr.appendChild(el("th",null,"Tappa"));
-  tr.appendChild(el("th",null,"Noi"));
-  altre.forEach(function(k){ tr.appendChild(el("th",null, (ALTRE[k].d.nome||fam(k).n).split(" ")[0])); });
-  t.appendChild(tr);
-
-  var miglior=null, minSpread=1e9;
-  pros.forEach(function(p){
-    var r=document.createElement("tr");
-    r.appendChild(el("td",null,p.n));
-    var orari=[etaTappa(p.km).getTime()];
-    r.appendChild(el("td",null, hhmm(etaTappa(p.km))));
-    altre.forEach(function(k){
-      var a=ALTRE[k].d, e=etaAutoA(p.km, a.km, velAuto(a));
-      orari.push(e.getTime());
-      r.appendChild(el("td",null, hhmm(e)));
-    });
-    var spread=(Math.max.apply(null,orari)-Math.min.apply(null,orari))/60000;
-    if(spread<minSpread){ minSpread=spread; miglior=p; }
-    t.appendChild(r);
-  });
-  w.appendChild(t);
-  if(miglior){
-    var c=el("div","hint");
-    c.style.marginTop="7px";
-    c.textContent = minSpread<=10
-      ? ("A "+miglior.n+" ci arrivate quasi insieme: è lì che conviene fermarsi.")
-      : ("Il punto meno scomodo è "+miglior.n+", ma c'è comunque "+Math.round(minSpread)+" minuti di differenza fra la prima e l'ultima auto.");
-    w.appendChild(c);
-  }
-  host.appendChild(w);
-}
-
-/* ---- proposte di sosta ---- */
-function apriSosta(){
-  if(!S.fid){ toast("Prima dimmi quale auto siete, in Impostazioni"); return; }
-  var sel=$("#sostaDove"); sel.innerHTML="";
-  var lista=percorso(S.ramo||RAMO_PREVISTO), i;
-  for(i=0;i<lista.length;i++) if(lista[i].km>S.km+5){
-    var o=el("option",null, lista[i].n+" (+"+Math.round(lista[i].km-S.km)+" km)");
-    o.value="km:"+lista[i].km+":"+lista[i].n; sel.appendChild(o);
-  }
-  S.pin.forEach(function(p){
-    var o=el("option",null, tipoDi(p.tipo).e+" "+tipoDi(p.tipo).n+" segnato da "+p.by);
-    o.value="pin:"+p.id; sel.appendChild(o);
-  });
-  if(!sel.childNodes.length){ toast("Nessuna tappa davanti a voi"); return; }
-  $("#sostaNota").value="";
-  aggiornaSostaEta();
-  sel.onchange=aggiornaSostaEta;
-  $("#scrim").classList.add("on"); $("#sheetSosta").classList.add("on");
-}
-function chiudiSheet(){ $("#scrim").classList.remove("on"); $("#sheetSosta").classList.remove("on"); }
-function aggiornaSostaEta(){
-  var v=$("#sostaDove").value||"", out=$("#sostaEta");
-  if(v.indexOf("km:")!==0){ out.textContent=""; return; }
-  var km=Number(v.split(":")[1]);
-  var righe=["voi alle "+hhmm(etaTappa(km))];
-  for(var k in ALTRE){ var a=ALTRE[k].d; righe.push((a.nome||fam(k).n)+" alle "+hhmm(etaAutoA(km,a.km,velAuto(a)))); }
-  out.textContent="Ci arrivate: "+righe.join(" · ");
-}
-function salvaSosta(){
-  var v=$("#sostaDove").value||"";
-  var o={ id:"sosta:"+uid(), by:S.nome||fam(S.fid).n, fid:S.fid, nota:$("#sostaNota").value.trim(),
-          ts:new Date().toISOString(), stato:"aperta" };
-  if(v.indexOf("km:")===0){ var pz=v.split(":"); o.km=Number(pz[1]); o.nome=pz.slice(2).join(":"); }
-  else { var pin=S.pin.filter(function(x){ return x.id===v.slice(4); })[0];
-         if(pin){ o.lat=pin.lat; o.lng=pin.lng; o.nome=tipoDi(pin.tipo).n+" di "+pin.by; } }
-  S.soste.push(o);
-  S.voti[o.id]=S.voti[o.id]||{}; S.voti[o.id][S.fid]={v:1, nome:o.by, ts:new Date().toISOString()};
-  save(); chiudiSheet(); render(); toast("Proposta mandata");
-  lastPush=0; sincronizza(true);
-}
-function votaSosta(id,v){
-  if(!S.fid){ toast("Prima dimmi quale auto siete"); return; }
-  S.voti[id]=S.voti[id]||{};
-  if(S.voti[id][S.fid] && S.voti[id][S.fid].v===v) delete S.voti[id][S.fid];
-  else S.voti[id][S.fid]={v:v, nome:S.nome||fam(S.fid).n, ts:new Date().toISOString()};
-  save(); render(); lastPush=0; sincronizza(true);
-}
-
-function renderSoste(){
-  var host=$("#sosteList"); host.innerHTML="";
-  var vive=S.soste.filter(function(x){ return x.stato!=="chiusa"; });
-  if(!vive.length){ host.appendChild(el("div","hint","Nessuna proposta. Tocca Proponi: le altre auto la vedono entro due minuti, con l'ora in cui ciascuna ci arriva.")); return; }
-  vive.forEach(function(o){
-    var w=el("div","sosta");
-    var si=0, no=0, nomi=[];
-    var vv=S.voti[o.id]||{};
-    for(var k in vv){ if(vv[k].v>0){ si++; nomi.push(vv[k].nome); } else no++; }
-    if(si>=2) w.className="sosta acc";
-    w.appendChild(el("div","eyebrow", o.km? ("tappa · +"+Math.max(0,Math.round(o.km-S.km))+" km") : "punto segnato"));
-    w.appendChild(el("b",null,o.nome||"—"));
-    if(o.nota) w.appendChild(el("div","hint",o.nota));
-    var righe=[];
-    if(o.km){
-      righe.push("voi "+hhmm(etaTappa(o.km)));
-      for(var k2 in ALTRE){ var a=ALTRE[k2].d; righe.push((a.nome||fam(k2).n)+" "+hhmm(etaAutoA(o.km,a.km,velAuto(a)))); }
-      w.appendChild(el("div","hint","Arrivo: "+righe.join(" · ")));
-    }
-    w.appendChild(el("div","hint","Proposta da "+o.by+(nomi.length? " · ci stanno: "+nomi.join(", ") : "")));
-    var ch=el("div","chips"); ch.style.marginTop="9px";
-    var b1=el("button","chip","Ci stiamo ("+si+")");
-    b1.setAttribute("aria-pressed", (vv[S.fid]&&vv[S.fid].v>0)?"true":"false");
-    b1.onclick=function(){ votaSosta(o.id,1); };
-    var b2=el("button","chip","Passiamo ("+no+")");
-    b2.setAttribute("aria-pressed", (vv[S.fid]&&vv[S.fid].v<0)?"true":"false");
-    b2.onclick=function(){ votaSosta(o.id,-1); };
-    ch.appendChild(b1); ch.appendChild(b2);
-    if(o.fid===S.fid){
-      var b3=el("button","chip","Ritira");
-      b3.onclick=function(){ o.stato="chiusa"; o.ts=new Date().toISOString(); save(); render(); lastPush=0; sincronizza(true); };
-      ch.appendChild(b3);
-    }
-    w.appendChild(ch);
-    host.appendChild(w);
-  });
-}
-
-function renderPin(){
-  var host=$("#pinList"); host.innerHTML="";
-  $("#pinCnt").textContent = S.pin.length? S.pin.length+" punti" : "";
-  if(!S.pin.length){ host.appendChild(el("div","hint","Nessun punto segnato. Il pulsante sta nella schermata Ora: utile soprattutto per il parcheggio e per l'ombrellone.")); return; }
-  var ord=S.pin.slice().sort(function(a,b){ return b.ts.localeCompare(a.ts); });
-  ord.forEach(function(p){
-    var row=el("div","pin");
-    row.appendChild(el("div",null,tipoDi(p.tipo).e));
-    var m=el("div","m");
-    m.appendChild(el("b",null, tipoDi(p.tipo).n));
-    var q=new Date(p.ts);
-    m.appendChild(el("span",null, "segnato da "+p.by+" alle "+hhmm(q)));
-    row.appendChild(m);
-    if(POS){
-      var d=hav(POS,p);
-      var v=el("div","via"); v.textContent=distanzaUmana(d)+" "+direzione(POS,p);
-      row.appendChild(v);
-    }
-    var go=el("button","go","Vai");
-    go.onclick=function(){ window.open("https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng+"&travelmode=walking","_blank"); };
-    row.appendChild(go);
-    var del=el("button","go","×");
-    del.onclick=function(){ scordaPin(p.id); };
-    row.appendChild(del);
-    host.appendChild(row);
-  });
-}
-
-function renderSegna(){
-  var h=$("#segnaChips"); h.innerHTML="";
-  TIPI.forEach(function(t){
-    var b=el("button","chip", t.e+" "+t.n);
-    b.onclick=function(){ segna(t.k); };
-    h.appendChild(b);
-  });
-}
-
-/* ---------- schermate ---------- */
-function render(){
-  var e=eta(), tot=e.tot;
-  $("#hRamo").textContent = S.ramo==="a14"? "A14" : (S.ramo==="a1"? "A1" : "A14 previsto");
-  $("#hRotta").textContent = S.senso==="ritorno"? "Pisticci → Bellusco" : "Bellusco → Pisticci";
-  $("#hSub").textContent = S.partito? ("partiti alle "+hhmm(new Date(S.partito))) : "in attesa del GPS";
-  $("#etaLab").textContent = "Arrivo previsto a "+destinazione();
-  $("#etaBig").textContent = (S.km>0||S.partito)? hhmm(e.quando) : "--:--";
-  $("#etaSub").textContent = S.arrivato? "arrivati" :
-    (S.km>0? ("mancano "+Math.round(e.resta)+" km · "+Math.floor(e.ore)+"h"+("0"+Math.round((e.ore%1)*60)).slice(-2)
-              + (inSosta()? " · fermi da "+minutiFermi()+" min" : "")
-              + (e.soste? " · incluse soste per "+Math.round(e.soste*60)+" min" : ""))
-            : "accendi il GPS per iniziare");
-  var pc=tot? Math.min(100, S.km/tot*100) : 0;
-  $("#progBar").style.width=pc+"%";
-  $("#progTxt").textContent = Math.round(pc)+"% del percorso"+(S.ramo? "" : " · corridoio non ancora deciso");
-  $("#kFatti").textContent=Math.round(S.km);
-  $("#kMancano").textContent=Math.round(e.resta);
-  $("#kMedia").textContent=Math.round(e.v);
-  var et=$("#kMediaLab");
-  if(et) et.textContent = S.vForza? "km/h imposta" : (S.vMisurata? "media km/h" : "km/h stimata");
-
-  /* prossima tappa */
-  var lista=percorso(S.ramo||RAMO_PREVISTO), pros=null, i;
-  for(i=0;i<lista.length;i++) if(lista[i].km>S.km+1){ pros=lista[i]; break; }
-  var box=$("#prossima"); box.innerHTML="";
-  if(pros){
-    var r=el("div","tappa prossima");
-    r.appendChild(el("span","ora", hhmm(etaTappa(pros.km))));
-    var m=el("div","m"); m.appendChild(el("b",null,pros.n));
-    m.appendChild(el("span",null, pros.d || "fra "+Math.round(pros.km-S.km)+" km"));
-    r.appendChild(m);
-    r.appendChild(el("span","km", Math.round(pros.km-S.km)+" km"));
-    box.appendChild(r);
-  } else box.appendChild(el("div","hint","Nessuna tappa davanti: o siete arrivati, o il GPS non ha ancora agganciato."));
-
-  renderAuto(); renderRitrovo(); renderTappe(); renderAvvisi(); renderSoste(); renderPin(); renderSegna();
-  $("#stamp").textContent="Viaggio · build "+BUILD;
-}
-
-function renderAuto(){
-  var host=$("#autoList"); host.innerHTML="";
-  var righe=[], k;
-  righe.push({fid:S.fid||"f0", nome:(S.nome||"Questa auto")+" (noi)", km:S.km, v:Math.round(mediaRecente(10)), eta:eta().quando, io:true, ts:new Date().toISOString()});
-  for(k in ALTRE){ var a=ALTRE[k].d;
-    righe.push({fid:a.fid, nome:a.nome||fam(a.fid).n, km:a.km, v:a.v, eta:a.eta? new Date(a.eta):null, io:false, ts:ALTRE[k].ts});
-  }
-  righe.sort(function(x,y){ return y.km-x.km; });
-  if(righe.length<2) host.appendChild(el("div","hint","Le altre auto compaiono qui appena accendono la condivisione."));
-  righe.forEach(function(r){
-    var row=el("div","auto");
-    var d=el("span","dot"); d.style.background=colFam(r.fid); row.appendChild(d);
-    var m=el("div","m");
-    m.appendChild(el("b",null, r.nome + (r.io? "" : " · "+fam(r.fid).n)));
-    var eta_= r.eta? "arrivo "+hhmm(r.eta) : "";
-    var quando = r.io? "" : (" · visto alle "+hhmm(new Date(r.ts)));
-    m.appendChild(el("span",null, Math.round(r.km)+" km percorsi · "+(r.v||0)+" km/h "+eta_+quando));
-    row.appendChild(m);
-    var gap=el("div","gap");
-    if(!r.io){
-      var dk=Math.round(r.km-S.km);
-      gap.textContent = dk===0? "affiancati" : (dk>0? "+"+dk+" km" : dk+" km");
-      gap.style.color = dk>0? "var(--sea)" : "var(--sun)";
-    }
-    row.appendChild(gap);
-    host.appendChild(row);
-  });
-  var n=Object.keys(ALTRE).length;
-  $("#autoAgg").textContent = n? (n+" collegate") : "";
-}
-
-function renderTappe(){
-  var host=$("#tappe"); host.innerHTML="";
-  var lista=percorso(S.ramo||RAMO_PREVISTO);
-  lista.forEach(function(t){
-    var passata = t.km <= S.km+0.5;
-    var r=el("button","tappa"+(passata?" passata":""));
-    r.appendChild(el("span","ora", passata? "—" : hhmm(etaTappa(t.km))));
-    var m=el("div","m"); m.appendChild(el("b",null,t.n));
-    m.appendChild(el("span",null, t.d || (Math.round(t.km)+" km dalla partenza")));
-    r.appendChild(m);
-    r.appendChild(el("span","km", passata? "fatta" : "+"+Math.round(t.km-S.km)+" km"));
-    r.onclick=function(){ window.open("https://www.google.com/maps/search/?api=1&query="+t.lat+","+t.lng,"_blank"); };
-    host.appendChild(r);
-  });
-}
-
-/* la prima auto fa da sentinella: se rallenta, le altre lo sanno prima di arrivarci */
-function renderAvvisi(){
-  var host=$("#avvisi"); host.innerHTML="";
-  var av=avvisoVersione();
-  if(av) host.appendChild(el("div","avviso", av.txt));
-  if(S.fuoriRotta) host.appendChild(el("div","avviso","Siete lontani dal corridoio previsto: chilometri e orario non sono attendibili finché non rientrate."));
-  var k, ora=Date.now();
-  for(k in ALTRE){
-    var a=ALTRE[k].d, eta_ts=new Date(ALTRE[k].ts).getTime();
-    if(ora-eta_ts > 25*60000) continue;                       /* dato vecchio: non allarmo per niente */
-    if(a.km > S.km+5 && a.v!=null && a.v < 45 && !a.arrivato){
-      host.appendChild(el("div","avviso", (a.nome||fam(a.fid).n)+" sta rallentando a "+Math.round(a.km-S.km)+" km davanti a voi ("+a.v+" km/h): probabile coda."));
-    }
-  }
-  var e=eta();
-  if(S.km>0 && !S.arrivato){
-    var h=e.quando.getHours();
-    var c=el("div","avviso ok");
-    if(h>=1 && h<6) c.textContent="Arrivo nel cuore della notte: lungo la strada cercate le aree di servizio aperte 24 ore, il pulsante qui sotto le trova.";
-    else if(h>=12 && h<15) c.textContent="Arrivo nell'ora di pranzo: conviene mangiare prima e arrivare con calma.";
-    else c.textContent="Ricordate una sosta ogni due ore: con quattro bambini è la differenza fra un viaggio e una battaglia.";
-    host.appendChild(c);
-  }
-}
-
-function renderSet(){
-  $("#cNome").value=S.nome||"";
-  $("#cShare").checked=!!S.share;
-  var h=$("#cFam"); h.innerHTML="";
-  FAM.forEach(function(f){
-    var b=el("button","chip",f.n);
-    b.setAttribute("aria-pressed", S.fid===f.id?"true":"false");
-    b.onclick=function(){ S.fid=f.id; save(); scriviCondivisa(S.nome,S.fid); renderSet(); render(); };
-    h.appendChild(b);
-  });
-  $("#cVel").value = Number(S.vRif)||90;
-  $("#cVelForza").checked = !!S.vForza;
-  $("#btnRamo").textContent = "Forza percorso: "+(S.forza==="a1"?"A1 (Roma-Napoli)":(S.forza==="a14"?"A14 (Adriatica)":"automatico"));
-  $("#btnSenso").textContent = S.senso==="ritorno"? "Direzione: ritorno a Bellusco" : "Direzione: andata a Pisticci";
-}
-
-function bind(){
-  var tabs=document.querySelectorAll("nav button");
-  tabs.forEach(function(b){
-    b.onclick=function(){
-      tabs.forEach(function(x){ x.setAttribute("aria-selected","false"); });
-      b.setAttribute("aria-selected","true");
-      document.querySelectorAll(".view").forEach(function(v){ v.classList.remove("on"); });
-      $("#v-"+b.dataset.v).classList.add("on"); window.scrollTo(0,0);
-    };
-  });
-  $("#btnGps").onclick=function(){ if(WATCH==null) gpsOn(); else gpsOff(); };
-  $("#gpsPill").onclick=function(){ if(WATCH==null) gpsOn(); else gpsOff(); };
-  $("#cNome").oninput=function(){ S.nome=this.value; save(); scriviCondivisa(S.nome,S.fid); };
-  $("#cShare").onchange=function(){ S.share=this.checked; save(); if(S.share){ lastPush=0; sincronizza(false); } };
-  $("#btnRamo").onclick=function(){
-    S.forza = S.forza===""? "a14" : (S.forza==="a14"? "a1" : "");
-    if(S.forza) S.ramo=S.forza;
-    save(); renderSet(); render();
-  };
-  $("#cVel").oninput=function(){
-    S.vRif=Math.max(30, Math.min(140, Number(this.value)||90));
-    save(); render();
-  };
-  $("#cVelForza").onchange=function(){ S.vForza=this.checked; save(); render(); };
-  $("#btnSenso").onclick=function(){
-    S.senso = S.senso==="ritorno"? "andata" : "ritorno";
-    S.km=0; S.storia=[]; S.partito=""; S.arrivato=false; S.sensoDeciso=true;
-    save(); renderSet(); render();
-    toast(S.senso==="ritorno"? "Ritorno: da Pisticci a Bellusco" : "Andata: da Bellusco a Pisticci");
-  };
-  $("#btnReset").onclick=function(){
-    if(!confirm("Azzerare chilometri, orari e storico di questo viaggio?")) return;
-    S.km=0; S.storia=[]; S.partito=""; S.arrivato=false; S.ramo=""; save(); render();
-  };
-  $("#btnSosta").onclick=apriSosta;
-  $("#sostaClose").onclick=chiudiSheet;
-  $("#scrim").onclick=chiudiSheet;
-  $("#sostaSave").onclick=salvaSosta;
-  $("#cercaAree").onclick=function(){ apriMaps("area+di+servizio"); };
-  $("#cercaCibo").onclick=function(){ apriMaps("ristorante"); };
-}
-function apriMaps(q){
-  if(!POS){ toast("Serve il GPS acceso per cercare qui intorno"); return; }
-  window.open("https://www.google.com/maps/search/"+q+"/@"+POS.lat+","+POS.lng+",13z","_blank");
-}
-
-load(); bind(); renderSet(); render();
-setInterval(function(){ render(); }, 60000);          /* l'orario si aggiorna anche da fermi */
-setInterval(function(){ sincronizza(true); }, 120000);
-sincronizza(true);
-(function(){
-  try{
-    if(window.__LOGO__){
-      var im=document.getElementById("marchio");
-      im.src=window.__LOGO__; im.hidden=false;
-    }
-  }catch(e){}
-})();
-setTimeout(function(){
-  var n=document.getElementById("splash");
-  if(n){ n.classList.add("out"); setTimeout(function(){ n.style.display="none"; },440); }
-},1500);
-</script>
-</body>
-</html>
-</template>
 <template id="app-lista"><!DOCTYPE html>
 <html lang="it">
 <head>
@@ -5398,16 +4925,21 @@ main{max-width:820px;margin:0 auto;padding:12px 12px 8px}
 .rep h3{margin:0 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:800;
   display:flex;align-items:center;gap:7px}
 .rep h3 .n{margin-left:auto;font-family:var(--mono);letter-spacing:0}
-.riga{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+/* una voce = una riga. Il nome e chi l'ha aggiunta stanno affiancati:
+   impilarli raddoppiava l'altezza e con trenta voci lo scorrimento diventa lungo. */
+.riga{display:flex;align-items:center;gap:9px;padding:7px 2px;border-bottom:1px solid var(--line);width:100%;text-align:left;min-height:40px}
 .riga:last-child{border-bottom:0}
-.box{width:24px;height:24px;border-radius:7px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;
-  font-size:14px;color:#fff;font-weight:800}
+.box{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);flex:0 0 auto;display:grid;place-items:center;
+  font-size:13px;color:#fff;font-weight:800}
 .riga.presa .box{background:var(--olive);border-color:var(--olive)}
-.riga .t{flex:1 1 auto;min-width:0;font-weight:600}
-.riga .t small{display:block;font-weight:400;font-size:11.5px;color:var(--ink3)}
+.riga .t{flex:1 1 auto;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.riga .t small{font-weight:400;font-size:11.5px;color:var(--ink3);margin-left:7px}
 .riga.presa .t{text-decoration:line-through;color:var(--ink3);font-weight:500}
-.riga .q{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink2);flex:0 0 auto}
-.riga .x{color:var(--ink3);font-size:18px;padding:2px 6px;flex:0 0 auto}
+.riga .q{font-family:var(--mono);font-weight:700;font-size:12.5px;color:var(--ink2);flex:0 0 auto;
+  background:var(--sand);border-radius:6px;padding:2px 7px}
+.riga .x{color:var(--ink3);font-size:17px;padding:2px 5px;flex:0 0 auto;line-height:1}
+.rep h3{margin:0 0 2px}
+.card.rep{padding:11px 13px}
 
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 12px;font-size:13px;font-weight:600;color:var(--ink2)}
@@ -5484,7 +5016,7 @@ setTimeout(function(){ var n=document.getElementById("splash");
 
 <script>
 "use strict";
-var BUILD="V001", KEY="lista_spesa_v1", IDKEY="lista_spesa_me";
+var BUILD="V002", KEY="lista_spesa_v1", IDKEY="lista_spesa_me";
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 var APPID="lista";
@@ -5714,10 +5246,12 @@ function riga(it){
 
   var t=el("div","t");
   t.appendChild(document.createTextNode(maiuscola(it.n)));
-  var det=[];
-  if(it.by) det.push(it.presa && it.presaDa? ("preso da "+it.presaDa) : ("da "+it.by));
-  var sm=el("small",null, det.join(" · "));
-  t.appendChild(sm);
+  /* la firma si mostra solo quando aggiunge qualcosa: l'ho aggiunta io e la
+     vedo io e' rumore, mentre "preso da Elena" dice chi e' gia al supermercato */
+  var firma="";
+  if(it.presa && it.presaDa) firma=it.presaDa;
+  else if(it.by && !(ME && it.by===ME.name)) firma=it.by;
+  if(firma) t.appendChild(el("small",null,firma));
   /* toccare il nome cambia reparto: la correzione più probabile, senza menu */
   t.onclick=function(){ if(!it.presa) cambiaReparto(it.id); };
   r.appendChild(t);
@@ -5872,8 +5406,8 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V032w";
-var VERSIONE_APP="V032";
+var BUILD="V039w";
+var VERSIONE_APP="V039";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
@@ -5920,8 +5454,7 @@ document.addEventListener("DOMContentLoaded", function(){});
 
 var SEZ={
   spese:{ t:"Gestione spese", tpl:"app-spese" },
-  itin: { t:"Itinerari",      tpl:"app-itin"  },
-  viag: { t:"Viaggio in auto", tpl:"app-viag"  },
+  itin: { t:"Itinerari e strada", tpl:"app-itin" },
   lista:{ t:"Lista della spesa", tpl:"app-lista" }
 };
 var aperta=null, pushed=false;
@@ -5966,7 +5499,6 @@ function chiudi(daIndietro){
 
 document.getElementById("goSpese").onclick=function(){ apri("spese"); };
 document.getElementById("goItin").onclick=function(){ apri("itin"); };
-document.getElementById("goViag").onclick=function(){ apri("viag"); };
 document.getElementById("goLista").onclick=function(){ apri("lista"); };
 document.getElementById("btnBack").onclick=function(){ chiudi(false); };
 window.addEventListener("popstate", function(){ if(aperta) chiudi(true); });   /* tasto indietro del telefono */
@@ -5986,41 +5518,10 @@ function esciPoiAccesso(){
 setTimeout(esciPoiAccesso, 1900);
 document.getElementById("splash").onclick=esciPoiAccesso;
 
-/* ---------- aggiornamenti ----------
-   versione.json viene riscritto a ogni pubblicazione: se il numero non coincide
-   con quello che sta girando, l'app lo dice, invece di lasciare qualcuno
-   indietro senza capire perche' non vede le stesse cose degli altri. */
-var rinviato=false;
-function mostraNuovaVersione(){ if(!rinviato) document.getElementById("nuovaVer").hidden=false; }
-async function controllaAggiornamenti(){
-  if(location.protocol.indexOf("http")!==0) return;      /* copia locale: non c'e' nulla da confrontare */
-  try{
-    var r=await fetch("versione.json?t="+Date.now(), {cache:"no-store"});
-    if(!r.ok) return;
-    var d=await r.json();
-    if(d && d.build && d.build!==BUILD) mostraNuovaVersione();
-  }catch(e){}
-}
-document.getElementById("aggiornaDopo").onclick=function(){
-  rinviato=true; document.getElementById("nuovaVer").hidden=true;
-};
-document.getElementById("aggiornaOra").onclick=async function(){
-  this.textContent="Aggiorno...";
-  try{
-    if("serviceWorker" in navigator){
-      var regs=await navigator.serviceWorker.getRegistrations();
-      for(var i=0;i<regs.length;i++){ try{ await regs[i].update(); }catch(e){} }
-    }
-    if(window.caches){
-      var chiavi=await caches.keys();
-      await Promise.all(chiavi.map(function(k){ return caches.delete(k); }));
-    }
-  }catch(e){}
-  location.reload();                                     /* memoria svuotata: riparte dalla copia nuova */
-};
-setTimeout(controllaAggiornamenti, 4000);
-setInterval(controllaAggiornamenti, 30*60000);
-document.addEventListener("visibilitychange", function(){ if(!document.hidden) controllaAggiornamenti(); });
+/* Nessun avviso di aggiornamento: le versioni nuove le distribuisce Simone
+   mandando il link. Il service worker resta perche serve a far funzionare
+   l'app senza rete, e perche la richiesta di rete salta la cache: chi apre
+   l'app riceve comunque l'ultima copia pubblicata. */
 
 
 /* ---------- installazione ----------
@@ -6032,7 +5533,8 @@ var UA=navigator.userAgent;
 var iOS=/iphone|ipad|ipod/i.test(UA);
 var android=/android/i.test(UA);
 var dentroApp=/; wv\)/i.test(UA) || /FBAN|FBAV|Instagram|Line\/|WhatsApp/i.test(UA);
-var installata=window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+var installata=false;
+try{ installata = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone || false; }catch(e){}
 var tile=document.getElementById("btnInstall");
 var txt=document.getElementById("installTxt");
 var go=document.getElementById("installGo");
@@ -6075,102 +5577,34 @@ tile.onclick=function(){
   }
 };
 mostraInstalla();
-/* ---------- aggiornamenti dell'app ----------
-   Prima mi appoggiavo agli stati del service worker (in attesa, attivo...):
-   fragile, perche subito dopo una ricarica quegli stati mentono e la barra
-   ricompariva pur essendo gia aggiornati.
-
-   Ora il criterio e un fatto verificabile: la versione pubblicata sul sito
-   contro quella che sta girando. Se coincidono la barra non c'e, e non puo
-   comparire per sbaglio. Se differiscono c'e davvero un aggiornamento. */
-var VERSIONE_VISTA=null;
-
-/* ---------- allineamento automatico ----------
-   Se la versione pubblicata e diversa da quella in esecuzione, l'app si
-   riallinea da sola: svuota le cache, rimuove il service worker e ricarica.
-   Il rischio di questa scelta e il ciclo infinito — se per qualsiasi motivo
-   dopo la pulizia la versione resta vecchia, si ricaricherebbe all'infinito.
-   Per questo i tentativi sono contati: due, poi si smette e si mostra la
-   barra come ultima risorsa, con la ✕ per toglierla di mezzo. */
-var MAX_TENTATIVI=2;
-function tentativi(){ try{ return Number(sessionStorage.getItem("aggTent")||"0"); }catch(e){ return 0; } }
-function segnaTentativo(){ try{ sessionStorage.setItem("aggTent", String(tentativi()+1)); }catch(e){} }
-function azzeraTentativi(){ try{ sessionStorage.removeItem("aggTent"); }catch(e){} }
-
-function scartata(){ try{ return localStorage.getItem("aggScartata")||""; }catch(e){ return ""; } }
-function scarta(v){ try{ localStorage.setItem("aggScartata", v||""); }catch(e){} }
-
-function nascondiBarra(){ var b=document.getElementById("barraAgg"); if(b) b.hidden=true; }
-function mostraBarra(v, motivo){
-  if(v && v===scartata()) return;
-  VERSIONE_VISTA=v;
-  var b=document.getElementById("barraAgg"); if(b) b.hidden=false;
-  var t=document.getElementById("aggTxt");
-  if(t) t.textContent = motivo==="bloccato"
-    ? ("Aggiornamento non riuscito da solo: hai la "+VERSIONE_APP+", disponibile la "+v+". Prova a toccare AGGIORNA.")
-    : ("Nuova versione disponibile ("+v+"). Hai la "+VERSIONE_APP+".");
+/* ---------- aggiornamenti ----------
+   Nessun avviso automatico: le versioni nuove le distribuisce Simone mandando
+   il link. Qui resta solo il service worker, che serve a far funzionare l'app
+   senza rete, e una via d'uscita manuale se una copia dovesse incastrarsi. */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").catch(function(){});
 }
 
-/* svuota tutto cio che puo trattenere una copia vecchia, poi riparte */
-function pulisciERicarica(){
+/* toccando tre volte la riga della versione si ricarica tutto da zero:
+   serve solo se qualcosa resta bloccato, non e una funzione da pubblicizzare */
+var tocchi=0, ultimoTocco=0;
+var rigaVer=document.getElementById("stamp");
+if(rigaVer) rigaVer.onclick=function(){
+  var ora=Date.now();
+  tocchi = (ora-ultimoTocco < 1200)? tocchi+1 : 1;
+  ultimoTocco=ora;
+  if(tocchi<3) return;
+  tocchi=0;
+  if(!confirm("Ricaricare l'app da zero? I dati restano, si svuota solo la copia in memoria.")) return;
   var passi=[];
-  try{
-    if(window.caches && caches.keys)
-      passi.push(caches.keys().then(function(ks){
-        return Promise.all(ks.map(function(k){ return caches.delete(k); }));
-      }));
-  }catch(e){}
-  try{
-    if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations)
-      passi.push(navigator.serviceWorker.getRegistrations().then(function(rs){
-        return Promise.all(rs.map(function(r){ return r.unregister(); }));
-      }));
-  }catch(e){}
-  var fatto=false;
-  function riparti(){
-    if(fatto) return; fatto=true;
-    var base=location.pathname.replace(/index\.html$/,"");
-    location.replace(base+"?v="+Date.now());     /* indirizzo nuovo: niente copia riutilizzabile */
-  }
-  Promise.all(passi).catch(function(){}).then(riparti);
-  setTimeout(riparti, 4000);                     /* rete di sicurezza */
-}
-
-function applicaAggiornamento(){
-  var b=document.getElementById("aggBtn"); if(b) b.textContent="attendi...";
-  scarta(""); azzeraTentativi();
-  pulisciERicarica();
-}
-
-function controllaVersione(annuncia){
-  fetch("versione.json?ck="+Date.now(), {cache:"no-store"})
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if(!d || !d.app) return;
-      var pubblicata=String(d.app).trim(), mia=String(VERSIONE_APP).trim();
-      if(pubblicata === mia){
-        nascondiBarra(); scarta(""); azzeraTentativi();
-        if(annuncia) alert("Hai gia l'ultima versione ("+mia+").");
-        return;
-      }
-      /* disallineati: si rimedia da soli, senza chiedere niente a nessuno */
-      if(tentativi() < MAX_TENTATIVI){
-        segnaTentativo();
-        var t=document.getElementById("aggTxt");
-        var b=document.getElementById("barraAgg");
-        if(t && b){ t.textContent="Aggiornamento in corso..."; b.hidden=false; }
-        pulisciERicarica();
-      }else{
-        mostraBarra(pubblicata, "bloccato");     /* due tentativi a vuoto: meglio fermarsi */
-      }
-    })
-    .catch(function(){ if(annuncia) alert("Controllo non riuscito: manca la rete."); });
-}
-
-document.getElementById("aggBtn").onclick=applicaAggiornamento;
-document.getElementById("aggChiudi").onclick=function(){
-  scarta(VERSIONE_VISTA||"");                  /* non ripropone questa versione */
-  nascondiBarra();
+  try{ if(window.caches && caches.keys) passi.push(caches.keys().then(function(ks){
+        return Promise.all(ks.map(function(x){ return caches.delete(x); })); })); }catch(e){}
+  try{ if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations)
+        passi.push(navigator.serviceWorker.getRegistrations().then(function(rs){
+          return Promise.all(rs.map(function(r){ return r.unregister(); })); })); }catch(e){}
+  Promise.all(passi).catch(function(){}).then(function(){
+    location.replace(location.pathname.replace(/index\.html$/,"")+"?v="+Date.now());
+  });
 };
 
 ME=leggiMe(); mostraChiSei();
