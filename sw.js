@@ -6,7 +6,7 @@
    restano sulla copia in memoria. Il messaggio "attiva" deve avere lo stesso
    nome anche dentro index.html: se i due nomi divergono, il pulsante
    "Aggiorna" smette silenziosamente di funzionare. */
-var CACHE = "basilicata-2026-v29";
+var CACHE = "basilicata-2026-v33";
 var FILES = ["./", "./index.html", "./manifest.webmanifest",
              "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png",
              "./apple-touch-icon.png", "./logo.png", "./qr.png"];
