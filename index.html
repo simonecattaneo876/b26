@@ -86,6 +86,13 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .brand .rule{height:5px;border-radius:99px;margin:16px auto 0;width:120px;
   background:repeating-linear-gradient(90deg,var(--sea) 0 33.3%,var(--sun) 33.3% 66.6%,var(--coral) 66.6% 100%)}
 
+.tile.installa{background:#0F2A1B;border:2px solid var(--olive);
+  box-shadow:0 0 0 1px rgba(87,242,135,.25), 0 8px 30px rgba(87,242,135,.18)}
+.tile.installa::after{background:var(--olive)}
+.tile.installa h2{color:var(--olive)}
+.tile.installa .go{color:var(--olive);font-size:12.5px}
+.tile.installa .badge{display:inline-block;vertical-align:middle;margin-left:9px;padding:3px 9px;border-radius:99px;
+  font-size:10.5px;font-weight:800;letter-spacing:.14em;background:var(--olive);color:#04220F}
 .tiles{display:grid;gap:14px;margin-top:6px}
 .tile{
   display:block;width:100%;text-align:left;background:#0D1526;border:1px solid #1E2A44;border-radius:18px;
@@ -172,6 +179,12 @@ setTimeout(function(){
   </div>
 
   <div class="tiles">
+    <button class="tile installa" id="btnInstall" hidden>
+      <div class="ic">📲</div>
+      <h2>INSTALLA L'APP <span class="badge" id="installBadge" hidden>ANDROID</span></h2>
+      <p id="installTxt">Diventa un'icona sul telefono e si apre anche senza rete.</p>
+      <div class="go" id="installGo">Installa ora →</div>
+    </button>
     <button class="tile spese" id="goSpese">
       <div class="ic">💶</div>
       <h2>GESTIONE SPESE</h2>
@@ -194,13 +207,6 @@ setTimeout(function(){
     </button>
 
   </div>
-
-    <button class="tile" id="btnInstall" hidden style="background:#0D1526;border-color:#1E2A44">
-      <div class="ic">📲</div>
-      <h2>Installa sul telefono <span class="badge" id="installBadge" hidden>INSTALLA</span></h2>
-      <p id="installTxt">Diventa un'icona come le altre app e si apre anche senza rete.</p>
-      <div class="go" id="installGo">Installa →</div>
-    </button>
 
   <div class="foot">
     powered by <b>SIMCAT</b>
@@ -5406,8 +5412,8 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V039w";
-var VERSIONE_APP="V039";
+var BUILD="V040w";
+var VERSIONE_APP="V040";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
@@ -5543,17 +5549,18 @@ var badge=document.getElementById("installBadge");
 function mostraInstalla(){
   if(installata){ tile.hidden=true; return; }
   tile.hidden=false;
-  badge.hidden = !android;                       /* l'etichetta serve dove si installa davvero */
+  badge.hidden=false;
+  badge.textContent = android? "ANDROID" : (iOS? "IPHONE" : "");
   if(dentroApp){
     badge.hidden=true;
     txt.textContent="Stai usando il browser interno di WhatsApp: da qui l'app non si può installare. Aprila in Chrome (o Safari) e riprova.";
     go.textContent="Come si fa";
   }else if(promptInstall){
-    txt.textContent="Diventa un'icona come le altre app e si apre anche senza rete.";
-    go.textContent="INSTALLA →";
+    txt.textContent="Un tocco e diventa un'icona sul telefono, come le altre app.";
+    go.textContent="Installa ora →";
   }else if(android){
-    txt.textContent="Tocca i tre puntini in alto a destra di Chrome e scegli «Installa app» (o «Aggiungi a schermata Home»).";
-    go.textContent="INSTALLA →";
+    txt.textContent="Tocca qui: ti mostro i due passaggi. Servono i tre puntini in alto a destra di Chrome, poi «Installa app».";
+    go.textContent="Mostrami come →";
   }else if(iOS){
     txt.textContent="Su iPhone: tocca Condividi in fondo a Safari, poi «Aggiungi a Home». Poi apri sempre l'icona, altrimenti i dati non restano salvati.";
     go.textContent="Come si fa";
