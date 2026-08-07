@@ -2549,6 +2549,11 @@ nav button[aria-selected=true]{color:var(--ink)}
 .seg button{flex:1;padding:8px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--ink3)}
 .seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(11,18,32,.12)}
 
+.navbtn{flex:0 0 auto;align-self:center;width:38px;height:38px;border-radius:11px;border:1px solid var(--line);
+  background:var(--sand);color:var(--sea);font-size:15px;line-height:1;display:grid;place-items:center;margin-left:6px}
+.navbtn:active{background:var(--sea);color:#fff;border-color:var(--sea)}
+.slot .navbtn{width:32px;height:32px;font-size:13px;margin-left:4px}
+
 /* intro */
 #splash{position:fixed;inset:0;z-index:900;background:#070B14;color:#fff;display:grid;place-content:center;justify-items:center;
   text-align:center;padding:24px;transition:opacity .42s ease}
@@ -2726,7 +2731,7 @@ setTimeout(function(){
     <div class="card">
       <div class="card-h"><h2>Impostazioni strada</h2></div>
       <div class="row">
-        <label class="fld"><span>Velocità di riferimento</span><input id="cVel" type="number" min="25" max="140" step="5"></label>
+        <label class="fld"><span>Velocità di riferimento</span><input id="cVel" type="number" inputmode="numeric" min="25" max="160" step="5"></label>
         <label class="fld" style="display:flex;align-items:flex-end;gap:9px;padding-bottom:11px">
           <input type="checkbox" id="cVelForza" style="width:auto">
           <span style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink);font-weight:600">Usa sempre questa</span>
@@ -2800,7 +2805,10 @@ setTimeout(function(){
 <div class="sheet" id="sheetPick" role="dialog" aria-modal="true">
   <div class="grab"></div>
   <div class="sheet-h"><h2 id="pickTit">Scegli</h2><button class="linkbtn" id="pickClose">Chiudi</button></div>
-  <label class="fld"><span>Cerca</span><input id="pickQ" type="search" placeholder="Filtra…"></label>
+  <input id="pickQ" type="search" placeholder="Cerca fra tutti i posti…" style="margin-bottom:9px">
+  <div class="chips" id="pickZone" style="margin-bottom:7px"></div>
+  <div class="chips" id="pickCat" style="margin-bottom:10px"></div>
+  <div class="hint" id="pickCnt" style="margin-bottom:6px"></div>
   <div id="pickList"></div>
 </div>
 
@@ -2851,7 +2859,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V016", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
+var BUILD="V019", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 
@@ -3082,6 +3090,26 @@ function catOf(id){ for(var i=0;i<CAT.length;i++) if(CAT[i].id===id) return CAT[
 function fam(id){ for(var i=0;i<FAM.length;i++) if(FAM[i].id===id) return FAM[i]; return {id:id,n:"?",c:"#7D91A8"}; }
 function mapsUrl(p){
   return "https://www.google.com/maps/search/?api=1&query="+p.lat+","+p.lng+(p.pid? "&query_place_id="+p.pid : "");
+}
+/* Navigazione vera: parte dalla posizione attuale del telefono. L'identificativo
+   del posto, quando c'e, fa aprire la scheda giusta invece di un punto qualsiasi. */
+function navUrl(p, mezzo){
+  return "https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lng+
+         (p.pid? "&destination_place_id="+p.pid : "")+
+         "&travelmode="+(mezzo||"driving");
+}
+function portami(p, mezzo){
+  try{ window.open(navUrl(p,mezzo), "_blank", "noopener"); }
+  catch(e){ location.href=navUrl(p,mezzo); }
+}
+/* pulsante piccolo, uguale ovunque compaia un posto */
+function bottoneMaps(p, mezzo){
+  var b=el("button","navbtn");
+  b.innerHTML="&#10148;";
+  b.title="Portami a "+p.n;
+  b.setAttribute("aria-label","Portami a "+p.n+" con Google Maps");
+  b.onclick=function(ev){ ev.stopPropagation(); portami(p, mezzo); };
+  return b;
 }
 
 /* giorni del viaggio */
@@ -3432,7 +3460,13 @@ function propCard(p){
   pn.appendChild(el("div","when", GG[new Date(p.day).getDay()]+" "+dIT(p.day)+" · "+(sl?sl.n:p.slot)));
   pn.appendChild(el("b",null,pl.n));
   pn.appendChild(el("div","by", pl.area+" · "+pl.min+" min · proposta da "+p.by+(p.status!=="aperta"? " · "+p.status : "")));
-  h.appendChild(pn); w.appendChild(h);
+  var pl0=place(p.placeId);
+  if(pl0){
+    var nb=bottoneMaps(pl0);
+    nb.style.marginLeft="auto";
+    h.appendChild(pn); h.appendChild(nb);
+  } else h.appendChild(pn);
+  w.appendChild(h);
   if(p.note) w.appendChild(el("div","nota", p.note));
 
   var tl=el("div","tally"), vv=pvotes(p.id), mine=vv[uKey()];
@@ -3946,9 +3980,10 @@ var POS=null, WATCH=null, ALTRE={}, wake=null, ultimoInvio=0;
 function V(){ S.strada=S.strada||{}; return S.strada; }
 function vInit(){
   var v=V();
+  if(v.vRif===90 && !v.vScelta) v.vRif=120;   /* vecchio valore predefinito: si aggiorna */
   if(v.km==null) v.km=0;
   if(!v.storia) v.storia=[];
-  if(v.vRif==null) v.vRif=90;
+  if(v.vRif==null) v.vRif=120;
   if(!v.meta) v.meta="";            /* "" = nessuna destinazione scelta */
   if(!v.pin) v.pin=[];
   if(v.share==null) v.share=true;
@@ -4022,7 +4057,7 @@ function velMarcia(){
   }
   if(!v.vForza && ore>0.02){ v.vMisurata=true; return Math.max(25, Math.min(125, km/ore)); }
   v.vMisurata=false;
-  return Math.max(25, Math.min(140, Number(v.vRif)||90));
+  return Math.max(25, Math.min(160, Number(v.vRif)||120));
 }
 function inSosta(){
   var v=vInit(), t0=Date.now()-12*60000, a=v.storia.filter(function(x){ return x.t>=t0; });
@@ -4142,7 +4177,7 @@ function apriMeta(){
     b.appendChild(m);
     b.onclick=function(){
       v.meta=valore; v.km=0; v.kmTot=0; v.storia=[]; v.partito=""; v.arrivato=false;
-      save(); chiudiSheet(); renderStrada();
+      save(); closeSheets(); renderStrada();
       toast("Destinazione: "+(metaCorrente()||{n:"—"}).n, true);
     };
     host.appendChild(b);
@@ -4176,7 +4211,7 @@ function apriMeta(){
       b.appendChild(m);
       b.onclick=function(){
         v.meta="p:"+p.id; v.km=0; v.kmTot=0; v.storia=[]; v.partito=""; v.arrivato=false;
-        save(); chiudiSheet(); renderStrada();
+        save(); closeSheets(); renderStrada();
         toast("Destinazione: "+p.n, true);
       };
       res.appendChild(b);
@@ -4298,7 +4333,7 @@ function renderStrada(){
   });
 
   $("#cShare").checked=!!v.share;
-  $("#cVel").value=Number(v.vRif)||90;
+  $("#cVel").value=Number(v.vRif)||120;
   $("#cVelForza").checked=!!v.vForza;
   $("#btnSenso").textContent = v.senso==="ritorno"? "Viaggio lungo: ritorno a Bellusco" : "Viaggio lungo: andata a Pisticci";
   var b=$("#stradaBadge");
@@ -4377,6 +4412,7 @@ function oggi(){
         var r=el("button","slot"); r.style.borderTop="1px solid var(--line)";
         r.appendChild(el("span","lab", (SLOTS.filter(function(z){return z.k===x.slot;})[0]||{n:x.slot}).n));
         r.appendChild(el("span","val", (pl? pl.n : "—")+" — "+t.si+" sì, "+t.forse+" forse, "+t.no+" no"));
+        if(pl) r.appendChild(bottoneMaps(pl));
         r.onclick=function(){ goTab("prop"); };
         pb.appendChild(r);
       });
@@ -4523,6 +4559,7 @@ function placeRow(p){
   if(st) pv.appendChild(el("span","state "+(st==="fatto"?"fatto":"pren"), st));
   m.appendChild(pv);
   b.appendChild(m);
+  b.appendChild(bottoneMaps(p));
   b.onclick=function(){ openPlace(p.id); };
   return b;
 }
@@ -4564,7 +4601,7 @@ function openPlace(id){
   lab2.appendChild(ta); b.appendChild(lab2);
 
   var a=el("a","btn ghost","Apri in Maps");
-  a.href=mapsUrl(p); a.target="_blank"; a.rel="noopener";
+  a.href=navUrl(p); a.target="_blank"; a.rel="noopener";
   a.style.display="block"; a.style.textDecoration="none"; a.style.marginBottom="9px";
   b.appendChild(a);
 
@@ -4612,6 +4649,7 @@ function dayCard(day, compact){
     var v=el("span","val"+(p?"":" vuoto"), p? (catOf(p.c).e+" "+p.n+" ("+p.min+"')") : "—");
     row.appendChild(v);
     if(p){
+      row.appendChild(bottoneMaps(p));
       var x=el("span","x","×");
       x.onclick=function(ev){ ev.stopPropagation(); setSlot(day,sl.k,""); };
       row.appendChild(x);
@@ -4623,7 +4661,9 @@ function dayCard(day, compact){
 }
 
 var pickDay=null, pickSlot=null, pickFor=null, pickMode="plan";
+var pickFilt={zona:"",cat:""};
 function pickForProp(){
+  pickFilt={zona:"",cat:""};
   pickMode="prop";
   $("#pickTit").textContent="Dove andiamo";
   $("#pickQ").value=""; renderPick("");
@@ -4631,6 +4671,7 @@ function pickForProp(){
   openSheet("#sheetPick");
 }
 function openPick(day,slot){
+  pickFilt={zona:"",cat:""};
   pickMode="plan"; pickDay=day; pickSlot=slot; pickFor=null;
   $("#pickTit").textContent = "Cosa facciamo — "+dIT(day);
   $("#pickQ").value=""; renderPick("");
@@ -4640,33 +4681,44 @@ function pickSlotFor(id){
   pickFor=id; pickDay=null;
   $("#pickTit").textContent="In che giorno e quando";
   var host=$("#pickList"); host.innerHTML="";
-  var d=days();
-  if(!d.length){ host.appendChild(el("div","hint","Prima imposta le date del viaggio in Info.")); openSheet("#sheetPick"); return; }
-  d.forEach(function(day){
-    var w=el("div"); w.style.marginBottom="10px";
-    w.appendChild(el("div","eyebrow", GG[new Date(day).getDay()]+" "+dIT(day)));
-    var ch=el("div","chips"); ch.style.marginTop="5px";
-    SLOTS.forEach(function(sl){
-      var b=el("button","chip", sl.n);
-      b.onclick=function(){ setSlot(day,sl.k,pickFor); closeSheets(); toast("Aggiunto al piano"); };
-      ch.appendChild(b);
-    });
-    w.appendChild(ch); host.appendChild(w);
-  });
-  openSheet("#sheetPick");
-}
-function renderPick(q){
-  var host=$("#pickList"); host.innerHTML="";
-  q=(q||"").toLowerCase();
-  var arr=places().filter(function(p){ return !q || (p.n+" "+p.area).toLowerCase().indexOf(q)>=0; })
-                  .sort(function(a,b){ return votes(b.id)-votes(a.id) || a.min-b.min; });
-  arr.slice(0,40).forEach(function(p){
+  q=(q||"").toLowerCase().trim();
+
+  /* filtri anche qui: senza, l'elenco ordinato per distanza si fermava ai
+     primi quaranta e i posti oltre Scanzano non comparivano mai */
+  var zc=$("#pickZone"), cc=$("#pickCat");
+  zc.innerHTML=""; cc.innerHTML="";
+  function chip(label,val,chiave,host){
+    var b=el("button","chip sm",label);
+    b.setAttribute("aria-pressed", pickFilt[chiave]===val? "true":"false");
+    b.onclick=function(){ pickFilt[chiave]= pickFilt[chiave]===val? "":val; pick($("#pickQ").value); };
+    host.appendChild(b);
+  }
+  chip("Ovunque","","zona",zc);
+  zone().forEach(function(z){ chip(z.n, z.n, "zona", zc); });
+  chip("Tutti","","cat",cc);
+  CAT.forEach(function(c){ chip(c.e+" "+c.n, c.id, "cat", cc); });
+
+  var arr=places().filter(function(p){
+    if(pickFilt.zona && p.area!==pickFilt.zona) return false;
+    if(pickFilt.cat && p.c!==pickFilt.cat) return false;
+    if(q){
+      var testo=(p.n+" "+p.area+" "+(p.d||"")+" "+catOf(p.c).n+" "+(p.t||[]).map(function(k){return TAG[k]?TAG[k].n:k;}).join(" ")).toLowerCase();
+      if(testo.indexOf(q)<0) return false;
+    }
+    return true;
+  }).sort(function(a,b){ return a.min-b.min || a.n.localeCompare(b.n); });
+
+  $("#pickCnt").textContent = arr.length? (arr.length+" posti fra cui scegliere") : "";
+  if(!arr.length){ host.appendChild(el("div","hint","Nessun posto con questi filtri.")); return; }
+
+  function riga(p){
     var b=el("button","place");
     b.appendChild(el("div","ico",catOf(p.c).e));
     var m=el("div","pm");
     var t=el("div","pt"); t.appendChild(el("span",null,p.n)); t.appendChild(el("span","min",p.min+"'"));
     m.appendChild(t); m.appendChild(el("div","pd",p.area));
     b.appendChild(m);
+    b.appendChild(bottoneMaps(p));
     b.onclick=function(){
       if(pickMode==="prop"){
         propDraft.placeId=p.id;
@@ -4678,8 +4730,24 @@ function renderPick(q){
       }
       setSlot(pickDay,pickSlot,p.id); closeSheets();
     };
-    host.appendChild(b);
-  });
+    return b;
+  }
+
+  /* senza filtri l'elenco si legge per paese, cosi si vede subito che c'e
+     tutta la costa e non solo i dintorni di casa */
+  if(!q && !pickFilt.zona){
+    var gruppi={}, ordine=[];
+    arr.forEach(function(p){ if(!gruppi[p.area]){ gruppi[p.area]=[]; ordine.push(p.area); } gruppi[p.area].push(p); });
+    ordine.forEach(function(z){
+      var h=el("div","zonaTit");
+      h.appendChild(el("span",null,z));
+      h.appendChild(el("span","n", gruppi[z][0].min+" min · "+gruppi[z].length));
+      host.appendChild(h);
+      gruppi[z].forEach(function(p){ host.appendChild(riga(p)); });
+    });
+  }else{
+    arr.forEach(function(p){ host.appendChild(riga(p)); });
+  }
 }
 
 /* ---- info ---- */
@@ -4788,7 +4856,18 @@ function bind(){
   $("#metaClose").onclick=closeSheets;
   $("#gpsBtn").onclick=function(){ if(WATCH==null) gpsOn(); else gpsOff(); };
   $("#cShare").onchange=function(){ V().share=this.checked; save(); if(this.checked){ ultimoInvio=0; syncNow(false); } };
-  $("#cVel").oninput=function(){ V().vRif=Math.max(25,Math.min(140,Number(this.value)||90)); save(); renderStrada(); };
+  /* mentre si scrive non si tocca il campo: forzare il minimo a ogni tasto
+     trasformava il primo "1" di "120" in 25, e la cifra successiva non entrava.
+     Il valore si sistema quando si esce dal campo. */
+  $("#cVel").oninput=function(){
+    var n=Number(this.value);
+    if(this.value!=="" && !isNaN(n)){ V().vRif=n; save(); }
+  };
+  $("#cVel").onblur=function(){
+    var n=Math.max(25, Math.min(160, Number(this.value)||120));
+    this.value=n; V().vRif=n; V().vScelta=true;   /* scelta dall'utente: non va piu sovrascritta */
+    save(); renderStrada();
+  };
   $("#cVelForza").onchange=function(){ V().vForza=this.checked; save(); renderStrada(); };
   $("#btnSenso").onclick=function(){
     var v=V(); v.senso = v.senso==="ritorno"? "andata":"ritorno";
@@ -5412,8 +5491,8 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V040w";
-var VERSIONE_APP="V040";
+var BUILD="V043w";
+var VERSIONE_APP="V043";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
