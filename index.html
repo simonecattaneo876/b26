@@ -2859,7 +2859,7 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V019", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
+var BUILD="V020", KEY="itin_pisticci_v1", IDKEY="itin_pisticci_me";
 var SYNC_URL="https://script.google.com/macros/s/AKfycbzcbgnyUFM1651QjQe1moo1ycoCkXx--a1n-hMuEnT6H67gBhZ7wvGUAVfjCbUMXMG3hA/exec";
 var SYNC_ROOM="itinerari";
 
@@ -4677,9 +4677,30 @@ function openPick(day,slot){
   $("#pickQ").value=""; renderPick("");
   openSheet("#sheetPick");
 }
+/* scelta del giorno e della fascia per un posto gia deciso */
 function pickSlotFor(id){
   pickFor=id; pickDay=null;
   $("#pickTit").textContent="In che giorno e quando";
+  var host=$("#pickList"); host.innerHTML="";
+  $("#pickZone").innerHTML=""; $("#pickCat").innerHTML=""; $("#pickCnt").textContent="";
+  var d=days();
+  if(!d.length){ host.appendChild(el("div","hint","Prima imposta le date del viaggio in Info.")); openSheet("#sheetPick"); return; }
+  d.forEach(function(day){
+    var w=el("div"); w.style.marginBottom="10px";
+    w.appendChild(el("div","eyebrow", GG[new Date(day).getDay()]+" "+dIT(day)));
+    var ch=el("div","chips"); ch.style.marginTop="5px";
+    SLOTS.forEach(function(sl){
+      var b=el("button","chip", sl.n);
+      b.onclick=function(){ setSlot(day,sl.k,pickFor); closeSheets(); toast("Aggiunto al piano"); };
+      ch.appendChild(b);
+    });
+    w.appendChild(ch); host.appendChild(w);
+  });
+  openSheet("#sheetPick");
+}
+
+/* elenco dei posti fra cui scegliere */
+function renderPick(q){
   var host=$("#pickList"); host.innerHTML="";
   q=(q||"").toLowerCase().trim();
 
@@ -4690,7 +4711,7 @@ function pickSlotFor(id){
   function chip(label,val,chiave,host){
     var b=el("button","chip sm",label);
     b.setAttribute("aria-pressed", pickFilt[chiave]===val? "true":"false");
-    b.onclick=function(){ pickFilt[chiave]= pickFilt[chiave]===val? "":val; pick($("#pickQ").value); };
+    b.onclick=function(){ pickFilt[chiave]= pickFilt[chiave]===val? "":val; renderPick($("#pickQ").value); };
     host.appendChild(b);
   }
   chip("Ovunque","","zona",zc);
@@ -4721,6 +4742,9 @@ function pickSlotFor(id){
     b.appendChild(bottoneMaps(p));
     b.onclick=function(){
       if(pickMode==="prop"){
+        /* se la bozza non c'e (foglio riaperto, ricarica a meta strada) si
+           ricrea invece di fallire in silenzio */
+        if(!propDraft) propDraft={ day:tomorrow(), slot:"mattina", placeId:"", note:"" };
         propDraft.placeId=p.id;
         $("#prPlace").textContent=p.n+" · "+p.min+" min";
         $("#sheetPick").classList.remove("on");
@@ -5491,8 +5515,8 @@ setTimeout(function(){
 
 <script>
 "use strict";
-var BUILD="V043w";
-var VERSIONE_APP="V043";
+var BUILD="V044w";
+var VERSIONE_APP="V044";
 document.getElementById("stamp").textContent="build "+BUILD;
 
 var CHIAVE_LOGO="__"+"LOGO"+"__";   /* composto a pezzi: così nessuna sostituzione può romperlo */
